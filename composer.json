@@ -1,0 +1,43 @@
+{
+  "name": "cerberus/sine",
+  "version": "1.0.0",
+  "description": "Sistema de orcamento",
+  "minimum-stability": "stable",
+  "authors": [
+    {
+      "name": "Lucas S. Silva",
+      "email": "trabalhovba@gmail.com",
+      "homepage": "https://www.cerberus.com.br",
+      "role": "Developer"
+    },
+    {
+      "name": "Gabriel Baumann",
+      "email": "noreply@github.com",
+      "homepage": "https://www.cerberus.com.br",
+      "role": "UI/UX Designer"
+    }
+  ],
+  "config": {
+    "vendor-dir": "vendor"
+  },
+  "autoload": {
+    "psr-4": {
+      "Source\\": "source/"
+    },
+    "files": [
+      "source/Boot/Config.php",
+      "source/Boot/Helpers.php"
+    ]
+  },
+  "require": {
+    "php": "^8.0",
+    "ext-pdo": "*",
+    "league/plates": "^3.6",
+    "coffeecode/paginator": "^2.0",
+    "coffeecode/router": "^2.0",
+    "phpoffice/phpword": "^1.4",
+    "phpmailer/phpmailer": "^6.10",
+    "coffeecode/uploader": "^2.0",
+    "coffeecode/cropper": "^2.0"
+  }
+}
