@@ -1,6 +1,5 @@
 //*  Scripts padrões para todo o sistema *//
 let vArrayInput = [];
-fncTodoClousureToday()
 removeFlash()
 
 // Verifica o tamanho da tela e chama a função de responsividade

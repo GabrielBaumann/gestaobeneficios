@@ -14,7 +14,7 @@ define("CONF_DB_NAME2", "db_office");
  * PROJECT URLs
  */
 define("CONF_URL_BASE", "https://teste.syscerberus.com");
-define("CONF_URL_TEST", "http://localhost/gestao_de_beneficios");
+define("CONF_URL_TEST", "http://localhost/gestaobeneficios");
 
 /**
  * DATES
@@ -37,8 +37,8 @@ define("CONF_MESSAGE_LOAD", "");
 */
 define("CONF_VIEW_PATH", __DIR__ . "/../../themes");
 define("CONF_VIEW_EXT", "php");
-define("CONF_VIEW_THEME", "managment");
-define("CONF_VIEW_APP", "sineapp");
+define("CONF_VIEW_THEME", "managmentweb");
+define("CONF_VIEW_APP", "managment");
 
 /**
  * MAIL

@@ -16,9 +16,14 @@ $route = new Router(url(), ":");
 // Login
 $route->namespace("Source\App");
 
-// Disparo de email
+$route->get("/", "Web:login");
+
+
+// Início
 $route->get("/inicio", "Start:startPage");
 
+// Benficiários
+$route->get("/beneficiarios", "PersonBenefit:startPage");
 
 
 // ERROR ROUTES
