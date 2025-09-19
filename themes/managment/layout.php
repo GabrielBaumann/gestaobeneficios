@@ -23,16 +23,12 @@ use Soap\Url;
         <aside id="sidebar-main" class="relative hidden w-full md:flex flex-col justify-between md:w-[300px] md:min-w-[300px] md:max-w-[300px] p-6 overflow-y-auto">
             <button class="md:hidden absolute top-4 right-4" onclick="toggleMenu()">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                 </svg>
             </button>
             <div class="flex flex-col gap-8">
-                <div class="flex items-center justify-center font-semibold text-blue-900 md:text-xl">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
-                    <path d="M4.5 3.75a3 3 0 0 0-3 3v.75h21v-.75a3 3 0 0 0-3-3h-15Z" />
-                    <path fill-rule="evenodd" d="M22.5 9.75h-21v7.5a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3v-7.5Zm-18 3.75a.75.75 0 0 1 .75-.75h6a.75.75 0 0 1 0 1.5h-6a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" clip-rule="evenodd" />
-                    </svg>
-                    <span>GestaoDeBeneficios</span>
+                <div class="mx-auto flex justify-center">
+                    <img src="./themes/managment/assets/img//logo.png" alt="logo" class="w-[50px] object-contain">
                 </div>
                 
                 <div class="flex flex-col">
@@ -53,31 +49,31 @@ use Soap\Url;
                     </div>
                     <span class="uppercase text-light text-gray-600 px-4 mt-4">benefícios</span>
                     <div id="menu-links" class="flex flex-col ml-6">
-                        <a href="" class="px-3 py-2 border-l border-gray-300 hover:text-blue-800 hover:border-blue-800 flex items-center gap-2 transition-all duration-300 cursor-pointer text-gray-800 font-semibold">
+                        <a href="" class="px-3 py-2 border-l border-gray-300 hover:text-blue-600 hover:border-blue-600 flex items-center gap-2 transition-all duration-300 cursor-pointer text-gray-800 font-semibold">
                             <span class="menu" data-sidebar="aluguelsocial">Aluguel Social</span>
                         </a>
-                        <a href="" class="px-3 py-2 border-l border-gray-300 hover:text-blue-800 hover:border-blue-800 flex items-center gap-2 transition-all duration-300 cursor-pointer text-gray-800 font-semibold">
+                        <a href="" class="px-3 py-2 border-l border-gray-300 hover:text-blue-600 hover:border-blue-600 flex items-center gap-2 transition-all duration-300 cursor-pointer text-gray-800 font-semibold">
                             <span>Energia Elétrica</span>
                         </a>
-                        <a href="" class="px-3 py-2 border-l border-gray-300 hover:text-blue-800 hover:border-blue-800 flex items-center gap-2 transition-all duration-300 cursor-pointer text-gray-800 font-semibold">
+                        <a href="" class="px-3 py-2 border-l border-gray-300 hover:text-blue-600 hover:border-blue-600 flex items-center gap-2 transition-all duration-300 cursor-pointer text-gray-800 font-semibold">
                             <span>Natalidade</span>
                         </a>
-                        <a href="" class="px-3 py-2 border-l border-gray-300 hover:text-blue-800 hover:border-blue-800 flex items-center gap-2 transition-all duration-300 cursor-pointer text-gray-800 font-semibold">
+                        <a href="" class="px-3 py-2 border-l border-gray-300 hover:text-blue-600 hover:border-blue-600 flex items-center gap-2 transition-all duration-300 cursor-pointer text-gray-800 font-semibold">
                             <span>Transporte</span>
                         </a>
-                        <a href="" class="px-3 py-2 border-l border-gray-300 hover:text-blue-800 hover:border-blue-800 flex items-center gap-2 transition-all duration-300 cursor-pointer text-gray-800 font-semibold">
+                        <a href="" class="px-3 py-2 border-l border-gray-300 hover:text-blue-600 hover:border-blue-600 flex items-center gap-2 transition-all duration-300 cursor-pointer text-gray-800 font-semibold">
                             <span>Funeral</span>
                         </a>
-                        <a href="" class="px-3 py-2 border-l border-gray-300 hover:text-blue-800 hover:border-blue-800 flex items-center gap-2 transition-all duration-300 cursor-pointer text-gray-800 font-semibold">
+                        <a href="" class="px-3 py-2 border-l border-gray-300 hover:text-blue-600 hover:border-blue-600 flex items-center gap-2 transition-all duration-300 cursor-pointer text-gray-800 font-semibold">
                             <span>Água</span>
                         </a>
-                        <a href="" class="px-3 py-2 border-l border-gray-300 hover:text-blue-800 hover:border-blue-800 flex items-center gap-2 transition-all duration-300 cursor-pointer text-gray-800 font-semibold">
+                        <a href="" class="px-3 py-2 border-l border-gray-300 hover:text-blue-600 hover:border-blue-600 flex items-center gap-2 transition-all duration-300 cursor-pointer text-gray-800 font-semibold">
                             <span>Cartão Alimentação</span>
                         </a>
-                        <a href="" class="px-3 py-2 border-l border-gray-300 hover:text-blue-800 hover:border-blue-800 flex items-center gap-2 transition-all duration-300 cursor-pointer text-gray-800 font-semibold">
+                        <a href="" class="px-3 py-2 border-l border-gray-300 hover:text-blue-600 hover:border-blue-600 flex items-center gap-2 transition-all duration-300 cursor-pointer text-gray-800 font-semibold">
                             <span>Emolumentos</span>
                         </a>
-                        <a href="" class="px-3 py-2 border-l border-gray-300 hover:text-blue-800 hover:border-blue-800 flex items-center gap-2 transition-all duration-300 cursor-pointer text-gray-800 font-semibold">
+                        <a href="" class="px-3 py-2 border-l border-gray-300 hover:text-blue-600 hover:border-blue-600 flex items-center gap-2 transition-all duration-300 cursor-pointer text-gray-800 font-semibold">
                             <span>Gás</span>
                         </a>
                     </div>
@@ -121,22 +117,6 @@ use Soap\Url;
 
     </div>
 
-    <script src="<?= theme("/js/default/default.js", CONF_VIEW_APP); ?>">
-        // toggle menu on mobile
-        function toggleMenu() {
-            const sidebar = document.getElementById("sidebar-main");
-            const main = document.getElementById("main-area");
-
-            if (sidebar.classList.contains("hidden")) {
-                sidebar.classList.remove("hidden");
-                main.classList.add("hidden");
-
-            } else {
-                sidebar.classList.add("hidden");
-                main.classList.remove("hidden");
-            }
-        }
-
-    </script>
+    <script src="<?= theme("/js/default/default.js", CONF_VIEW_APP); ?>"></script>
 </body>
 </html>

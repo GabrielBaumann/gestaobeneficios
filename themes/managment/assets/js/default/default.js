@@ -27,7 +27,8 @@ function updateResponsive() {
 
         vMenus.forEach(vElemet => {
             if(vElemet.dataset.sidebar === vUrlPage) {
-                vElemet.closest("a.menu").classList.add("text-blue-500", "bg-gray-200", "border-l-7", "border-blue-500", "hover:text-gray-700");
+                vElemet.closest("a.menu").classList.remove("text-gray-800", "border-gray-300");
+                vElemet.closest("a.menu").classList.add("text-blue-800", "border-l-2", "border-blue-800", "hover:none");
             }
         });
     }
@@ -261,3 +262,18 @@ document.addEventListener('keydown', (e) => {
         document.getElementById('modal').remove();
     }
 });
+
+// toggle menu on mobile
+function toggleMenu() {
+    const sidebar = document.getElementById("sidebar-main");
+    const main = document.getElementById("main-area");
+
+    if (sidebar.classList.contains("hidden")) {
+        sidebar.classList.remove("hidden");
+        main.classList.add("hidden");
+
+    } else {
+        sidebar.classList.add("hidden");
+        main.classList.remove("hidden");
+    }
+}
