@@ -151,7 +151,6 @@ use Soap\Url;
 
     </div>
 
-<<<<<<< HEAD
     <script src="<?= theme("/js/default/default.js", CONF_VIEW_APP); ?>">
         // toggle menu on mobile
         function toggleMenu() {
@@ -170,8 +169,5 @@ use Soap\Url;
 
     </script>
     <?= $this->section("scripts") ?>
-=======
-    <script src="<?= theme("/js/default/default.js", CONF_VIEW_APP); ?>"></script>
->>>>>>> d6e9e3d4b07799e51f7730b8e87ff881af5f3190
 </body>
 </html>
