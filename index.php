@@ -25,9 +25,39 @@ $route->get("/inicio", "Start:startPage");
 // Benficiários
 $route->get("/beneficiarios", "PersonBenefit:startPage");
 
+<<<<<<< HEAD
 // Requisição de benefício auxílio alimentação direto nas unidade
 $route->get("/unidadecartaoalimentacao","CardRequest:formCardRequest");
 $route->post("/unidadecartaoalimentacao","CardRequest:formCardRequest");
+=======
+// Aluguel
+$route->get("/aluguel", "Rent:startPage");
+
+// Energia
+$route->get("/energia", "Energy:startPage");
+
+// Natalidade
+$route->get("/natalidade", "Birth:startPage");
+
+// Transporte
+$route->get("/transporte", "Transport:startPage");
+
+// Funeral
+$route->get("/funeral", "Funeral:startPage");
+
+// Água
+$route->get("/agua", "Water:startPage");
+
+// Cartão
+$route->get("/cartao", "Card:startPage");
+
+// Emolumentos
+$route->get("/emolumentos", "Emoluments:startPage");
+
+// Gás
+$route->get("/gas", "Gas:startPage");
+
+>>>>>>> d6e9e3d4b07799e51f7730b8e87ff881af5f3190
 
 // ERROR ROUTES
 
