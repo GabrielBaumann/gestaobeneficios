@@ -11,6 +11,9 @@ use Soap\Url;
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="<?= theme("/css/message.css", CONF_VIEW_APP); ?>">
+    <?= $this->section("css") ?>
     <title>Document</title>
     <style>
         body {
@@ -138,5 +141,6 @@ use Soap\Url;
         }
 
     </script>
+    <?= $this->section("scripts") ?>
 </body>
 </html>

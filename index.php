@@ -25,6 +25,9 @@ $route->get("/inicio", "Start:startPage");
 // Benficiários
 $route->get("/beneficiarios", "PersonBenefit:startPage");
 
+// Requisição de benefício auxílio alimentação direto nas unidade
+$route->get("/unidadecartaoalimentacao","CardRequest:formCardRequest");
+$route->post("/unidadecartaoalimentacao","CardRequest:formCardRequest");
 
 // ERROR ROUTES
 
