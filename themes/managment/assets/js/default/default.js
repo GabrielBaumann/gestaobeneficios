@@ -25,8 +25,23 @@ function updateResponsive() {
         const vUrlPage =  window.location.pathname.replace(/\/$/, "").split("/").pop();
         const vMenus = document.querySelectorAll("span.menu");
 
+        let vLinkOrContent = vUrlPage;
+
+        // Verifica se alguma rota de link tem no menu sidebar se não tiver procura no conteúdo que tenha a classe .sidebar
+        let vCount = 0;
+        vMenus.forEach(vElement => {
+            if(vElement.dataset.sidebar != vUrlPage) {
+                vCount ++
+            }
+
+            if(vMenus.length === vCount) {
+                const vElemente = document.querySelector(".sidebar");
+                vLinkOrContent = vElemente.dataset.menu;
+            }
+        })
+
         vMenus.forEach(vElemet => {
-            if(vElemet.dataset.sidebar === vUrlPage) {
+            if(vElemet.dataset.sidebar === vLinkOrContent) {
                 vElemet.closest("a.menu").classList.remove("text-gray-800", "border-gray-300");
                 vElemet.closest("a.menu").classList.add("text-green-800", "border-l-2", "border-green-800", "hover:none");
             }

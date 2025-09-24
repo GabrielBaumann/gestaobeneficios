@@ -4,7 +4,10 @@ namespace Source\App;
 
 use Source\Core\Controller;
 use Source\Models\Card\Card;
+use Source\Models\Card\CardValue;
 use Source\Models\Card\RequestCard;
+use Source\Models\Card\Views\Vw_card;
+use Source\Models\Card\Views\Vw_recharge;
 
 class CardRequest extends Controller
 {
@@ -20,24 +23,50 @@ class CardRequest extends Controller
         // }
     }
 
+    // Solicitar um novo cartão ou uma segunda via
     public function formCardRequest(?array $data) : void
     {   
-        if (isset($data["person-benefit"]) && !empty($data["person-benefit"])) {
-            
+        if (isset($data["csrf"]) && !empty($data["csrf"])) {
+
             $requestCard = new RequestCard();
-            $reponse = $requestCard->newCard($data);
+            $reponse = $requestCard->newCard($data, true);
 
             if(!$reponse) {
                 $json["message"] = $requestCard->message()->render();
             }
 
+            $json["message"] = $requestCard->message()->render();
             echo json_encode($json);
             return;
         }
 
         echo $this->view->render("/cardrequest/formcardrequest", [
-            "title" => "Formulário de Cartão"
+            "title" => "Formulário de Cartão",
+            "listCard" => (new Vw_card())->find()->fetch(true)
         ]);    
+    }
+
+    // Excluir a solicitação
+    public function deleteRequestCard(?array $data) : void
+    {
+        if (isset($data["csrf"]) && !empty($data["csrf"])) {
+
+            $requestCard = new RequestCard();
+            $reponse = $requestCard->deleteRequestCard($data["id-request"]);
+
+            if(!$reponse) {
+                $json["message"] = $requestCard->message()->render();
+            }
+
+            $json["message"] = $requestCard->message()->render();
+            echo json_encode($json);
+            return;
+        }
+
+        echo $this->view->render("/cardrequest/formDeleteRequest", [
+            "Title" => "Excluir solicitação",
+            "listCard" => (new Vw_recharge())->find()->fetch(true)
+        ]);
     }
 
 }
