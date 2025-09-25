@@ -46,6 +46,14 @@ $route->get("/agua", "Water:startPage");
 // Cartão
 $route->get("/cartao", "Card:startPage");
 
+
+// Rotas para solicitação de cartão feito nas unidades
+$route->get("/solicitarcartao", "CardRequest:formCardRequest");
+$route->post("/solicitarcartao", "CardRequest:formCardRequest");
+
+$route->get("/deletesolicitacaocartao", "CardRequest:deleteRequestCard");
+$route->post("/deletesolicitacaocartao", "CardRequest:deleteRequestCard");
+
 // Emolumentos
 $route->get("/emolumentos", "Emoluments:startPage");
 
