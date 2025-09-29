@@ -33,7 +33,9 @@ class CardPerson extends Controller
     public function startPage() : void
     {
         echo $this->view->render("/card/start", [
-
+            "listCardName" => (new Vw_card())
+                ->find("status_request = :st AND status_card = :stc AND received = :re", "st=concluída&stc=ativo&re=não")
+                ->fetch(true)
         ]); 
     }
 
@@ -260,9 +262,15 @@ class CardPerson extends Controller
     // Enviar cartões para as unidades
     public function sendCardUnit(array $data) : void
     {
+        // var_dump($data);
+        foreach($data as $key => $value) {
+            var_dump(fncDecrypt($value));
+        }
+
         // $newSendCard = new CardCard();
         // var_dump($newSendCard->sendCardUnit());
-        $this->listExcelSendCard(2);
+        // $this->listExcelSendCard(2);
+        return;
     }
 
     public function error() : void

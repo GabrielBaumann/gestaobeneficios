@@ -47,7 +47,7 @@ $route->get("/agua", "Water:startPage");
 $route->get("/cartao", "CardPerson:startPage");
 $route->get("/enivarcartaoempresa", "CardPerson:sendCardCompany");
 
-$route->get("/enivarcartaounidade", "CardPerson:sendCardUnit");
+$route->post("/enivarcartaounidade", "CardPerson:sendCardUnit");
 
 $route->get("/enivardesbloqueiocartao", "CardPerson:listExcelSendCardRecharge");
 
