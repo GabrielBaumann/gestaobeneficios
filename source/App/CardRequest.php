@@ -3,11 +3,14 @@
 namespace Source\App;
 
 use Source\Core\Controller;
+use Source\Core\Session;
+use Source\Models\Auth;
 use Source\Models\Card\Card;
 use Source\Models\Card\CardValue;
 use Source\Models\Card\RequestCard;
 use Source\Models\Card\Views\Vw_card;
 use Source\Models\Card\Views\Vw_recharge;
+use Source\Models\UserSystem\UnitUserSystem;
 
 class CardRequest extends Controller
 {
@@ -16,7 +19,7 @@ class CardRequest extends Controller
     public function __construct()
     {
         parent::__construct(__DIR__ . "/../../themes/" . CONF_VIEW_APP . "/");
-
+        (new Session())->set("authUser", 1);
         // if (!$this->user = Auth::user()) {
         //     $this->message->warning("Efetue login para acessar o sistema.")->flash();
         //     redirect("/");
@@ -26,6 +29,7 @@ class CardRequest extends Controller
     // Solicitar um novo cartão ou uma segunda via
     public function formCardRequest(?array $data) : void
     {   
+        var_dump($_SESSION);
         if (isset($data["csrf"]) && !empty($data["csrf"])) {
 
             $requestCard = new RequestCard();

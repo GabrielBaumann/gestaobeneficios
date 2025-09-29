@@ -2,7 +2,6 @@
 
 namespace Source\Core;
 
-use Source\Models\Vacancy;
 use Source\Support\Message;
 
 class Controller

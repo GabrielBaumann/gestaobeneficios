@@ -6,14 +6,51 @@ use Source\Support\Message;
 
 class Session
 {
+    private $timeout;
+    
     /**
      * Session constructor.
      */
     public function __construct()
     {
+        // $this->initSession();
+
         if (!session_id()) {
             session_start();
         }
+    }
+
+    public function initSession($timeoutMinutes = 30)
+    {
+        $this->timeout = $timeoutMinutes * 60;
+        // Iniciar sessão
+        if (session_status() === PHP_SESSION_NONE) {
+            // Configurações de sessão
+            ini_set('session.gc_maxlifetime', $this->timeout);
+            session_set_cookie_params($this->timeout);
+            session_start();
+        }
+
+        $this->checkTimeout();
+        $this->updateActive();
+        $this->regenerate();
+
+    }
+
+
+    // Verifica se a sessão expirou por inatividade
+    private function checkTimeout()
+    {
+        if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > $this->timeout)) {
+            $this->destroy();
+            header('Location: '. CONF_URL_TEST);
+            exit;
+        }
+    }
+
+    public function updateActive() 
+    {
+        $_SESSION['LAST_ACTIVITY'] = time();    
     }
 
     /**
@@ -71,7 +108,8 @@ class Session
      * @return bool
      */
     public function has(string $key): bool
-    {
+    {   
+        $this->initSession();
         return isset($_SESSION[$key]);
     }
 
@@ -80,7 +118,12 @@ class Session
      */
     public function regenerate(): Session
     {
-        session_regenerate_id(true);
+        if (!isset($_SESSION["CREATED"])) {
+            $_SESSION["CREATED"] = time();
+        } elseif (time() - $_SESSION["CREATED"] > $this->timeout) {
+            session_regenerate_id(true);
+            $_SESSION["CREATED"] = time();
+        }
         return $this;
     }
 

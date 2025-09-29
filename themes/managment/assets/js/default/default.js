@@ -292,3 +292,20 @@ function toggleMenu() {
         main.classList.remove("hidden");
     }
 }
+
+// Encerramento de sessão
+let timeLimited = 30 * 60 * 1000;
+let timer;
+
+function resetTimer() {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+        alert("Sessão expirada por inatividade!");
+    }, timeLimited);
+}
+
+window.onload = resetTimer;
+window.onmousemove = resetTimer;
+window.onkeypress = resetTimer;
+window.onclick = resetTimer;
+window.onscroll = resetTimer;

@@ -44,7 +44,13 @@ $route->get("/funeral", "Funeral:startPage");
 $route->get("/agua", "Water:startPage");
 
 // Cartão
-$route->get("/cartao", "Card:startPage");
+$route->get("/cartao", "CardPerson:startPage");
+$route->get("/enivarcartaoempresa", "CardPerson:sendCardCompany");
+
+$route->get("/enivarcartaounidade", "CardPerson:sendCardUnit");
+
+$route->get("/enivardesbloqueiocartao", "CardPerson:listExcelSendCardRecharge");
+
 
 
 // Rotas para solicitação de cartão feito nas unidades

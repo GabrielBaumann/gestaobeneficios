@@ -4,7 +4,9 @@ namespace Source\Models;
 
 use Source\Core\Email;
 use Source\Core\Model;
+use Source\Core\Session;
 use Source\Core\View;
+use Source\Models\UserSystem\UserSystem;
 
 class Auth extends Model
 {
@@ -13,7 +15,7 @@ class Auth extends Model
         parent::__construct("user", ["id_user"], ["email", "senha"], "id_user");        
     }
 
-    public static function user() : ?SystemUser
+    public static function user() : ?UserSystem
     {
         $session = new Session();
         
@@ -21,7 +23,7 @@ class Auth extends Model
             return null;
         }
 
-        return (new SystemUser())->findById($session->authUser);    
+        return (new UserSystem())->findById($session->authUser);    
     }
 
     public static function logout() : void
@@ -30,11 +32,11 @@ class Auth extends Model
         $session->unset("authUser");
     }
 
-    public function login(string $cpf, string $passwordUser) : bool
+    public function login(string $email, string $passwordUser) : bool
     {
-        $instanciaUser = (new SystemUser())->find("cpf_user = :u", "u={$cpf}");
+        $instanciaUser = (new UserSystem())->find("email = :u", "u={$email}");
         $userData = $instanciaUser->fetch();
-       
+
         if(!$userData) {
             $this->message->error("Usuário não cadastrado no sistema!");
             return false;
@@ -62,7 +64,7 @@ class Auth extends Model
         return true;
     }    
 
-    public function register(User $user): bool
+    public function register(UserSystem $user): bool
     {
         if (!$user->save()) {
             $this->message = $user->message;

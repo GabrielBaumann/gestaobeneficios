@@ -14,10 +14,10 @@
             <input type="text" name="month-end" placeholder="Mês de fim"></br>
 
             <label for="tec">Técico(a)</label>
-            <input type="text" name="type" placeholder="Técnico"></br>
+            <input type="text" name="technician" placeholder="Técnico"></br>
 
             <label for="data">data solicitação</label>
-            <input type="text" name="date-request" placeholder="data"></br>
+            <input type="date" name="date-request" placeholder="data"></br>
             <button>Enviar</button>
         </form>
     </aside>

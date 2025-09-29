@@ -5,6 +5,7 @@ namespace Source\Models\Card;
 use Source\App\CardRequest;
 use Source\Core\Model;
 use Source\Models\Card\Views\Vw_card;
+use Source\Models\UserSystem\UnitUserSystem;
 
 class RequestCard extends Model
 {
@@ -16,6 +17,7 @@ class RequestCard extends Model
     // Novo Cartão e segunda via de cartão = true segunda via, false novo cartão
     public function newCard(array $data, bool $type = false) : bool   
     {   
+
         // Verifica os números dos meses são válidos
         if(!is_int($data["month-start"]) && $data["month-start"] < 0 || !is_int($data["month-end"]) && $data["month-end"] < 0) {
             $this->message->warning("Os números de meses não são válidos!");
@@ -31,24 +33,29 @@ class RequestCard extends Model
         // Nova Cartão ou Segunda Via
         $type ? $type = "novo cartão" : $type = "segunda via";
 
-        var_dump($type);
+        // Buscar coordenador baseado no id do tecnico
+        $unitUserSystem = new UnitUserSystem();
+        $idunitCoordinator = $unitUserSystem->findById($data["technician"]);
+        $idCoordinator = $unitUserSystem->activeCoordinator($idunitCoordinator->id_unit);
 
         // Criar solicitação
-        $this->id_person_benefit = $data["person-benefit"];
-        $this->id_unit_server = 2;
-        $this->type_request = $type;
-        $this->status_request = "Solicitado";
-        $this->date_request = "2025/09/09";
-        $this->id_user_system_register = 1;
+        $request = new static();
+        $request->id_person_benefit = $data["person-benefit"];
+        $request->id_unit_server = $data["technician"];
+        $request->id_unit_coordinator = $idCoordinator;
+        $request->type_request = $type;
+        $request->status_request = "solicitado";
+        $request->date_request = $data["date-request"];
+        $request->id_user_system_register = 1;
 
-        $this->save();
+        $request->save();
 
         // // Cria cartão e retorna o id do cartão
-        $addCard = (new Card())->dataCard($this->id_card_request);
+        $addCard = (new Card())->dataCard($request->id_card_request);
 
         // Criar quantidade de recargas
-        $addCardRecharge = (new CardRecharge())->addRecharge($addCard, $this->id_card_request, $data);
-
+        $addCardRecharge = (new CardRecharge())->addRecharge($addCard, $request->id_card_request, $data);
+        // var_dump($request->message->success("ok"));
         $this->message->success("ok");
         return true;
 

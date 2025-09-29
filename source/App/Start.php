@@ -3,7 +3,8 @@
 namespace Source\App;
 
 use Source\Core\Controller;
-
+use Source\Core\Session;
+use Source\Models\Auth;
 
 class Start extends Controller
 {
@@ -12,11 +13,11 @@ class Start extends Controller
     public function __construct()
     {
         parent::__construct(__DIR__ . "/../../themes/" . CONF_VIEW_APP . "/");
-        
-        // if (!$this->user = Auth::user()) {
-        //     $this->message->warning("Efetue login para acessar o sistema.")->flash();
-        //     redirect("/");
-        // }        
+
+        if (!$this->user = Auth::user()) {
+            $this->message->warning("Efetue login para acessar o sistema.")->flash();
+            redirect("/");
+        }        
     }
 
     public function startPage() : void
