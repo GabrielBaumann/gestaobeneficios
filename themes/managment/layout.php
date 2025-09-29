@@ -23,7 +23,7 @@ use Soap\Url;
 <body>
     <div class="flex h-screen">
         <!-- lateral aside -->
-        <aside id="sidebar-main" class="bg-gray-100 border-r border-gray-200 relative hidden w-full md:flex flex-col justify-between md:w-[300px] md:min-w-[300px] md:max-w-[300px] p-6 overflow-y-auto">
+        <aside id="sidebar-main" class="border-r border-gray-200 relative hidden w-full md:flex flex-col justify-between md:w-[300px] md:min-w-[300px] md:max-w-[300px] p-6 overflow-y-auto">
             <button class="md:hidden absolute top-4 right-4" onclick="toggleMenu()">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
@@ -144,7 +144,7 @@ use Soap\Url;
         <main id="main-area" class="relative h-screen md:w-full">
             <!-- mobile -->
             <?= $this->insert("/mobile/start") ?>
-
+                
             <?= $this->section("content"); ?>
 
         </main>

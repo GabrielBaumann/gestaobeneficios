@@ -26,6 +26,9 @@
 
                 <img src="<?= theme("/img/semdes.jpg");?>" alt="semdes" class="w-full h-full object-cover object-[30%_center]">
             </div>
+            <div class="">
+                
+            </div>
         </div>
 
     </div>
