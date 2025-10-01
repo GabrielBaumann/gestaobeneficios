@@ -26,7 +26,7 @@
     </header>
  
     <main class="p-6 h-full">
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div class="bg-white overflow-hidden">
         <!-- Table -->
         <div class="hidden md:block overflow-x-auto">
             <div class="content-ajax">
