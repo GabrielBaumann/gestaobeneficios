@@ -21,6 +21,7 @@
             <a href="<?= url("/enviado");?>" class="py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Enviados</a>
             <a href="" class="py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Recarga</a>
             <a href="" class="py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Carregados</a>
+            <a href="<?= url("/cartaoativo"); ?>" class="py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Cartões</a>
         </div>
     </header>
  
@@ -32,6 +33,10 @@
                 <?= $this->insert("/card/formNewCard"); ?>
             <?php elseif ($menu === "soliticao"): ?>
                 <?= $this->insert("/card/requestCard"); ?>
+            <?php elseif ($menu === "enviado"): ?>
+                <?= $this->insert("/card/sendCard"); ?>
+            <?php elseif ($menu === "cartao"): ?>
+                <?= $this->insert("/card/activeCard"); ?>
             <?php endif; ?>
         </div>
 
