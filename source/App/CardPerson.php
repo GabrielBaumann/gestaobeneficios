@@ -33,32 +33,60 @@ class CardPerson extends Controller
     public function startPage() : void
     {
         echo $this->view->render("/card/start", [
-            "listCardName" => (new Vw_card())
-                ->find("status_request = :st AND status_card = :stc AND received = :re", "st=concluída&stc=ativo&re=não")
-                ->fetch(true)
+            "menu" => "novo"
         ]); 
+    }
+
+    // Página de solicitação de novo cartão
+    public function newCard() : void
+    {
+        echo $this->view->render("/card/start", [
+            "menu" => "novocartao"
+        ]); 
+    }
+
+    // Página de cartões solicitados
+    public function requestCard() : void
+    {
+         echo $this->view->render("/card/start", [
+            "menu" => "soliticao",
+            "listCardName" => (new Vw_card())
+                ->find("status_request = :st AND status_card = :stc AND received = :re", "st=solicitado&stc=aguardando cartão&re=não")
+                ->fetch(true)
+        ]);            
+    }
+
+    // Pagina com lista de enviados para a confecção
+    public function sendCard() : void
+    {
+        echo $this->view->render("/card/start", [
+            "menu" => "enviado",
+            "listCardName" => (new Vw_card())
+                ->find("status_request = :st AND status_card = :stc AND received = :re", "st=concluída&stc=confecção&re=não")
+                ->fetch(true)
+        ]);             
     }
 
     // Enviar novos pedidos de cartões para a empresa de confecção de cartão
     public function sendCardCompany(array $data) : void
     {
-        // $newSendCard = new CardCard();
-        // var_dump($newSendCard->sendCardCompany());
+        $newSendCard = new Card();
+        var_dump($newSendCard->sendCardCompany());
         $this->listExcelSendCard(1);
     }
 
     // Lista em excel para enviar cartões para empresa e para unidade
-    public function listExcelSendCard(int $type = 1) : void
+    public function listExcelSendCard($data) : void
     {   
         // Tipo de lista
         // 1 - Enivar para empresa
         // 2 - Enivar para unidade
 
-        if($type === 1) {
+        if($data["type"] == 1) {
             $listCard = (new Vw_card())->find("status_request = :st AND status_card = :stc AND received = :re", "st=solicitado&stc=aguardando cartão&re=não");
-            $listNewCard = $listCard->fetch(true); 
+            $listNewCard = $listCard->fetch(true);
         } else {
-            $listCard = (new Vw_card())->find("status_request = :st AND status_card = :stc AND received = :re", "st=concluída&stc=ativo&re=não");
+            $listCard = (new Vw_card())->find("received = :re AND send_card_unit = :se", "re=sim&se=não");
             $listNewCard = $listCard->fetch(true);
         }
 
@@ -262,14 +290,18 @@ class CardPerson extends Controller
     // Enviar cartões para as unidades
     public function sendCardUnit(array $data) : void
     {
-        // var_dump($data);
+        $newSendCard = new Card();
+        // var_dump($newSendCard->sendCardUnit());
+        $dataCard = [];
         foreach($data as $key => $value) {
-            var_dump(fncDecrypt($value));
+            $string = explode("-", $key);
+            if($string[0] === "received") {
+                var_dump($newSendCard->sendCardUnit((int)fncDecrypt($value)));
+            }
         }
 
-        // $newSendCard = new CardCard();
-        // var_dump($newSendCard->sendCardUnit());
-        // $this->listExcelSendCard(2);
+        $json["redirected"] = url("/baixar/2");
+        echo json_encode($json);
         return;
     }
 

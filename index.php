@@ -51,6 +51,11 @@ $route->post("/enivarcartaounidade", "CardPerson:sendCardUnit");
 
 $route->get("/enivardesbloqueiocartao", "CardPerson:listExcelSendCardRecharge");
 
+$route->get("/baixar/{type}", "CardPerson:listExcelSendCard");
+
+$route->get("/enviado", "CardPerson:sendCard");
+$route->get("/solicitado", "CardPerson:requestCard");
+$route->get("/novocartao", "CardPerson:newCard");
 
 
 // Rotas para solicitação de cartão feito nas unidades

@@ -35,7 +35,6 @@ class Card extends Model
         $allCard = $allNewCard->find("status_request = :st AND type_request = :ty AND status_card = :sc","st=solicitado&ty=novo cartão&sc=aguardando cartão")->fetch(true);
 
         // Criar lista em excel com os novos cartões
-
         
         if(!$allCard) {
             return false;
@@ -52,14 +51,14 @@ class Card extends Model
             // Atualizar tabela do Cartão
             $card = new Static();
             $idCard = $card->find("id_card_request = :id","id={$allCardItem->id_card_request}")->fetch();
-            $idCard->status_card = "Confecção";
+            $idCard->status_card = "confecção";
             $idCard->save();
 
             // Atualizar tabela de recarga
             $recharge = new CardRecharge();
             $idRecharge = $recharge->find("id_card = :id","id={$idCard->id_card}")->fetch(true);
             foreach($idRecharge as $idRechargeItem) {
-                $idRechargeItem->status_recharge = "Confecção";
+                $idRechargeItem->status_recharge = "confecção";
                 $idRechargeItem->save();
             }
         }
@@ -70,38 +69,36 @@ class Card extends Model
     }
 
     // Envia cartões para suas unidades 
-    public function sendCardUnit() : bool
+    public function sendCardUnit(int $idCard) : bool
     {
-        $allNewCard = new Vw_card();
-        $allCard = $allNewCard->find("status_request = :ty AND status_card = :sc","ty=concluída&sc=confecção")->fetch(true);
+        // $allNewCard = new Vw_card();
+        // $allCard = $allNewCard->find("status_request = :ty AND status_card = :sc","ty=concluída&sc=confecção")->fetch(true);
 
-        // Criar lista em excel com os novos cartões
-        // var_dump($allCard);
+        // // Criar lista em excel com os novos cartões
+        // // var_dump($allCard);
         
-        if(!$allCard) {
-            return false;
-        }
+        // if(!$allCard) {
+        //     return false;
+        // }
 
-        foreach($allCard as $allCardItem) {
+        // Atualizar tabela do Cartão
+        $card = new Static();
+        $idCard = $card->findById($idCard);
+        $idCard->status_card = "ativo";
+        $idCard->received = "sim";
+        $idCard->save();
     
-            // Atualizar tabela do Cartão
-            $card = new Static();
-            $idCard = $card->find("id_card_request = :id","id={$allCardItem->id_card_request}")->fetch();
-            $idCard->status_card = "ativo";
-            $idCard->save();
+        // Atualizar tabela de recarga
+        $recharge = new CardRecharge();
+        $idRecharge = $recharge->find("id_card = :id","id={$idCard->id_card}")->fetch(true);
+        foreach($idRecharge as $idRechargeItem) {
 
-            // Atualizar tabela de recarga
-            $recharge = new CardRecharge();
-            $idRecharge = $recharge->find("id_card = :id","id={$idCard->id_card}")->fetch(true);
-            foreach($idRecharge as $idRechargeItem) {
-
-                if($idRechargeItem->id_card_recharge_fixed === 0) {
-                    $idRechargeItem->status_recharge = "ativo";
-                    $idRechargeItem->save();
-                } else {
-                    $idRechargeItem->status_recharge = "solicitado";
-                    $idRechargeItem->save();
-                }
+            if($idRechargeItem->id_card_recharge_fixed === 0) {
+                $idRechargeItem->status_recharge = "ativo";
+                $idRechargeItem->save();
+            } else {
+                $idRechargeItem->status_recharge = "solicitado";
+                $idRechargeItem->save();
             }
         }
 

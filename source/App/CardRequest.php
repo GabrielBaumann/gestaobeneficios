@@ -19,7 +19,6 @@ class CardRequest extends Controller
     public function __construct()
     {
         parent::__construct(__DIR__ . "/../../themes/" . CONF_VIEW_APP . "/");
-        (new Session())->set("authUser", 1);
         // if (!$this->user = Auth::user()) {
         //     $this->message->warning("Efetue login para acessar o sistema.")->flash();
         //     redirect("/");
@@ -29,7 +28,6 @@ class CardRequest extends Controller
     // Solicitar um novo cartão ou uma segunda via
     public function formCardRequest(?array $data) : void
     {   
-        var_dump($_SESSION);
         if (isset($data["csrf"]) && !empty($data["csrf"])) {
 
             $requestCard = new RequestCard();

@@ -13,7 +13,7 @@ class Start extends Controller
     public function __construct()
     {
         parent::__construct(__DIR__ . "/../../themes/" . CONF_VIEW_APP . "/");
-
+        (new Session())->set("authUser", 1);
         if (!$this->user = Auth::user()) {
             $this->message->warning("Efetue login para acessar o sistema.")->flash();
             redirect("/");

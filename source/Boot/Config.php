@@ -7,7 +7,7 @@
 define("CONF_DB_HOST", "localhost");
 define("CONF_DB_USER", "root");
 define("CONF_DB_PASS", "");
-define("CONF_DB_NAME", "db_managment");
+define("CONF_DB_NAME", "managment");
 define("CONF_DB_NAME2", "db_office");
 
 /**

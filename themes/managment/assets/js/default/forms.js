@@ -17,7 +17,7 @@ document.addEventListener("submit", async (e)=> {
             body: formData
         })
             const vData = await vResponse.json();
-            
+
             if(vData.redirected) {
                 window.location.href = vData.redirected
             }
