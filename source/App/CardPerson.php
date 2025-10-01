@@ -67,6 +67,16 @@ class CardPerson extends Controller
         ]);             
     }
 
+    public function cardActive() : void
+    {
+        echo $this->view->render("/card/start", [
+            "menu" => "cartao",
+            "listCardName" => (new Vw_card())
+                ->find("received = :re AND send_card_unit = :se", "re=sim&se=sim")
+                ->fetch(true)
+        ]);           
+    }
+
     // Enviar novos pedidos de cartões para a empresa de confecção de cartão
     public function sendCardCompany(array $data) : void
     {
