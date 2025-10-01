@@ -10,7 +10,7 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-
+use Source\Core\Connect;
 use Source\Core\Controller;
 use Source\Models\Card\Card;
 use Source\Models\Card\Views\Vw_card;
@@ -46,9 +46,33 @@ class CardPerson extends Controller
     }
 
     // Página de cartões solicitados
-    public function requestCard() : void
-    {
-         echo $this->view->render("/card/start", [
+    public function requestCard(?array $data) : void
+    {   
+        if(isset($data["csrf"])) {
+           
+            $newSendCard = new Card(); 
+            if(!$newSendCard->checkListCardRequest()) {
+                $json["message"] = messageHelpers()->warning("Erro!")->render();
+                echo json_encode($json);
+                return;
+            }
+
+            $newSendCard->sendCardCompany();
+
+            $html = $this->view->render("/card/requestCard", [
+            "listCardName" => (new Vw_card())
+                ->find("status_request = :st AND status_card = :stc AND received = :re", "st=solicitado&stc=aguardando cartão&re=não")
+                ->fetch(true)
+            ]);  
+            
+            $json["redirected"] = url("/baixar/1");
+            $json["html"] = $html;
+            $json["message"] = messageHelpers()->success("Lista gerada com sucesso!")->render();
+            echo json_encode($json);
+            return;
+        }
+        
+        echo $this->view->render("/card/start", [
             "menu" => "soliticao",
             "listCardName" => (new Vw_card())
                 ->find("status_request = :st AND status_card = :stc AND received = :re", "st=solicitado&stc=aguardando cartão&re=não")
@@ -57,8 +81,31 @@ class CardPerson extends Controller
     }
 
     // Pagina com lista de enviados para a confecção
-    public function sendCard() : void
-    {
+    public function sendCard(?array $data) : void
+    {   
+        if(isset($data["csrf"])) {
+
+            $newSendCard = new Card();
+            foreach($data as $key => $value) {
+                $string = explode("-", $key);
+                if($string[0] === "received") {
+                    $newSendCard->sendCardUnit((int)fncDecrypt($value));
+                }
+            }
+
+            $html = $this->view->render("/card/sendCard", [
+                "menu" => "enviado",
+                "listCardName" => (new Vw_card())
+                    ->find("status_request = :st AND status_card = :stc AND received = :re", "st=concluída&stc=confecção&re=não")
+                    ->fetch(true)
+            ]); 
+
+            $json["html"] = $html;
+            $json["redirected"] = url("/baixar/2");
+            echo json_encode($json);
+            return;
+        }
+
         echo $this->view->render("/card/start", [
             "menu" => "enviado",
             "listCardName" => (new Vw_card())
@@ -77,14 +124,6 @@ class CardPerson extends Controller
         ]);           
     }
 
-    // Enviar novos pedidos de cartões para a empresa de confecção de cartão
-    public function sendCardCompany(array $data) : void
-    {
-        $newSendCard = new Card();
-        var_dump($newSendCard->sendCardCompany());
-        $this->listExcelSendCard(1);
-    }
-
     // Lista em excel para enviar cartões para empresa e para unidade
     public function listExcelSendCard($data) : void
     {   
@@ -93,11 +132,19 @@ class CardPerson extends Controller
         // 2 - Enivar para unidade
 
         if($data["type"] == 1) {
-            $listCard = (new Vw_card())->find("status_request = :st AND status_card = :stc AND received = :re", "st=solicitado&stc=aguardando cartão&re=não");
+            $newSendCard = new Card(); 
+            $listCard = (new Vw_card())->find("status_request = :st AND status_card = :stc AND received = :re", "st=concluída&stc=aguardando cartão&re=não");
             $listNewCard = $listCard->fetch(true);
+            $newSendCard->sendCardCompany(true);
         } else {
             $listCard = (new Vw_card())->find("received = :re AND send_card_unit = :se", "re=sim&se=não");
             $listNewCard = $listCard->fetch(true);
+            
+            foreach($listNewCard as $listNewCardItem) {
+                $newSendCard = (new Card())->findById($listNewCardItem->id_card);
+                $newSendCard->send_card_unit = "sim";
+                $newSendCard->save();
+            }
         }
 
         // Criar planilha
@@ -298,22 +345,22 @@ class CardPerson extends Controller
     }
 
     // Enviar cartões para as unidades
-    public function sendCardUnit(array $data) : void
-    {
-        $newSendCard = new Card();
-        // var_dump($newSendCard->sendCardUnit());
-        $dataCard = [];
-        foreach($data as $key => $value) {
-            $string = explode("-", $key);
-            if($string[0] === "received") {
-                var_dump($newSendCard->sendCardUnit((int)fncDecrypt($value)));
-            }
-        }
+    // public function sendCardUnit(array $data) : void
+    // {
+    //     $newSendCard = new Card();
+    //     // var_dump($newSendCard->sendCardUnit());
+    //     $dataCard = [];
+    //     foreach($data as $key => $value) {
+    //         $string = explode("-", $key);
+    //         if($string[0] === "received") {
+    //             var_dump($newSendCard->sendCardUnit((int)fncDecrypt($value)));
+    //         }
+    //     }
 
-        $json["redirected"] = url("/baixar/2");
-        echo json_encode($json);
-        return;
-    }
+    //     $json["redirected"] = url("/baixar/2");
+    //     echo json_encode($json);
+    //     return;
+    // }
 
     public function error() : void
     {

@@ -13,7 +13,7 @@
             <div class="flex flex-col md:flex-row w-full gap-4">
                 <div class="flex flex-col w-full">
                     <label for="bene" class="text-gray-800 font-semibold">Beneficiário</label>
-                    <input type="text" class="w-full border border-gray-300 p-2 rounded-xs">
+                    <input type="text" name="person-benefit" class="w-full border border-gray-300 p-2 rounded-xs">
                 </div>
             </div>
 

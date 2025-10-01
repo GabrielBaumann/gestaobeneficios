@@ -26,6 +26,11 @@ document.addEventListener("submit", async (e)=> {
                 fncMessage(vData.message)
             }
 
+            if(vData.html) {
+                const vReplaceContent = document.querySelector(".content-ajax");
+                vReplaceContent.innerHTML = vData.html;
+            }
+
         } catch (error) {
             fncMessage();
         } finally {

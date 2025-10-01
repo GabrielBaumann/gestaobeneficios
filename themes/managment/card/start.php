@@ -29,15 +29,17 @@
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <!-- Table -->
         <div class="hidden md:block overflow-x-auto">
-            <?php if($menu === "novocartao"): ?>
-                <?= $this->insert("/card/formNewCard"); ?>
-            <?php elseif ($menu === "soliticao"): ?>
-                <?= $this->insert("/card/requestCard"); ?>
-            <?php elseif ($menu === "enviado"): ?>
-                <?= $this->insert("/card/sendCard"); ?>
-            <?php elseif ($menu === "cartao"): ?>
-                <?= $this->insert("/card/activeCard"); ?>
-            <?php endif; ?>
+            <div class="content-ajax">
+                <?php if($menu === "novocartao"): ?>
+                    <?= $this->insert("/card/formNewCard"); ?>
+                <?php elseif ($menu === "soliticao"): ?>
+                    <?= $this->insert("/card/requestCard"); ?>
+                <?php elseif ($menu === "enviado"): ?>
+                    <?= $this->insert("/card/sendCard"); ?>
+                <?php elseif ($menu === "cartao"): ?>
+                    <?= $this->insert("/card/activeCard"); ?>
+                <?php endif; ?>
+            </div>
         </div>
 
         <!-- Mobile -->

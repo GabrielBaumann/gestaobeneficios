@@ -45,16 +45,19 @@ $route->get("/agua", "Water:startPage");
 
 // Cartão
 $route->get("/cartao", "CardPerson:startPage");
-$route->get("/enivarcartaoempresa", "CardPerson:sendCardCompany");
 
-$route->post("/enivarcartaounidade", "CardPerson:sendCardUnit");
+// $route->post("/enivarcartaounidade", "CardPerson:sendCardUnit");
 
 $route->get("/enivardesbloqueiocartao", "CardPerson:listExcelSendCardRecharge");
 
 $route->get("/baixar/{type}", "CardPerson:listExcelSendCard");
 
 $route->get("/enviado", "CardPerson:sendCard");
+$route->post("/enviado", "CardPerson:sendCard");
+
 $route->get("/solicitado", "CardPerson:requestCard");
+$route->post("/solicitado", "CardPerson:requestCard");
+
 $route->get("/novocartao", "CardPerson:newCard");
 $route->get("/cartaoativo", "CardPerson:cardActive");
 
