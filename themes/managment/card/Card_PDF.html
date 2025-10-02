@@ -19,9 +19,16 @@
         #conteudo { background: white; max-width: 210mm; margin: 0 auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
     </style>
 </head>
-<body class="font-[Arial]">
-    <button id="gerarPdf" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">Gerar e Baixar PDF</button>
-
+<body class="font-[Arial] p-0 bg-black/80">
+    <header class="bg-white/10 flex items-center justify-center py-2 mb-2">
+        <button id="gerarPdf" class="text-white border border-white bg-transparent hover:bg-white hover:text-black transition-all duration-300 py-2 px-4 rounded-full flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15M9 12l3 3m0 0 3-3m-3 3V2.25" />
+            </svg>
+            <span class="">Baixar PDF</span>
+        </button>
+    </header>
+    
     <div id="conteudo" class="pl-12 pr-6 pt-4 pb-4 flex flex-col justify-between gap-5">
         <!-- Cabeçalho com logos (substitua src pelas URLs reais dos brasões) -->
         <div class="flex justify-between items-center gap-12 h-full">
