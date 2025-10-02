@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de PDF - Ofício SEMDES</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- html2pdf.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"></script>
+    <style>
+        /* CSS para PDF: Define A4, margens e cores */
+        @page {
+            margin: 0;
+            size: A4 portrait;
+        }
+        * {
+            -webkit-print-color-adjust: exact; /* Garante cores de fundo no PDF */
+        }
+        /* Ajustes para visualização no navegador (removidos no PDF) */
+        body { background-color: #f3f4f6; padding: 20px; }
+        #conteudo { background: white; max-width: 210mm; margin: 0 auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+    <button id="gerarPdf" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">Gerar e Baixar PDF</button>
+
+    <div id="conteudo" class="pl-12 pr-6 pt-4 pb-4 flex flex-col gap-5">
+        <!-- Cabeçalho com logos (substitua src pelas URLs reais dos brasões) -->
+        <div class="flex justify-between items-center gap-12">
+            <div class="flex flex-col">
+                <img src="../assets/img/brazao.png" alt="Brasão Estado do Pará" class="w-[60px]">
+            </div>
+
+            <!-- Endereço -->
+            <div class="flex flex-col text-xs font-bold">
+                <p class="flex justify-center text-center">ESTADO DO PARÁ</p>
+                <p class="flex justify-center text-center">PREFEITURA MUNICIPAL DE CANAÃ DOS CARAJÁS</p>
+                <p class="flex justify-center text-center">SECRETARIA MUNICIPAL DE DESENVOLVIMENTO SOCIAL</p>
+            </div>
+
+            <div>
+                <img src="../assets/img/pmcc.png" alt="Logo Canaã" class="w-[120px]">
+            </div>
+        </div>
+
+        <div class="h-[3px] w-full bg-gradient-to-r from-blue-500 via-green-500 to-yellow-500"></div>
+
+        
+
+        <!-- Título do Ofício -->
+        <h1 class="text-lg font-bold uppercase mb-2 print:mb-4">Ofício Nº: xxxxx – Gabinete – Semdes</h1>
+
+        <!-- Data (alinhada à direita) -->
+        <p class="text-sm text-right mb-6">Canaã dos Carajás/PA, 1 de outubro de 2025.</p>
+
+        <!-- De/Para -->
+        <div class="mb-4">
+            <p class="font-bold">Da: Secretaria Municipal de Desenvolvimento Social - SEMDES</p>
+            <p class="font-bold">Para: WEBCARD ADMINISTRATIVO LTDA.</p>
+        </div>
+
+        <!-- Assunto -->
+        <p class="font-bold mb-4">Assunto: Encaminhamento Relação de usuários “Cartão Social” – xxxxxxx.</p>
+
+        <!-- Saudação e Corpo -->
+        <p class="font-bold">Prezado,</p>
+        <p class="">Ao cumprimentá-lo, venho por meio deste, encaminhar a relação dos usuários,</p>
+        <p class="">para emissão do Cartão Social - benefício eventual de auxílio alimentação, via e-mail</p>
+        <p class="">institucional cartaosocialsemdescanaa@gmail.com, para o e-mail da empresa</p>
+        <p class="">disponibilizado financeiro@webcard.adm.br.</p>
+
+        <!-- Total -->
+        <p class="font-bold text-lg mb-6">TOTAL: xx USUÁRIOS.</p>
+
+        <!-- Encerramento -->
+        <p class="mb-8">Atenciosamente,</p>
+
+        <!-- Assinatura (alinhada à direita) -->
+        <div class="text-right mb-6">
+            <p class="font-bold text-lg">Victor Nunes Lara</p>
+            <p class="font-semibold">Coordenadoria de Gestão de Benefícios</p>
+            <p class="text-sm">Mat: 0282067</p>
+        </div>
+
+        <!-- Rodapé com logos e endereço -->
+        <div class="flex justify-between items-end pt-4 border-t border-gray-300">
+            <div class="text-xs">
+                <p>Avenida Ipanema S/N, - Novo Horizonte II - CEP 68.356.193 - Canaã dos Carajás/PA</p>
+                <p>e-mail institucional: semdes@canaadoscarajas.pa.gov.br</p>
+            </div>
+            <div class="flex items-center space-x-2">
+                <img src="https://via.placeholder.com/40x40?text=Semdes" alt="Logo SEMDES" class="w-10 h-10">
+                <img src="https://via.placeholder.com/50x30?text=Canaã" alt="Logo Canaã" class="w-12 h-8">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('gerarPdf').addEventListener('click', function() {
+            const elemento = document.getElementById('conteudo');
+            const opcoes = {
+                filename: 'Oficio_SEMDES_CartaoSocial.pdf',
+                margin: 10, // Margem em mm
+                image: { type: 'jpeg', quality: 0.98 }, // Qualidade da imagem
+                html2canvas: { scale: 2 }, // Escala para melhor resolução
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } // Formato A4
+            };
+            html2pdf().set(opcoes).from(elemento).save();
+        });
+    </script>
+</body>
+</html>
