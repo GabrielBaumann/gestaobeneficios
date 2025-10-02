@@ -62,7 +62,7 @@ class RequestCard extends Model
     }
 
     // Cartão emergencial
-    public function requestEmergency(array $data) : bool
+    public function requestEmergency(array $data) : int
     {
         // Buscar coordenador baseado no id do tecnico
         $unitUserSystem = new UnitUserSystem();
@@ -113,7 +113,7 @@ class RequestCard extends Model
         $addCardRechargeFixed->save();
 
         $this->message->success("ok");
-        return true;
+        return $request->id_card_request;
         
     }
 

@@ -62,6 +62,7 @@ $route->get("/cartaoativo", "CardPerson:cardActive");
 $route->get("/solicitaremergencial","CardPerson:requestEmergency");
 $route->post("/solicitaremergencial","CardPerson:requestEmergency");
 
+$route->get("/documento", "CardPerson:documentOffice");
 
 // Rotas para solicitação de cartão feito nas unidades
 $route->get("/solicitarcartao", "CardRequest:formCardRequest");

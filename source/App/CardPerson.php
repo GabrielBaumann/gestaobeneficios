@@ -385,8 +385,6 @@ class CardPerson extends Controller
         return;       
     }
 
-
-
     // Solicitar cartão emergencial
     public function requestEmergency(?array $data) : void
     {
@@ -407,13 +405,16 @@ class CardPerson extends Controller
             }
 
             $newRequestEmergency = new RequestCard();
-            $newRequestEmergency->requestEmergency($dataAll);
+            $idRequest = $newRequestEmergency->requestEmergency($dataAll);
+
+            $_SESSION["idrequest"] = $idRequest;
+            unset($_SESSION["data"]);
 
             $json["message"] = $newRequestEmergency->message()->render();
+            $json["redirectedBlank"] = url("/documento");
             echo json_encode($json);
             return;
         }
-
 
         echo $this->view->render("/card/start", [
             "menu" => "emergencial",
@@ -436,6 +437,15 @@ class CardPerson extends Controller
         $json["modal"] = $html;
         echo json_encode($json);
         return;
+    }
+
+    // Ofício gerado nas solicitações
+    public function documentOffice () : void
+    {
+        echo $this->view->render("/card/documentOffice", [
+            "title" => "Officio " . 522,
+
+        ]);
     }
 
     public function error() : void

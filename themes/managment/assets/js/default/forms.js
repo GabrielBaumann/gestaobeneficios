@@ -25,6 +25,11 @@ document.addEventListener("submit", async (e)=> {
                 window.location.href = vData.redirected
             }
             
+            // Redireciona e cria uma nova aba (impressão)
+            if(vData.redirectedBlank) {
+                window.open(vData.redirectedBlank, "_blank");
+            }
+
             // Retorna mensagem
             if(vData.message){
                 fncMessage(vData.message)
