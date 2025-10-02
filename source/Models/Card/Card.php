@@ -92,16 +92,6 @@ class Card extends Model
     // Envia cartões para suas unidades 
     public function sendCardUnit(int $idCard) : bool
     {
-        // $allNewCard = new Vw_card();
-        // $allCard = $allNewCard->find("status_request = :ty AND status_card = :sc","ty=concluída&sc=confecção")->fetch(true);
-
-        // // Criar lista em excel com os novos cartões
-        // // var_dump($allCard);
-        
-        // if(!$allCard) {
-        //     return false;
-        // }
-
         // Atualizar tabela do Cartão
         $card = new Static();
         $idCard = $card->findById($idCard);

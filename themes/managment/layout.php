@@ -1,7 +1,3 @@
-<?php
-
-use Soap\Url;
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +10,7 @@ use Soap\Url;
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="<?= theme("/css/message.css", CONF_VIEW_APP); ?>">
     <?= $this->section("css") ?>
-    <title>Document</title>
+    <title><?= $this->e($title)?></title>
     <style>
         body {
             font-family: 'Montserrat';

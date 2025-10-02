@@ -24,7 +24,7 @@ class CardRecharge extends Model
         return true;
     }
 
-    public function bootstrap(int $idCard, int $idRequestCard, int $monthRecharge, int $idFifixed,array $data) : int
+    public function bootstrap(int $idCard, int $idRequestCard, int $monthRecharge, int $idFifixed, array $data) : int
     {
         $this->id_card_request = $idRequestCard;
         $this->id_card_recharge_fixed = $idFifixed;

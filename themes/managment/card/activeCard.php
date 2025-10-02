@@ -13,7 +13,7 @@
     </thead>
     <?php $count = 1; ?>
     <tbody class="divide-y divide-gray-200">
-        <?php if (!empty($listCardNameItem)): ?>
+        <?php if (!empty($listCardName)): ?>
             <?php foreach($listCardName as $listCardNameItem):?>
                 <tr class="hover:bg-gray-50 transition-colors">
                 <td class="py-3 px-4 text-sm text-gray-800"><?= $listCardNameItem->id_card; ?></td>

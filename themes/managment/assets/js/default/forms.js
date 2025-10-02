@@ -5,7 +5,7 @@ document.addEventListener("submit", async (e)=> {
         e.preventDefault()
 
         const form = e.target;
-        const formData = new FormData(form);
+        const formData = new FormData(form, e.submitter);
         const actionForm = e.target.action;
 
         let timeoutLoading;
@@ -18,17 +18,30 @@ document.addEventListener("submit", async (e)=> {
         })
             const vData = await vResponse.json();
 
+            document.getElementById("modal")?.remove();
+
+            // Redireciona
             if(vData.redirected) {
                 window.location.href = vData.redirected
             }
             
+            // Retorna mensagem
             if(vData.message){
                 fncMessage(vData.message)
             }
 
+            // Retorna um elemento dinâmico ajax
             if(vData.html) {
                 const vReplaceContent = document.querySelector(".content-ajax");
                 vReplaceContent.innerHTML = vData.html;
+            }
+
+            // Retorna uma janela modal
+            if(vData.modal) {
+                const vElement = document.createElement("div");
+                vElement.id = "modal";
+                vElement.innerHTML = vData.modal;
+                document.body.appendChild(vElement);
             }
 
         } catch (error) {

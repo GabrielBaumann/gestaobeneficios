@@ -55,10 +55,66 @@ class RequestCard extends Model
 
         // Criar quantidade de recargas
         $addCardRecharge = (new CardRecharge())->addRecharge($addCard, $request->id_card_request, $data);
-        // var_dump($request->message->success("ok"));
+
         $this->message->success("ok");
         return true;
 
+    }
+
+    // Cartão emergencial
+    public function requestEmergency(array $data) : bool
+    {
+        // Buscar coordenador baseado no id do tecnico
+        $unitUserSystem = new UnitUserSystem();
+        $idunitCoordinator = $unitUserSystem->findById($data["technician"]);
+        $idCoordinator = $unitUserSystem->activeCoordinator($idunitCoordinator->id_unit);
+
+        // Criar solicitação
+        $request = new static();
+        $request->id_person_benefit = $data["person-benefit"];
+        $request->id_unit_server = $data["technician"];
+        $request->id_unit_coordinator = $idCoordinator;
+        $request->type_request = "emergencial";
+        $request->status_request = "solicitado";
+        $request->date_request = $data["date-request"];
+        $request->id_user_system_register = 1;
+        
+        $request->save();
+
+        // // Cria cartão e retorna o id do cartão
+        $addCard = (new Card())->dataCard($request->id_card_request);
+
+        // Criar quantidade de recargas
+        $addCardRecharge = (new CardRecharge());
+
+        // Registro espelho
+        $addCardRecharge->id_card_request = $request->id_card_request;
+        $addCardRecharge->id_card = $addCard;
+        $addCardRecharge->month_start = date("n");
+        $addCardRecharge->month_end = date("n");
+        $addCardRecharge->month_recharge = 0;
+        $addCardRecharge->year_recharge = date("Y");
+        $addCardRecharge->status_recharge = "ativo";
+
+        $addCardRecharge->save();
+
+        // Criar os registros fixos (as recargas de fato)
+        $addCardRechargeFixed = (new CardRecharge());
+
+        $addCardRechargeFixed->id_card_recharge_fixed = $addCardRecharge->id_card_recharge;
+        $addCardRechargeFixed->id_card_request = $request->id_card_request;
+        $addCardRechargeFixed->id_card = $addCard;
+        $addCardRechargeFixed->month_start = date("n");
+        $addCardRechargeFixed->month_end = date("n");
+        $addCardRechargeFixed->month_recharge = date("n");
+        $addCardRechargeFixed->year_recharge = date("Y");
+        $addCardRechargeFixed->status_recharge = "credito liberado";
+
+        $addCardRechargeFixed->save();
+
+        $this->message->success("ok");
+        return true;
+        
     }
 
     // Exclusão de solicitação de cartão

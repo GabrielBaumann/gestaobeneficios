@@ -46,8 +46,6 @@ $route->get("/agua", "Water:startPage");
 // Cartão
 $route->get("/cartao", "CardPerson:startPage");
 
-// $route->post("/enivarcartaounidade", "CardPerson:sendCardUnit");
-
 $route->get("/enivardesbloqueiocartao", "CardPerson:listExcelSendCardRecharge");
 
 $route->get("/baixar/{type}", "CardPerson:listExcelSendCard");
@@ -61,6 +59,9 @@ $route->post("/solicitado", "CardPerson:requestCard");
 $route->get("/novocartao", "CardPerson:newCard");
 $route->get("/cartaoativo", "CardPerson:cardActive");
 
+$route->get("/solicitaremergencial","CardPerson:requestEmergency");
+$route->post("/solicitaremergencial","CardPerson:requestEmergency");
+
 
 // Rotas para solicitação de cartão feito nas unidades
 $route->get("/solicitarcartao", "CardRequest:formCardRequest");
@@ -68,6 +69,7 @@ $route->post("/solicitarcartao", "CardRequest:formCardRequest");
 
 $route->get("/deletesolicitacaocartao", "CardRequest:deleteRequestCard");
 $route->post("/deletesolicitacaocartao", "CardRequest:deleteRequestCard");
+
 
 // Emolumentos
 $route->get("/emolumentos", "Emoluments:startPage");

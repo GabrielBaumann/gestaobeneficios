@@ -8,7 +8,7 @@
     <header class="w-screen md:w-auto md:flex md:justify-start mt-6 md:mt-0">
         <div class="flex flex-col md:flex-row px-6"> 
             <a href="<?= url("/novocartao");?>" class="py-1 px-4 text-sm cursor-pointer font-semibold duration-all transition-300 w-full md:w-auto text-green-800 bg-green-100 rounded-full border border-green-500">Novo</a>
-            <a href="" class="py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Emergencial</a>
+            <a href="<?= url("/solicitaremergencial");?>" class="py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Emergencial</a>
             <a href="" class="py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">2° Via</a>
             <a href="" class="py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Recarga</a>
             <a href="" class="py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Recarga extra</a> 
@@ -34,6 +34,8 @@
                     <?= $this->insert("/card/formNewCard"); ?>
                 <?php elseif ($menu === "soliticao"): ?>
                     <?= $this->insert("/card/requestCard"); ?>
+                <?php elseif ($menu === "emergencial"): ?>
+                    <?= $this->insert("/card/formEmergencyCard"); ?>
                 <?php elseif ($menu === "enviado"): ?>
                     <?= $this->insert("/card/sendCard"); ?>
                 <?php elseif ($menu === "cartao"): ?>

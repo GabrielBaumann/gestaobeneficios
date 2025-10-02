@@ -39,5 +39,5 @@
         <?php endif; ?>
     </tbody>
     </table>
-    <button>Enviar Selecionados</button>
+    <button name="btn-send" value="send">Enviar Selecionados</button>
 </form>

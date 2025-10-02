@@ -29,7 +29,7 @@ class CardRequest extends Controller
     public function formCardRequest(?array $data) : void
     {   
         if (isset($data["csrf"]) && !empty($data["csrf"])) {
-
+            
             $requestCard = new RequestCard();
             $reponse = $requestCard->newCard($data, true);
 
