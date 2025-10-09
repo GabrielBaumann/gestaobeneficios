@@ -38,13 +38,13 @@ abstract class Model
     protected $id;
 
     // SELECT INNER JOIN
-    protected array $select = [];
-    protected array $join = [];
-    protected array $where = [];
-    protected array $paramsSelect = [];
-    protected array $orderBy = [];
-    protected ?int  $limitJoin = null;
-    protected ?int  $offsetJoin = null;
+    // protected array $select = [];
+    // protected array $join = [];
+    // protected array $where = [];
+    // protected array $paramsSelect = [];
+    // protected array $orderBy = [];
+    // protected ?int  $limitJoin = null;
+    // protected ?int  $offsetJoin = null;
 
     /**
      * Model constructor.

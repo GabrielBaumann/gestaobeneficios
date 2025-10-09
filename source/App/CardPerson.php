@@ -10,11 +10,15 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
+
 use Source\Core\Connect;
 use Source\Core\Controller;
 use Source\Models\Card\Card;
 use Source\Models\Card\RequestCard;
 use Source\Models\Card\Views\Vw_card;
+use Source\Models\Office;
+use Source\Models\Unit;
 
 class CardPerson extends Controller
 {
@@ -48,10 +52,35 @@ class CardPerson extends Controller
     }
 
     // Página de cartões solicitados
-    public function requestCard(?array $data) : void
+    public function requestCard(?array $datall) : void
     {  
-        if(isset($data["csrf"])) {
-                   
+        if(isset($datall["csrf"])) {
+
+            if(empty($datall["date-month"])) {
+                $json["message"] = messageHelpers()->warning("Selecione um mês!")->render();
+                echo json_encode($json);
+                return;
+            }
+
+            if(isset($datall["btn-send"])) {
+                $month = $_SESSION["month"] = $datall["date-month"];
+            } else {
+                $month = $_SESSION["month"];
+            }
+
+            $us = new Office();
+            $numberOffice = $us->lastNumberOffice(1)[0]->id_office;
+
+            $newSendCard = new Card(); 
+            $listCard = (new Vw_card())->find("status_request = :st AND type_request = :ty AND status_card = :sc","st=solicitado&ty=novo cartão&sc=aguardando cartão")->fetch(true);
+
+            $_SESSION["dataDocument"] = [
+                "title" =>  "Ofício Encaminhamento - " . format_number($numberOffice),
+                "countCard" => count($listCard ?? []),
+                "monthDocument" => $month, 
+                "numberOffice" => $numberOffice, 
+                "type" => "sendcompany"];
+
             $newSendCard = new Card(); 
             if(!$newSendCard->checkListCardRequest()) {
                 $json["message"] = messageHelpers()->warning("Erro!")->render();
@@ -74,16 +103,18 @@ class CardPerson extends Controller
                 ->fetch(true)
             ]);  
             
+            $json["redirectedBlank"] = url("/documento");
             $json["redirected"] = url("/baixar/1");
             $json["html"] = $html;
             $json["message"] = messageHelpers()->success("Lista gerada com sucesso!")->render();
             echo json_encode($json);
             return;
         }
-        
+
         echo $this->view->render("/card/start", [
             "title" => "Solicitação de Cartão",
             "menu" => "soliticao",
+            "monthAll" => fncMonthAll(),
             "listCardName" => (new Vw_card())
                 ->find("status_request = :st AND status_card = :stc AND received = :re", "st=solicitado&stc=aguardando cartão&re=não")
                 ->fetch(true)
@@ -93,6 +124,7 @@ class CardPerson extends Controller
     // Pagina com lista de enviados para a confecção
     public function sendCard(?array $datall) : void
     {   
+        
         if(isset($datall["csrf"])) {
 
             if(isset($datall["btn-send"])) {
@@ -123,13 +155,59 @@ class CardPerson extends Controller
             }
 
             $newSendCard = new Card();
+            $vwCard = new Vw_card();
+
+            $arraycard = [];
+
+            // Pega os ids dos cartões que serão entregues nas unidades
             foreach($data as $key => $value) {
                 $string = explode("-", $key);
 
                 if($string[0] === "received") {
-                    $newSendCard->sendCardUnit((int)fncDecrypt($value));
+                    $cardAll = $vwCard->findById((int)fncDecrypt($value));
+                    
+                    $unidade = $cardAll->id_unit;
+
+                    if ($unidade) {
+                        if (!isset($arraycard[$unidade])) {
+                            $arraycard[$unidade] = [];
+                        }
+                    }
+                    $arraycard[$unidade][] = $cardAll; 
                 }
             }
+
+            // Dá baixa nos cartões para ficarem como enviados as unidades
+            // $newSendCard->sendCardUnit($data);
+
+            // Array com a quantidade es os id das unidades para emitir os ofícios
+            // $us = new Office();
+            // $numberOffice = $us->lastNumberOffice(1)[0]->id_office;
+            
+            // $countDocument = array_map('count', $arraycard);
+
+            $_SESSION["dataDocument"] = [  
+                    "type" => "sendunit",
+                    "data" => [
+                        [
+                            "title" =>  "Ofício Encaminhamento - " . format_number(11),
+                            "countCard" => 2,
+                            "unit" => "Cras Novo Brasil", 
+                            "numberOffice" => 11,
+                        ],
+                        [
+                            "title" =>  "Ofício Encaminhamento - " . format_number(11),
+                            "countCard" => 2,
+                            "unit" => "Cras Novo Horizonte", 
+                            "numberOffice" => 11,                            
+                        ]
+                    ]
+                ];
+
+            // var_dump($countDocument);
+
+            // Sessão com os dados para baixar a lista em excel
+            $_SESSION["dataexcel"] = $arraycard;
 
             unset($_SESSION["data"]);
 
@@ -141,8 +219,9 @@ class CardPerson extends Controller
             ]); 
 
             $json["html"] = $html;
-            $json["redirected"] = url("/baixar/2");
-            echo json_encode($json);
+            $json["redirectedBlank"] = url("/documento");
+            // $json["redirected"] = url("/baixarexcelunidade");
+            echo json_encode($json);           
             return;
         }
 
@@ -172,21 +251,32 @@ class CardPerson extends Controller
         // 1 - Enivar para empresa
         // 2 - Enivar para unidade
 
-        if($data["type"] == 1) {
+        
+
+        // if($data["type"] == 1) {
             $newSendCard = new Card(); 
             $listCard = (new Vw_card())->find("status_request = :st AND status_card = :stc AND received = :re", "st=concluída&stc=aguardando cartão&re=não");
+            
             $listNewCard = $listCard->fetch(true);
             $newSendCard->sendCardCompany(true);
-        } else {
-            $listCard = (new Vw_card())->find("received = :re AND send_card_unit = :se", "re=sim&se=não");
-            $listNewCard = $listCard->fetch(true);
+        // } else {
+        //     $count = 1;
+        //     while($count <= 5) {
+        //         var_dump("teste");
+        //         $this->listExcelSendCardRecharge();
+                
+        //         $count++;
+        //     }
+
+        //     // $listCard = (new Vw_card())->find("received = :re AND send_card_unit = :se", "re=sim&se=não");
+        //     // $listNewCard = $listCard->fetch(true);
             
-            foreach($listNewCard as $listNewCardItem) {
-                $newSendCard = (new Card())->findById($listNewCardItem->id_card);
-                $newSendCard->send_card_unit = "sim";
-                $newSendCard->save();
-            }
-        }
+        //     // foreach($listNewCard as $listNewCardItem) {
+        //     //     $newSendCard = (new Card())->findById($listNewCardItem->id_card);
+        //     //     $newSendCard->send_card_unit = "sim";
+        //     //     $newSendCard->save();
+        //     // }
+        // }
 
         // Criar planilha
         $spreadsheet = new Spreadsheet();
@@ -267,11 +357,6 @@ class CardPerson extends Controller
 
     public function listExcelSendCardRecharge() : void
     {
-        if (!(new Card())->sendRecharge()) {
-            var_dump("Não há lista");
-            return;
-        }
-
         $month = new DateTime();
 
         $format = new IntlDateFormatter(
@@ -385,6 +470,125 @@ class CardPerson extends Controller
         return;       
     }
 
+    // Baixar tabela com todos os usuário de suas unidades por aba do excel
+    public function listExcelUnitSend() : void
+    {
+        $dataRequest = $_SESSION["dataexcel"];
+
+        $month = new DateTime();
+
+        $format = new IntlDateFormatter(
+            'pt_BR',
+            IntlDateFormatter::FULL,
+            IntlDateFormatter::NONE,
+            'America/Sao_Paulo',
+            IntlDateFormatter::GREGORIAN,
+            "MMMM"
+        );
+
+        $monthUpper = mb_strtoupper($format->format($month));
+
+        // Criar planilha
+        $spreadsheet = new Spreadsheet();
+        
+        $first = true;
+        foreach($dataRequest as $key => $value) {
+            $unit = (new Unit())->findById((int)$key);
+
+            if($first) {
+                $sheet = $spreadsheet->getActiveSheet();
+                $sheet->setTitle($unit->abbreviation_unit);
+                $first = false;
+            } else {
+                $sheet = new \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet($spreadsheet, $key);
+                $sheet->setTitle($unit->abbreviation_unit);
+                $spreadsheet->addSheet($sheet);
+            }
+
+            // Mesclar células da primeira linha
+            $sheet->mergeCells("A1:B1");
+            $sheet->mergeCells("A2:B2");
+
+            // Definir título
+            $sheet->setCellValue("A1","LISTA DE CARTÕES DO MÊS DE " . $monthUpper . "/" . date("Y"));
+            $sheet->getStyle("A1")->applyFromArray([
+                "font" => [
+                    "bold" => true,
+                    "size" => 12,
+                    "name" => "Arial",
+                ],
+                "alignment" => [
+                    "horizontal" => Alignment::HORIZONTAL_CENTER,
+                    "vertical" => Alignment::VERTICAL_CENTER,
+                ],
+                "fill" => [
+                    "fillType" => Fill::FILL_SOLID,
+                    "startColor" => ["rgb" => "B0C4DE"],
+                ],
+            ]);
+
+            // Cabeçalhos
+            $sheet->setCellValue("A2", "NOME");
+            $sheet->setCellValue("B2", "CPF");
+
+            $sheet->getStyle("A2:B2")->applyFromArray([
+                "font" => [
+                    "size" => 12,
+                    "name" => "Arial",
+                ],
+                "alignment" => [
+                    "horizontal" => Alignment::HORIZONTAL_CENTER,
+                    "vertical" => Alignment::VERTICAL_CENTER,
+                ],
+                "fill" => [
+                    "fillType" => Fill::FILL_SOLID,
+                    "startColor" => ["rgb" => "EEEEEE"]
+                ]
+            ]);
+
+            // Dados
+            $count = 3;
+            foreach($value as $valueItem) {
+
+                $sheet->setCellValue("A{$count}", $valueItem->name);
+                $sheet->setCellValue("B{$count}", $valueItem->cpf);
+                $count ++;
+            }
+
+            $lastLine = $count - 1;
+            $step = "A1:B{$lastLine}";
+
+            $sheet->getStyle($step)->applyFromArray([
+                "borders" => [
+                    "allBorders" => [
+                        "borderStyle" => Border::BORDER_THIN,
+                        "color" => ["rgb" => "000000"],
+                    ],
+                ],
+            ]);
+
+            // Ajuste automático de largura
+            foreach(range("A", "B") as $col) {
+                $sheet->getColumnDimension($col)->setAutoSize(true);
+            }
+        }
+
+        $spreadsheet->setActiveSheetIndex(0);
+
+        // Preparar download
+        $filename = "Lista para Unidades " . $monthUpper . " - ". date("Y") .".xlsx";
+
+        header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        header("Content-Disposition: attachment; filename=\"$filename\"");
+        header("Cache-Control: max-age=0");
+        
+        // Enviar arquivo
+        $writer = new Xlsx($spreadsheet);
+        $writer->save("php://output");
+        unset($_SESSION["dataexcel"]);
+        return;       
+    }
+
     // Solicitar cartão emergencial
     public function requestEmergency(?array $data) : void
     {
@@ -442,9 +646,25 @@ class CardPerson extends Controller
     // Ofício gerado nas solicitações
     public function documentOffice () : void
     {
-        echo $this->view->render("/card/documentOffice", [
-            "title" => "Officio " . 522,
 
+        // var_dump($_SESSION["dataDocument"]);
+        $month = new DateTime();
+
+        $format = new IntlDateFormatter(
+            'pt_BR',
+            IntlDateFormatter::FULL,
+            IntlDateFormatter::NONE,
+            'America/Sao_Paulo',
+            IntlDateFormatter::GREGORIAN,
+            "MMMM"
+        );
+
+        $monthUpper = mb_strtoupper($format->format($month));        
+        $dateNow = date("d") . " de " . $monthUpper . " de " . date("Y");
+
+        echo $this->view->render("/letter/letter", [
+            "dateNow" => $dateNow,
+            "dataDocument" => $_SESSION["dataDocument"]
         ]);
     }
 

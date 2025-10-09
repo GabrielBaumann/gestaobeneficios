@@ -19,7 +19,7 @@ class RequestCard extends Model
     {   
 
         // Verifica os números dos meses são válidos
-        if(!is_int($data["month-start"]) && $data["month-start"] < 0 || !is_int($data["month-end"]) && $data["month-end"] < 0) {
+        if(!is_int($data["month-start"]) && $data["month-start"] <= 0 || !is_int($data["month-end"]) && $data["month-end"] < 0) {
             $this->message->warning("Os números de meses não são válidos!");
             return false;  
         }

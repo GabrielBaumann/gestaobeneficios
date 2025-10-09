@@ -50,7 +50,11 @@
                 <div class="flex flex-col w-full">
                     <label for="tec" class="text-gray-800 font-semibold">Técnico(a)</label>
                     <select type="text" name="technician" placeholder="Técnico" class="w-full border border-gray-300 p-2 rounded-xs">
-                        <option value="1">Selecione</option>
+                        <option value="">Selecione</option>
+                        <option value="1">LUCAS DOS SANTOS SILVA</option>
+                        <option value="2">ALDENORA BAIA</option>
+                        <option value="3">KARINA COSTA BARROS</option>
+                        <option value="4">GABRIEL</option>
                     </select>
                 </div>
 

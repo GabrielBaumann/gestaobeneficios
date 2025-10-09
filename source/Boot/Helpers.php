@@ -425,4 +425,19 @@ function fncDecrypt($hash) {
     }
 
     return substr($decrypetd, 4);
-}   
+}
+
+/**
+ * Retorna lista com meses
+ */
+function fncMonthAll(): array {
+
+    $month = [
+    'JANEIRO', 'FEVEREIRO', 'MARÇO', 'ABRIL', 'MAIO', 'JUNHO',
+    'JULHO', 'AGOSTO', 'SETEMBRO', 'OUTUBRO', 'NOVEMBRO', 'DEZEMBRO'];
+
+    $index = range(1, 12);
+    $months = array_combine($index, $month);
+
+    return $months;
+}
