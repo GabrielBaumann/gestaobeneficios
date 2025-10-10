@@ -68,19 +68,6 @@ class CardPerson extends Controller
                 $month = $_SESSION["month"];
             }
 
-            $us = new Office();
-            $numberOffice = $us->lastNumberOffice(1)[0]->id_office;
-
-            $newSendCard = new Card(); 
-            $listCard = (new Vw_card())->find("status_request = :st AND type_request = :ty AND status_card = :sc","st=solicitado&ty=novo cartão&sc=aguardando cartão")->fetch(true);
-
-            $_SESSION["dataDocument"] = [
-                "title" =>  "Ofício Encaminhamento - " . format_number($numberOffice),
-                "countCard" => count($listCard ?? []),
-                "monthDocument" => $month, 
-                "numberOffice" => $numberOffice, 
-                "type" => "sendcompany"];
-
             $newSendCard = new Card(); 
             if(!$newSendCard->checkListCardRequest()) {
                 $json["message"] = messageHelpers()->warning("Erro!")->render();
@@ -95,7 +82,23 @@ class CardPerson extends Controller
                 return;
             }
 
-            $newSendCard->sendCardCompany();
+            // Sessão que recebe os dados para lista do excel
+            $listCard = (new Vw_card())->find("status_request = :st AND type_request = :ty AND status_card = :sc","st=solicitado&ty=novo cartão&sc=aguardando cartão")->fetch(true);
+            $_SESSION["dataExcel"] = $listCard;
+
+            // Sessão que recebe os dados para ofício
+            $numberOffice = (new Office())->lastNumberOffice(1)[0];
+
+            $_SESSION["dataDocument"] = [
+                "title" =>  "Ofício Encaminhamento - " . format_number($numberOffice->number_office),
+                "countCard" => count($listCard ?? []),
+                "monthDocument" => $month, 
+                "numberOffice" => $numberOffice->number_office, 
+                "type" => "sendcompany"
+            ];
+
+            $newSendCard = new Card(); 
+            $newSendCard->sendCardCompany($numberOffice->id_office);
 
             $html = $this->view->render("/card/requestCard", [
             "listCardName" => (new Vw_card())
@@ -104,7 +107,7 @@ class CardPerson extends Controller
             ]);  
             
             $json["redirectedBlank"] = url("/documento");
-            $json["redirected"] = url("/baixar/1");
+            $json["redirected"] = url("/baixarexcelempresa");
             $json["html"] = $html;
             $json["message"] = messageHelpers()->success("Lista gerada com sucesso!")->render();
             echo json_encode($json);
@@ -177,34 +180,39 @@ class CardPerson extends Controller
                 }
             }
 
+            foreach($arraycard as $key => $values) {
+
+                foreach($values as $item){
+                    if($key === $item->id_unit) {
+                       $arrayid[] = $item->id_card_request; 
+                    }
+                }
+              
+                $array[$key] = ["countCard" => count($values), "idRequest" => $arrayid];
+
+            }
+            var_dump($array);
             // Dá baixa nos cartões para ficarem como enviados as unidades
             // $newSendCard->sendCardUnit($data);
 
             // Array com a quantidade es os id das unidades para emitir os ofícios
-            // $us = new Office();
-            // $numberOffice = $us->lastNumberOffice(1)[0]->id_office;
+            $countDocument = array_map('count', $arraycard);
+            $arrayGeneral = [];
             
-            // $countDocument = array_map('count', $arraycard);
+            foreach($countDocument as $key => $value) {
 
+                $array["numberOffice"] = (new Office())->lastNumberOffice(1)[0]->id_office;
+                $array["unit"] =(new Unit())->findById($key)->abbreviation_unit;
+                $array["countCard"] = $value;
+                $arrayGeneral[] = $array;
+            }
+
+            // Sessão com os dados para gerar ofício
             $_SESSION["dataDocument"] = [  
                     "type" => "sendunit",
-                    "data" => [
-                        [
-                            "title" =>  "Ofício Encaminhamento - " . format_number(11),
-                            "countCard" => 2,
-                            "unit" => "Cras Novo Brasil", 
-                            "numberOffice" => 11,
-                        ],
-                        [
-                            "title" =>  "Ofício Encaminhamento - " . format_number(11),
-                            "countCard" => 2,
-                            "unit" => "Cras Novo Horizonte", 
-                            "numberOffice" => 11,                            
-                        ]
-                    ]
+                    "title" => "Ofício para unidades",
+                    "data" => $arrayGeneral
                 ];
-
-            // var_dump($countDocument);
 
             // Sessão com os dados para baixar a lista em excel
             $_SESSION["dataexcel"] = $arraycard;
@@ -219,8 +227,8 @@ class CardPerson extends Controller
             ]); 
 
             $json["html"] = $html;
-            $json["redirectedBlank"] = url("/documento");
-            // $json["redirected"] = url("/baixarexcelunidade");
+            $json["redirectedBlank"] = url("/documentounidade");
+            $json["redirected"] = url("/baixarexcelunidade");
             echo json_encode($json);           
             return;
         }
@@ -245,42 +253,15 @@ class CardPerson extends Controller
     }
 
     // Lista em excel para enviar cartões para empresa e para unidade
-    public function listExcelSendCard($data) : void
+    public function listExcelSendCard() : void
     {   
-        // Tipo de lista
-        // 1 - Enivar para empresa
-        // 2 - Enivar para unidade
-
-        
-
-        // if($data["type"] == 1) {
-            $newSendCard = new Card(); 
-            $listCard = (new Vw_card())->find("status_request = :st AND status_card = :stc AND received = :re", "st=concluída&stc=aguardando cartão&re=não");
-            
-            $listNewCard = $listCard->fetch(true);
-            $newSendCard->sendCardCompany(true);
-        // } else {
-        //     $count = 1;
-        //     while($count <= 5) {
-        //         var_dump("teste");
-        //         $this->listExcelSendCardRecharge();
-                
-        //         $count++;
-        //     }
-
-        //     // $listCard = (new Vw_card())->find("received = :re AND send_card_unit = :se", "re=sim&se=não");
-        //     // $listNewCard = $listCard->fetch(true);
-            
-        //     // foreach($listNewCard as $listNewCardItem) {
-        //     //     $newSendCard = (new Card())->findById($listNewCardItem->id_card);
-        //     //     $newSendCard->send_card_unit = "sim";
-        //     //     $newSendCard->save();
-        //     // }
-        // }
+        $listNewCard = $_SESSION["dataExcel"];
 
         // Criar planilha
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
+        
+        $sheet->setTitle("Usuários");
 
         // Mesclar células da primeira linha
         $sheet->mergeCells("A1:B1");
@@ -341,6 +322,11 @@ class CardPerson extends Controller
                 ],
             ],
         ]);
+
+        // Ajuste automático de largura
+        foreach(range("A", "B") as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
 
         // Preparar download
         $filename = "Lista de Cartões_" . date_simple(date("Y-m-d")) . ".xlsx";
@@ -646,8 +632,6 @@ class CardPerson extends Controller
     // Ofício gerado nas solicitações
     public function documentOffice () : void
     {
-
-        // var_dump($_SESSION["dataDocument"]);
         $month = new DateTime();
 
         $format = new IntlDateFormatter(
@@ -663,6 +647,29 @@ class CardPerson extends Controller
         $dateNow = date("d") . " de " . $monthUpper . " de " . date("Y");
 
         echo $this->view->render("/letter/letter", [
+            "dateNow" => $dateNow,
+            "dataDocument" => $_SESSION["dataDocument"]
+        ]);
+    }
+
+    // Ofício para unidades
+    public function documentOfficeUnit() : void
+    {
+        $month = new DateTime();
+
+        $format = new IntlDateFormatter(
+            'pt_BR',
+            IntlDateFormatter::FULL,
+            IntlDateFormatter::NONE,
+            'America/Sao_Paulo',
+            IntlDateFormatter::GREGORIAN,
+            "MMMM"
+        );
+
+        $monthUpper = mb_strtoupper($format->format($month));        
+        $dateNow = date("d") . " de " . $monthUpper . " de " . date("Y");
+
+        echo $this->view->render("/letter/letterSendUnit", [
             "dateNow" => $dateNow,
             "dataDocument" => $_SESSION["dataDocument"]
         ]);

@@ -42,15 +42,10 @@ class Card extends Model
     }
 
     // Envia remessa de cartões para empresa que vai confeccionar os cartões
-    public function sendCardCompany(bool $list = false) : bool
+    public function sendCardCompany(int $idOffice) : bool
     {
         $allNewCard = new Vw_card();
-        
-        if($list) {
-            $allCard = $allNewCard->find("status_request = :st AND type_request = :ty AND status_card = :sc","st=concluída&ty=novo cartão&sc=aguardando cartão")->fetch(true);
-        }else {
-            $allCard = $allNewCard->find("status_request = :st AND type_request = :ty AND status_card = :sc","st=solicitado&ty=novo cartão&sc=aguardando cartão")->fetch(true);
-        }
+        $allCard = $allNewCard->find("status_request = :st AND type_request = :ty AND status_card = :sc","st=solicitado&ty=novo cartão&sc=aguardando cartão")->fetch(true);
             
         // Verifica o find retorna um array
         if(!$allCard) {
@@ -60,18 +55,18 @@ class Card extends Model
         foreach($allCard as $allCardItem) {
 
             // Atualizar tabela de solicitação
+            $idCardRequest = $allCardItem->id_card_request;
             $request = new RequestCard();
-            $idRequest = $request->findById($allCardItem->id_card_request);
+            $idRequest = $request->findById($idCardRequest);
             $idRequest->status_request = "concluída";
+            $idRequest->id_office = $this->checkOffice($idCardRequest, $idOffice);
             $idRequest->save();          
 
             // Atualizar tabela do Cartão
             $card = new Static();
             $idCard = $card->find("id_card_request = :id","id={$allCardItem->id_card_request}")->fetch();
+            $idCard->status_card = "confecção";
 
-            if($list) {
-                $idCard->status_card = "confecção";
-            }
         
             $idCard->save();
 
@@ -84,9 +79,23 @@ class Card extends Model
             }
         }
 
-        // Emitir documento ofício com solicitação de confecção de cartão
-
         return true;
+    }
+
+    // Verificar número de ofício salvos na solicitação
+    public function checkOffice(int $idRequest, int $numberOffice) : string
+    {
+        $request = (new RequestCard())->findById($idRequest);
+        $idOffice = $request->id_office;
+
+        if(!$idOffice) {
+            $stringNumerOffice = "company=" . $numberOffice;
+            return $stringNumerOffice;
+        }
+
+        $stringNumerOffice = $idOffice .";company=" . $numberOffice;
+
+        return $stringNumerOffice;
     }
 
     // Envia cartões para suas unidades 
@@ -125,7 +134,6 @@ class Card extends Model
                 
             }
         }
-
         return true;
     }
 

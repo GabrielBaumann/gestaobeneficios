@@ -50,7 +50,7 @@ $route->get("/cartao", "CardPerson:startPage");
 
 $route->get("/enivardesbloqueiocartao", "CardPerson:listExcelSendCardRecharge");
 
-$route->get("/baixar/{type}", "CardPerson:listExcelSendCard");
+$route->get("/baixarexcelempresa", "CardPerson:listExcelSendCard");
 $route->get("/baixarexcelunidade", "CardPerson:listExcelUnitSend");
 
 $route->get("/enviado", "CardPerson:sendCard");
@@ -66,6 +66,7 @@ $route->get("/solicitaremergencial","CardPerson:requestEmergency");
 $route->post("/solicitaremergencial","CardPerson:requestEmergency");
 
 $route->get("/documento", "CardPerson:documentOffice");
+$route->get("/documentounidade", "CardPerson:documentOfficeUnit");
 
 // Rotas para solicitação de cartão feito nas unidades
 $route->get("/solicitarcartao", "CardRequest:formCardRequest");

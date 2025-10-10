@@ -1,12 +1,3 @@
-<!-- Data (alinhada à direita) -->
-<p class="text-sm text-right mb-6">Canaã dos Carajás/PA, <?= $dateNow; ?>.</p>
-
-<!-- De/Para -->
-<div class="mb-4">
-    <p class="font-bold">Da: Secretaria Municipal de Desenvolvimento Social - SEMDES</p>
-    <p class="font-bold">Para: WEBCARD ADMINISTRATIVO LTDA.</p>
-</div>
-
 <!-- Assunto -->
 <p class="font-bold mb-4">Assunto: Encaminhamento Relação de usuários “Cartão Social” – <?= $dataDocument["monthDocument"]; ?>.</p>
 
