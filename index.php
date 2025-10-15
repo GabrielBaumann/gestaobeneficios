@@ -13,11 +13,9 @@ use Source\Models\Office;
 $session = new Session();
 $route = new Router(url(), ":");
 
-
 // WEB
 // Login
 $route->namespace("Source\App");
-
 $route->get("/", "Web:login");
 
 

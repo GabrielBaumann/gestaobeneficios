@@ -40,6 +40,7 @@ class Office extends Model
             $arrayData[] = $OfficeItem;
 
             $OfficeItem->used = 1;
+            $OfficeItem->date_send = date("Y-m-d");
             $OfficeItem->id_user_system_update = 2;
             $OfficeItem->save();
 

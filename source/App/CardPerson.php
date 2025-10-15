@@ -180,30 +180,36 @@ class CardPerson extends Controller
                 }
             }
 
+            // Array com os dados para gerar e dar baixa na documentação
+            $arrayData = [];
             foreach($arraycard as $key => $values) {
 
-                foreach($values as $item){
-                    if($key === $item->id_unit) {
-                       $arrayid[] = $item->id_card_request; 
-                    }
-                }
-              
-                $array[$key] = ["countCard" => count($values), "idRequest" => $arrayid];
+                $arrayid = array_map(fn($item) => $item->id_card_request, $values);
 
+                $arrayData[$key] = [
+                    "countCard" => count($values), 
+                    "idRequest" => $arrayid
+                ];
             }
-            var_dump($array);
+
             // Dá baixa nos cartões para ficarem como enviados as unidades
-            // $newSendCard->sendCardUnit($data);
+            $newSendCard->sendCardUnit($data);
 
             // Array com a quantidade es os id das unidades para emitir os ofícios
-            $countDocument = array_map('count', $arraycard);
             $arrayGeneral = [];
             
-            foreach($countDocument as $key => $value) {
+            foreach($arrayData as $key => $value) {
+                $numberoffice = (new Office())->lastNumberOffice(1)[0]->id_office;
 
-                $array["numberOffice"] = (new Office())->lastNumberOffice(1)[0]->id_office;
+                $array["numberOffice"] = $numberoffice;
                 $array["unit"] =(new Unit())->findById($key)->abbreviation_unit;
-                $array["countCard"] = $value;
+                $array["countCard"] = $value["countCard"];
+                $array["idrequest"] = $value["idRequest"];
+
+                foreach($value["idRequest"] as $item) {
+                    $checkOffice = (new Card())->sendUnitOffice($item, $numberoffice);
+                }
+
                 $arrayGeneral[] = $array;
             }
 

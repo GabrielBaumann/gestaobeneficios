@@ -83,17 +83,19 @@ class Card extends Model
     }
 
     // Verificar número de ofício salvos na solicitação
-    public function checkOffice(int $idRequest, int $numberOffice) : string
+    public function checkOffice(int $idRequest, int $numberOffice, bool $type = false) : string
     {
         $request = (new RequestCard())->findById($idRequest);
         $idOffice = $request->id_office;
 
+        $typeSend = ($type === false) ? "company=" : "unit=";
+
         if(!$idOffice) {
-            $stringNumerOffice = "company=" . $numberOffice;
+            $stringNumerOffice = $typeSend . $numberOffice;
             return $stringNumerOffice;
         }
 
-        $stringNumerOffice = $idOffice .";company=" . $numberOffice;
+        $stringNumerOffice = $idOffice .";" . $typeSend . $numberOffice;
 
         return $stringNumerOffice;
     }
@@ -101,8 +103,6 @@ class Card extends Model
     // Envia cartões para suas unidades 
     public function sendCardUnit(array $data) : bool
     {
-        $vwCard = new Vw_card();
-
         foreach($data as $key => $value) {
             $string = explode("-", $key);
 
@@ -135,6 +135,16 @@ class Card extends Model
             }
         }
         return true;
+    }
+
+    // Números de ofício gerado ao enviar para unidades
+    public function sendUnitOffice(int $idRequest, int $numberOffice) : void
+    {
+        $request = new RequestCard();
+        $requestUpdate = $request->findById($idRequest);
+        $requestUpdate->status_request = "concluída";
+        $requestUpdate->id_office = $this->checkOffice($idRequest, $numberOffice, true);
+        $requestUpdate->save();            
     }
 
     // Envia lista de desbloqueio do mês
