@@ -3,14 +3,10 @@
 namespace Source\App;
 
 use Source\Core\Controller;
-use Source\Core\Session;
-use Source\Models\Auth;
-use Source\Models\Card\Card;
-use Source\Models\Card\CardValue;
 use Source\Models\Card\RequestCard;
 use Source\Models\Card\Views\Vw_card;
 use Source\Models\Card\Views\Vw_recharge;
-use Source\Models\UserSystem\UnitUserSystem;
+use Source\Models\PersonBenefit;
 
 class CardRequest extends Controller
 {
@@ -31,6 +27,13 @@ class CardRequest extends Controller
         if (isset($data["csrf"]) && !empty($data["csrf"])) {
             
             $requestCard = new RequestCard();
+
+            if(!$requestCard->checkRequest($data)) {
+                $json["message"] = $requestCard->message()->render();
+                echo json_encode($json);
+                return;
+            }
+
             $reponse = $requestCard->newCard($data, true);
 
             if(!$reponse) {
@@ -44,6 +47,7 @@ class CardRequest extends Controller
 
         echo $this->view->render("/cardrequest/formcardrequest", [
             "title" => "Formulário de Cartão",
+            "personbenefit" => (new PersonBenefit())->find()->fetch(true),
             "listCard" => (new Vw_card())->find()->fetch(true)
         ]);    
     }

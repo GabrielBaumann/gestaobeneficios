@@ -2,8 +2,8 @@
 
 <?php if($dataDocument["type"] === "sendcompany"): ?>
     <?= $this->insert("/letter/letterSendCompany"); ?>
-<?php elseif ($type === "emergencial"): ?>
-    <?= $this->insert("/card/formEmergencyCard"); ?>
+<?php elseif ($dataDocument["type"] === "emergency"): ?>
+    <?= $this->insert("/letter/letterEmergency"); ?>
 <?php elseif ($type === "enviado"): ?>
     <?= $this->insert("/card/sendCard"); ?>
 <?php elseif ($type === "cartao"): ?>
