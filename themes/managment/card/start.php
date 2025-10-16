@@ -6,22 +6,22 @@
     </header>
 
     <header class="w-screen md:w-auto md:flex md:justify-start mt-6 md:mt-0">
-        <div class="flex flex-col md:flex-row px-6"> 
-            <a href="<?= url("/novocartao");?>" class="py-1 px-4 text-sm cursor-pointer font-semibold duration-all transition-300 w-full md:w-auto text-green-800 bg-green-100 rounded-full border border-green-500">Novo</a>
-            <a href="<?= url("/solicitaremergencial");?>" class="py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Emergencial</a>
-            <a href="" class="py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">2° Via</a>
-            <a href="" class="py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Recarga</a>
-            <a href="" class="py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Recarga extra</a> 
+        <div class="flex flex-col md:flex-row px-6">
+            <a href="<?= url("/novocartao");?>" class="main-card-menu novo py-1 px-4 text-gray-600 text-sm cursor-pointer font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Novo</a>
+            <a href="<?= url("/solicitaremergencial");?>" class="main-card-menu emergencial py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Emergencial</a>
+            <a href="" class="main-card-menu 2_via py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">2° Via</a>
+            <a href="" class="main-card-menu recarga py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Recarga</a>
+            <a href="" class="main-card-menu recarga_extra py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Recarga extra</a> 
         </div>
     </header>
 
     <header class="w-screen md:w-auto md:flex md:justify-start mt-6 md:mt-0 pt-2">
         <div class="flex flex-col md:flex-row px-6"> 
-            <a href="<?= url("/solicitado");?>" class="py-1 px-4 cursor-pointer font-semibold duration-all transition-300 w-full md:w-auto text-green-800 text-sm rounded-full bg-green-100 border border-green-500">Solicitados</a>
-            <a href="<?= url("/enviado");?>" class="py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Enviados</a>
-            <a href="" class="py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Recarga</a>
-            <a href="" class="py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Carregados</a>
-            <a href="<?= url("/cartaoativo"); ?>" class="py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Cartões</a>
+            <a href="<?= url("/solicitado");?>" class="second-card-menu solicitado py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Solicitados</a>
+            <a href="<?= url("/enviado");?>" class="second-card-menu enviado py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Enviados</a>
+            <a href="" class="second-card-menu recarga py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Recarga</a>
+            <a href="" class="second-card-menu carregado py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Carregados</a>
+            <a href="<?= url("/cartaoativo"); ?>" class="second-card-menu cartao py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Cartões</a>
         </div>
     </header>
  
@@ -73,6 +73,36 @@
         </div>
     </main>
 </div>
+<script>
+    
+    const vUrlPage =  window.location.pathname.replace(/\/$/, "").split("/").pop();
+    
+    const novo = document.getElementsByClassName("novo");
+    const emergencial = document.getElementsByClassName("emergencial");
+    const via = document.getElementsByClassName("2_via");
+    const recarga = document.getElementsByClassName("recarga");
+    const recarga_extra = document.getElementsByClassName("recarga_extra");
+
+    const solicitado = document.getElementsByClassName("solicitado");
+    const enviado = document.getElementsByClassName("enviado");
+
+    if (vUrlPage === 'novocartao') {
+       novo[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
+    } else if (vUrlPage === 'solicitaremergencial') {
+        emergencial[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
+    }
+      else if (vUrlPage === 'solicitado') {
+        solicitado[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
+        novo[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
+    }
+      else if (vUrlPage === 'enviado') {
+        enviado[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
+        novo[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
+    }
+    
+    
+</script>
+
 <?php $this->start("scripts"); ?>
     <script src="<?= theme("/js/default/forms.js", CONF_VIEW_APP); ?>"></script>
 <?php $this->stop("scripts"); ?>
