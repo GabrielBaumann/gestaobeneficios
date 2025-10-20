@@ -45,6 +45,28 @@ class CardPerson extends Controller
         ]); 
     }
 
+    // All pages
+    public function segundaVia() : void 
+    {
+        echo $this->view->render("/card/start", [
+            "menu" => "segundavia"
+        ]);
+    }
+
+    public function recarga() : void 
+    {
+        echo $this->view->render("/card/start", [
+            "menu" => "recarga"
+        ]);
+    }
+
+    public function recargaExtra() : void 
+    {
+        echo $this->view->render("/card/start", [
+            "menu" => "recarga"
+        ]);
+    }
+
     // Página de solicitação de novo cartão
     public function newCard() : void
     {
