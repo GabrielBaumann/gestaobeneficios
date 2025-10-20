@@ -8,8 +8,6 @@ require __DIR__ . "/vendor/autoload.php";
 
 use Source\Core\Session;
 use CoffeeCode\Router\Router;
-use Source\Models\Card\Views\Vw_request;
-use Source\Models\Office;
 
 $session = new Session();
 $route = new Router(url(), ":");
@@ -62,15 +60,12 @@ $route->post("/enviado", "CardPerson:sendCard");
 $route->get("/solicitado", "CardPerson:requestCard");
 $route->post("/solicitado", "CardPerson:requestCard");
 
-$route->get("/novocartao", "CardPerson:newCard");
+$route->get("/novocartao", "CardPerson:requestCard");
 $route->get("/cartaoativo", "CardPerson:cardActive");
 
 $route->get("/solicitaremergencial","CardPerson:requestEmergency");
 $route->post("/solicitaremergencial","CardPerson:requestEmergency");
 
-<<<<<<< HEAD
-$route->get("/documento/{office}/{type}", "CardPerson:documentOffice");
-=======
 // All pages
 $route->get("/segundavia","CardPerson:segundaVia");
 
@@ -78,8 +73,7 @@ $route->get("/recarga","CardPerson:recarga");
 
 $route->get("/recargaextra","CardPerson:recargaExtra");
 
-$route->get("/documento", "CardPerson:documentOffice");
->>>>>>> 81f7156254e6503951cbff2ac3a9992853129f2d
+$route->get("/documento/{office}/{type}", "CardPerson:documentOffice");
 $route->get("/documentounidade/{shipment}", "CardPerson:documentOfficeUnit");
 
 // Rotas para solicitação de cartão feito nas unidades

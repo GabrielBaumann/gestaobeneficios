@@ -9,22 +9,49 @@
         <div class="flex flex-col md:flex-row px-6">
             <a href="<?= url("/novocartao");?>" class="main-card-menu novo py-1 px-4 text-gray-600 text-sm cursor-pointer font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Novo</a>
             <a href="<?= url("/solicitaremergencial");?>" class="main-card-menu emergencial py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Emergencial</a>
-            <a href="<?= url("/segundavia");?>" class="main-card-menu 2_via py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">2° Via</a>
             <a href="<?= url("/recarga");?>" class="main-card-menu recarga py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Recarga</a>
-            <a href="<?= url("/recargaextra");?>" class="main-card-menu recarga_extra py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Recarga extra</a> 
         </div>
     </header>
 
-    <header class="w-screen md:w-auto md:flex md:justify-start mt-6 md:mt-0 pt-2">
-        <div class="flex flex-col md:flex-row px-6"> 
-            <a href="<?= url("/solicitado");?>" class="second-card-menu solicitado py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Solicitados</a>
-            <a href="<?= url("/enviado");?>" class="second-card-menu enviado py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Enviados</a>
-            <a href="" class="second-card-menu recarga py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Recarga</a>
-            <a href="" class="second-card-menu carregado py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Carregados</a>
-            <a href="<?= url("/cartaoativo"); ?>" class="second-card-menu cartao py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Cartões</a>
-        </div>
-    </header>
- 
+
+    <?php if($menu === "novocartao"): ?>
+        <header class="w-screen md:w-auto md:flex md:justify-start mt-6 md:mt-0 pt-2">
+            <div class="flex flex-col md:flex-row px-6"> 
+                <a href="<?= url("/solicitado");?>" class="second-card-menu solicitado py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Solicitados</a>
+                <a href="<?= url("/enviado");?>" class="second-card-menu enviado py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Enviados</a>
+                <a href="<?= url("/cartaoativo"); ?>" class="second-card-menu cartao py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Cartões</a>
+            </div>
+        </header>
+    <?php elseif ($menu === "soliticao"): ?>
+        <header class="w-screen md:w-auto md:flex md:justify-start mt-6 md:mt-0 pt-2">
+            <div class="flex flex-col md:flex-row px-6"> 
+                <a href="<?= url("/solicitado");?>" class="second-card-menu solicitado py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Solicitados</a>
+                <a href="<?= url("/enviado");?>" class="second-card-menu enviado py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Enviados</a>
+                <a href="<?= url("/cartaoativo"); ?>" class="second-card-menu cartao py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Cartões</a>
+            </div>
+        </header>
+    <?php elseif ($menu === "emergencial"): ?>
+
+    <?php elseif ($menu === "enviado"): ?>
+        <header class="w-screen md:w-auto md:flex md:justify-start mt-6 md:mt-0 pt-2">
+            <div class="flex flex-col md:flex-row px-6"> 
+                <a href="<?= url("/solicitado");?>" class="second-card-menu solicitado py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Solicitados</a>
+                <a href="<?= url("/enviado");?>" class="second-card-menu enviado py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Enviados</a>
+                <a href="<?= url("/cartaoativo"); ?>" class="second-card-menu cartao py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Cartões</a>
+            </div>
+        </header>
+    <?php elseif ($menu === "cartao"): ?>
+        <header class="w-screen md:w-auto md:flex md:justify-start mt-6 md:mt-0 pt-2">
+            <div class="flex flex-col md:flex-row px-6"> 
+                <a href="<?= url("/solicitado");?>" class="second-card-menu solicitado py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Solicitados</a>
+                <a href="<?= url("/enviado");?>" class="second-card-menu enviado py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Enviados</a>
+                <a href="<?= url("/cartaoativo"); ?>" class="second-card-menu cartao py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Cartões</a>
+            </div>
+        </header>
+    <?php endif; ?>
+
+
+
     <main class="p-6 h-full">
         <div class="bg-white overflow-hidden">
         <!-- Table -->

@@ -596,24 +596,9 @@ class CardPerson extends Controller
                 return;
             }
 
-            // Limpa a sessão com dados para impressão de ofício
-            unset($_SESSION["dataDocument"]);
-
             $newRequestEmergency = new RequestCard();
             $dataRequest = $newRequestEmergency->requestEmergency($dataAll);
             
-            $personBenefit = (new PersonBenefit())->findById($dataAll["person-benefit"]);
-
-            $_SESSION["dataDocument"] = [
-                "title" => "Ofício Emergencial",
-                "type" => "emergency",
-                "unit" => $dataRequest["unit"],
-                "numberOffice" => $dataRequest["officenumber"],
-                "name" => $personBenefit->name,
-                "cpf" => $personBenefit->cpf,
-                "numberCard" => $dataAll["number-card"]
-            ];
-
             unset($_SESSION["data"]);
 
             $json["message"] = $newRequestEmergency->message()->render();
@@ -653,20 +638,29 @@ class CardPerson extends Controller
 
         switch($type) {
             case "sendcompany":
-                $data = (new Vw_request())->dataOfficeSendCompany(($idOffice));
-                $datenow = $data["dataSend"];
+                $dataType = (new Vw_request())->dataOfficeSendCompany(($idOffice));
+                $datenow = $dataType["dataSend"];
+                $title = $dataType["title"];
+                $office = $dataType["numberOffice"];
+                break;
+
             case "emergency":
-                $data = (new Vw_request())->find("office = :id","id={$idOffice}")->fetch();
-                $datenow = date_complete_string($data->date_send);
-                
+                $dataType = (new Vw_request())->find("office = :id","id={$idOffice}")->fetch();
+                $datenow = date_complete_string($dataType->date_send);
+                $title = "Ofício Emergencial - " . format_number($dataType->number_office);
+                $office = format_number($dataType->number_office);
+                $unit = $dataType->abbreviation_unit;
             default:
             break;
         }
 
-
         echo $this->view->render("/letter/letter", [
             "dateNow" => $datenow,
-            "dataDocument" => $data
+            "dataDocument" => $dataType,
+            "typedocument" => $type,
+            "title" => $title,
+            "numberOffice" => $office,
+            "unit" => $unit ?? null
         ]);
     }
 

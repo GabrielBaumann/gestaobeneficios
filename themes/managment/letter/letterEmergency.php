@@ -5,7 +5,7 @@
 
 <!-- Saudação e Corpo -->
 <p class="font-bold">Prezado,</p>
-<div class="text-justify indent-12">Ao cumprimenta-la, venho por meio deste encaminhar o cartão social EMERGENCIAL EM NOME DE :
-    <?= $dataDocument["name"] ?? null; ?> CPF <?= $dataDocument["cpf"] ?? null; ?> - CARTÃO <?= $dataDocument["numberCard"] ?? null; ?>.
+<div class="text-justify indent-12">Ao cumprimenta-la, venho por meio deste encaminhar o cartão social EMERGENCIAL EM NOME DE:
+    <?= $dataDocument->name_benefit ?? null; ?> CPF <?= $dataDocument->cpf ?? null; ?> - CARTÃO <?= $dataDocument->number_card ?? null; ?>.
     Após a entrega do cartão, encaminhar IMEDIATAMENTE a esta coordenadoria o termo concessão e de compromisso.
 </div>
