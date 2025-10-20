@@ -22,6 +22,12 @@
                         </button>
                     </div>
                 </div>
+                    <div class="flex flex-col w-full">
+                    <label for="bene" class="text-gray-800 font-semibold">Nº Cartão</label>
+                    <div class="flex gap-2">
+                        <input type="text" name="number-card" class="w-[300px] border border-gray-300 p-2 rounded-xs">
+                    </div>
+                </div>
             </div>
 
             <div class="flex flex-col md:flex-row w-full gap-4">
@@ -39,7 +45,9 @@
                 <div class="flex flex-col w-full">
                     <label for="tec" class="text-gray-800 font-semibold">Técnico(a)</label>
                     <select type="text" name="technician" placeholder="Técnico" class="w-full border border-gray-300 p-2 rounded-xs">
-                        <option value="1">Selecione</option>
+                        <option value="1">LUCAS DOS SANTOS SILVA</option>
+                        <option value="3">KARINA COSTA BARROS</option>
+                        <option value="4">GABRIEL</option>
                     </select>
                 </div>
 

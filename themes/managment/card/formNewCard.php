@@ -27,11 +27,12 @@
             <div class="flex flex-col md:flex-row w-full gap-4">
                 <div class="flex flex-col w-full">
                     <label for="bene" class="text-gray-800 font-semibold">Beneficiário</label>
-                    <select name="person-benefit" class="w-full border border-gray-300 p-2 rounded-xs">
-                        <option value="1">Selecione</option>
-                        <option value="111">Teste</option>
-                        <option value="1111">AAAA</option>
-                    </select>
+                        <select name="person-benefit" class="w-full border border-gray-300 p-2 rounded-xs">
+                            <option value="">Selecione</option>
+                            <?php foreach($personbenefit as $personbenefititem): ?>    
+                                <option value="<?= $personbenefititem->id_person_benefit; ?>"><?= $personbenefititem->name_benefit; ?></option>
+                            <?php endforeach; ?>
+                        </select>
                 </div>
             </div>
 

@@ -15,14 +15,20 @@ class Card extends Model
     }
 
     // Cadastra os dados de solicitação na tabela de cartão
-    public function dataCard(int $id_resquest) : int
+    public function dataCard(array $data, bool $type = false) : int
     {       
         $idValue = (new CardValue())->valueCard();
         $card = new static;
 
-        $card->id_card_request = $id_resquest;
+        $card->id_card_request = $data["idCardRequest"];
         $card->id_card_value = $idValue;
         $card->id_user_system_register = 1;
+
+        $card->number_card = $data["numberCard"] ?? $card->number_card;
+
+        if($type) {
+           $card->status_card = "ativo"; 
+        }
 
         $card->save();
         return $card->id_card;
@@ -138,11 +144,12 @@ class Card extends Model
     }
 
     // Números de ofício gerado ao enviar para unidades
-    public function sendUnitOffice(int $idRequest, int $numberOffice) : void
+    public function sendUnitOffice(int $idRequest, int $numberOffice, int $lastShipment) : void
     {
         $request = new RequestCard();
         $requestUpdate = $request->findById($idRequest);
         $requestUpdate->status_request = "concluída";
+        $requestUpdate->shipment = $lastShipment;
         $requestUpdate->id_office = $this->checkOffice($idRequest, $numberOffice, true);
         $requestUpdate->save();            
     }

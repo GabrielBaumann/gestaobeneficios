@@ -2,9 +2,9 @@
 
 namespace Source\Models\Card;
 
-use Source\App\CardRequest;
 use Source\Core\Model;
 use Source\Models\Card\Views\Vw_card;
+use Source\Models\Office;
 use Source\Models\UserSystem\UnitUserSystem;
 
 class RequestCard extends Model
@@ -17,7 +17,6 @@ class RequestCard extends Model
     // Novo Cartão e segunda via de cartão = true segunda via, false novo cartão
     public function newCard(array $data, bool $type = false) : bool   
     {   
-
         // Verifica os números dos meses são válidos
         if(!is_int($data["month-start"]) && $data["month-start"] <= 0 || !is_int($data["month-end"]) && $data["month-end"] < 0) {
             $this->message->warning("Os números de meses não são válidos!");
@@ -51,23 +50,27 @@ class RequestCard extends Model
         $request->save();
 
         // // Cria cartão e retorna o id do cartão
-        $addCard = (new Card())->dataCard($request->id_card_request);
+        $addCard = (new Card())->dataCard(["idCardRequest" => $request->id_card_request]);
 
         // Criar quantidade de recargas
         $addCardRecharge = (new CardRecharge())->addRecharge($addCard, $request->id_card_request, $data);
 
-        $this->message->success("ok");
+        $this->message->success("Solicitação feita com sucesso!");
         return true;
 
     }
 
     // Cartão emergencial
-    public function requestEmergency(array $data) : int
-    {
-        // Buscar coordenador baseado no id do tecnico
+    public function requestEmergency(array $data) : array
+    {   
+        // Buscar coordenador baseado no id do tecnico e a unidade
         $unitUserSystem = new UnitUserSystem();
-        $idunitCoordinator = $unitUserSystem->findById($data["technician"]);
-        $idCoordinator = $unitUserSystem->activeCoordinator($idunitCoordinator->id_unit);
+        $idCoordinator = $unitUserSystem->activeCoordinator($data["technician"]);
+        $unitName = $unitUserSystem->unitOfTechnical($data["technician"])->name_full;
+
+        // Número de ofício
+        $numberOffice = (new Office())->lastNumberOffice(1)[0];
+        $stringOffice = "unit=" . $numberOffice->id_office;
 
         // Criar solicitação
         $request = new static();
@@ -75,14 +78,15 @@ class RequestCard extends Model
         $request->id_unit_server = $data["technician"];
         $request->id_unit_coordinator = $idCoordinator;
         $request->type_request = "emergencial";
-        $request->status_request = "solicitado";
+        $request->status_request = "concluída";
         $request->date_request = $data["date-request"];
+        $request->id_office = $stringOffice;
         $request->id_user_system_register = 1;
         
         $request->save();
 
-        // // Cria cartão e retorna o id do cartão
-        $addCard = (new Card())->dataCard($request->id_card_request);
+        // Cria cartão e retorna o id do cartão
+        $addCard = (new Card())->dataCard(["idCardRequest" => $request->id_card_request, "numberCard" => $data["number-card"]], true);
 
         // Criar quantidade de recargas
         $addCardRecharge = (new CardRecharge());
@@ -112,9 +116,10 @@ class RequestCard extends Model
 
         $addCardRechargeFixed->save();
 
-        $this->message->success("ok");
-        return $request->id_card_request;
-        
+        $this->message->success("Solicitação feita com sucesso!");
+        $dataAll = ["unit" => $unitName, "officenumber" => $numberOffice->number_office];
+
+        return $dataAll;
     }
 
     // Exclusão de solicitação de cartão
@@ -138,4 +143,30 @@ class RequestCard extends Model
         return true;
     }
 
+    // Verificar se já existe solicitação
+    public function checkRequest(array $data) : bool
+    {
+        // Verificar se já existe pedido de novo cartão ou segunda via de cartão
+        $vwCard = (new Vw_card())->find("id_person_benefit = :id AND type_request IN ('novo cartão','segunda via') AND status_card IN ('ativo','confecção','aguardando cartão')", "id={$data["person-benefit"]}")->fetch(true);
+        if($vwCard) {
+            $this->message->warning("Já existe uma solicitação para esse beneficiário!");
+            return false;
+        }
+
+        return true;
+    }
+    
+    // Último número de remessa enviado para unidades
+    public function lastNumberShipment() : int
+    {
+        $lastNumber = (new static())->find()->order("shipment", "DESC")->fetch();
+
+        if(!$lastNumber) {
+            $number = 1;
+        } else {
+            $number = $lastNumber->shipment + 1;
+        }
+        return $number;    
+    }
+    
 }

@@ -244,6 +244,25 @@ function time_now(string $date = "now", string $format = "g:i A"): string
     return (new DateTime($date))->format($format);
 }
 
+function date_complete_string(string $data) : string
+{
+    $formatter = new IntlDateFormatter(
+        'pt_BR',
+        IntlDateFormatter::LONG,
+        IntlDateFormatter::NONE
+    );
+
+    $newDate = $formatter->format(new DateTime($data));
+    
+    $newDate = preg_replace_callback(
+    '/de ([a-zçãéêíóõú]+) de/',
+    fn($m) => 'de ' . mb_strtoupper($m[1], 'UTF-8') . ' de',
+    $newDate
+    );
+    
+    return $newDate;
+}
+
 /**
  * NUMBER
  */

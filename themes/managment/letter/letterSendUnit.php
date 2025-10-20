@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $this->e($dataDocument["title"]); ?></title>
+    <title><?= $this->e($title); ?></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"></script>
     <style>
@@ -32,7 +32,7 @@
 
     <div class="flex flex-col gap-4 w-full">
 
-        <?php foreach($dataDocument["data"] as $dataItem): ?>
+        <?php foreach($dataDocument as $dataItem): ?>
             <div id="conteudo1" class="pagina-pdf conteudo pl-12 pr-6 pt-4 pb-4 flex flex-col justify-between gap-5">
                     <!-- Cabeçalho com logos (substitua src pelas URLs reais dos brasões) -->
                     <div class="flex justify-between items-center gap-12 h-full">
@@ -54,7 +54,7 @@
                 <!-- Título do Ofício -->
                 <h1 class="text-lg font-bold uppercase mb-2 print:mb-4">Ofício Nº: <?=  format_number($dataItem["numberOffice"] ?? 000); ?> – Gabinete – Semdes</h1>
                 <!-- Data (alinhada à direita) -->
-                <p class="text-sm text-right mb-6">Canaã dos Carajás/PA, <?= $dateNow; ?>.</p>
+                <p class="text-sm text-right mb-6">Canaã dos Carajás/PA, <?= date_complete_string($dataItem["dateFirst"]); ?>.</p>
                 <!-- De/Para -->
                 <div class="mb-4">
                     <p class="font-bold">Da: Setor de Benefícios Eventuais - Coordenadoria de Gestão de Benefícios Socioassistencial-CGBSA</p>
