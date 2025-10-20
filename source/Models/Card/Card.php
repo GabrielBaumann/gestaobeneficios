@@ -48,7 +48,7 @@ class Card extends Model
     }
 
     // Envia remessa de cartões para empresa que vai confeccionar os cartões
-    public function sendCardCompany(int $idOffice) : bool
+    public function sendCardCompany(int $idOffice, string $month) : bool
     {
         $allNewCard = new Vw_card();
         $allCard = $allNewCard->find("status_request = :st AND type_request = :ty AND status_card = :sc","st=solicitado&ty=novo cartão&sc=aguardando cartão")->fetch(true);
@@ -64,6 +64,7 @@ class Card extends Model
             $idCardRequest = $allCardItem->id_card_request;
             $request = new RequestCard();
             $idRequest = $request->findById($idCardRequest);
+            $idRequest->month_send_company = $month;
             $idRequest->status_request = "concluída";
             $idRequest->id_office = $this->checkOffice($idCardRequest, $idOffice);
             $idRequest->save();          

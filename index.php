@@ -19,7 +19,8 @@ $route = new Router(url(), ":");
 $route->namespace("Source\App");
 $route->get("/", "Web:login");
 
-$teste = (new Vw_request())->dataShipmentList(2);
+
+// var_dump((new Vw_request())->dataOfficeSendCompany(4));
 
 // Início
 $route->get("/inicio", "Start:startPage");
@@ -45,12 +46,14 @@ $route->get("/funeral", "Funeral:startPage");
 // Água
 $route->get("/agua", "Water:startPage");
 
-// Cartão
+/**
+ *  Cartão 
+ **/ 
 $route->get("/cartao", "CardPerson:startPage");
 
 $route->get("/enivardesbloqueiocartao", "CardPerson:listExcelSendCardRecharge");
 
-$route->get("/baixarexcelempresa", "CardPerson:listExcelSendCard");
+$route->get("/baixarexcelempresa/{office}", "CardPerson:listExcelSendCard");
 $route->get("/baixarexcelunidade/{shipment}", "CardPerson:listExcelUnitSend");
 
 $route->get("/enviado", "CardPerson:sendCard");
@@ -65,7 +68,7 @@ $route->get("/cartaoativo", "CardPerson:cardActive");
 $route->get("/solicitaremergencial","CardPerson:requestEmergency");
 $route->post("/solicitaremergencial","CardPerson:requestEmergency");
 
-$route->get("/documento", "CardPerson:documentOffice");
+$route->get("/documento/{office}/{type}", "CardPerson:documentOffice");
 $route->get("/documentounidade/{shipment}", "CardPerson:documentOfficeUnit");
 
 // Rotas para solicitação de cartão feito nas unidades

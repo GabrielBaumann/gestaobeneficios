@@ -117,7 +117,7 @@ class RequestCard extends Model
         $addCardRechargeFixed->save();
 
         $this->message->success("Solicitação feita com sucesso!");
-        $dataAll = ["unit" => $unitName, "officenumber" => $numberOffice->number_office];
+        $dataAll = ["unit" => $unitName, "officenumber" => $numberOffice->number_office, "idoffice" => $numberOffice->id_office];
 
         return $dataAll;
     }

@@ -37,14 +37,35 @@ class Vw_request extends Model
     {
         $dataUnit = (new static())->find("shipment = :sh AND location = :lo","sh={$shipment}&lo=unit")->fetch(true);
         $array = [];
+        
         foreach($dataUnit as $dataUnitIn) {
-
-            $array[$dataUnitIn->id_unit] = [
-                "data" => [$dataUnit[0]->name_benefit]
-            ];
+            $array[$dataUnitIn->id_unit][] = $dataUnitIn;
         }
-        var_dump($array[3]["data"]);
+
+        return $array;
+    }
+
+    // Retorna dados baseado no id_office (número de ofício encaminha para empresa de confecção de cartão)
+    public function dataOfficeSendCompany(int $idOffice) : array
+    {
+        $dataUnit = (new static())->find("location = :lo AND office = :of","lo=company&of={$idOffice}")->fetch(true);
+
+        $array = [
+            "dataSend" => date_complete_string($dataUnit[0]->date_send),
+            "title" =>  "Ofício Encaminhamento - " . format_number($dataUnit[0]->number_office),
+            "countCard" => count($dataUnit ?? []),
+            "monthDocument" => $dataUnit[0]->month_send_company, 
+            "numberOffice" => format_number($dataUnit[0]->number_office), 
+            "type" => "sendcompany"
+        ];
+
         return $array;        
     }
 
+    // Retorna lista com id_office (número de ofício encaminha para empresa de confecção de cartão)
+    public function dataOfficeSendCompanyList(int $idOffice) : array
+    {
+        $dataUnit = (new static())->find("location = :lo AND office = :of","lo=company&of={$idOffice}")->fetch(true);
+        return $dataUnit;        
+    }
 }
