@@ -9,9 +9,9 @@
         <div class="flex flex-col md:flex-row px-6">
             <a href="<?= url("/novocartao");?>" class="main-card-menu novo py-1 px-4 text-gray-600 text-sm cursor-pointer font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Novo</a>
             <a href="<?= url("/solicitaremergencial");?>" class="main-card-menu emergencial py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Emergencial</a>
-            <a href="" class="main-card-menu 2_via py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">2° Via</a>
-            <a href="" class="main-card-menu recarga py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Recarga</a>
-            <a href="" class="main-card-menu recarga_extra py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Recarga extra</a> 
+            <a href="<?= url("/segundavia");?>" class="main-card-menu 2_via py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">2° Via</a>
+            <a href="<?= url("/recarga");?>" class="main-card-menu recarga py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Recarga</a>
+            <a href="<?= url("/recargaextra");?>" class="main-card-menu recarga_extra py-1 px-4 text-sm cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Recarga extra</a> 
         </div>
     </header>
 
@@ -90,7 +90,18 @@
        novo[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
     } else if (vUrlPage === 'solicitaremergencial') {
         emergencial[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
+        emergencial[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500');
     }
+      else if (vUrlPage === 'segundavia') {
+        via[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500');
+    }
+      else if (vUrlPage === 'recarga') {
+        recarga[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500');
+    }
+      else if (vUrlPage === 'recargaextra') {
+        recarga_extra[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500');
+    }
+    // bottom options
       else if (vUrlPage === 'solicitado') {
         solicitado[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
         novo[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
@@ -99,8 +110,10 @@
         enviado[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
         novo[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
     }
-    
-    
+      else if (vUrlPage === 'enviado') {
+        enviado[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
+        novo[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
+    }
 </script>
 
 <?php $this->start("scripts"); ?>

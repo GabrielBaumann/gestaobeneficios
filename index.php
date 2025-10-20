@@ -63,6 +63,13 @@ $route->get("/cartaoativo", "CardPerson:cardActive");
 $route->get("/solicitaremergencial","CardPerson:requestEmergency");
 $route->post("/solicitaremergencial","CardPerson:requestEmergency");
 
+// All pages
+$route->get("/segundavia","CardPerson:segundaVia");
+
+$route->get("/recarga","CardPerson:recarga");
+
+$route->get("/recargaextra","CardPerson:recargaExtra");
+
 $route->get("/documento", "CardPerson:documentOffice");
 $route->get("/documentounidade", "CardPerson:documentOfficeUnit");
 
