@@ -63,15 +63,16 @@ $route->post("/solicitado", "CardPerson:requestCard");
 $route->get("/novocartao", "CardPerson:requestCard");
 $route->get("/cartaoativo", "CardPerson:cardActive");
 
-$route->get("/solicitaremergencial","CardPerson:requestEmergency");
-$route->post("/solicitaremergencial","CardPerson:requestEmergency");
+$route->get("/solicitaremergencial","CardPerson:listEmergency");
+$route->get("/cartaoemergencial","CardPerson:requestEmergency");
+$route->post("/cartaoemergencial","CardPerson:requestEmergency");
 
 // All pages
-$route->get("/segundavia","CardPerson:segundaVia");
+$route->get("/segundavia","CardPerson:secondCopy");
 
-$route->get("/recarga","CardPerson:recarga");
+$route->get("/recarga","CardPerson:recharge");
 
-$route->get("/recargaextra","CardPerson:recargaExtra");
+$route->get("/recargaextra","CardPerson:rechargeExtra");
 
 $route->get("/documento/{office}/{type}", "CardPerson:documentOffice");
 $route->get("/documentounidade/{shipment}", "CardPerson:documentOfficeUnit");

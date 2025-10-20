@@ -31,7 +31,11 @@
             </div>
         </header>
     <?php elseif ($menu === "emergencial"): ?>
-
+        <header class="w-screen md:w-auto md:flex md:justify-start mt-6 md:mt-0 pt-2">
+            <div class="flex flex-col md:flex-row px-6"> 
+                <a href="<?= url("/cartaoemergencial");?>" class="second-card-menu solicitado py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Cartões</a>
+            </div>
+        </header>
     <?php elseif ($menu === "enviado"): ?>
         <header class="w-screen md:w-auto md:flex md:justify-start mt-6 md:mt-0 pt-2">
             <div class="flex flex-col md:flex-row px-6"> 
@@ -46,6 +50,12 @@
                 <a href="<?= url("/solicitado");?>" class="second-card-menu solicitado py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Solicitados</a>
                 <a href="<?= url("/enviado");?>" class="second-card-menu enviado py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Enviados</a>
                 <a href="<?= url("/cartaoativo"); ?>" class="second-card-menu cartao py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Cartões</a>
+            </div>
+        </header>
+    <?php elseif ($menu === "listacartaoemergencial"): ?>
+        <header class="w-screen md:w-auto md:flex md:justify-start mt-6 md:mt-0 pt-2">
+            <div class="flex flex-col md:flex-row px-6"> 
+                <a href="<?= url("/cartaoemergencial");?>" class="second-card-menu solicitado py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Cartões</a>
             </div>
         </header>
     <?php endif; ?>
@@ -67,6 +77,8 @@
                     <?= $this->insert("/card/sendCard"); ?>
                 <?php elseif ($menu === "cartao"): ?>
                     <?= $this->insert("/card/activeCard"); ?>
+                <?php elseif ($menu === "listacartaoemergencial"): ?>
+                    <?= $this->insert("/card/listCardEmergency"); ?>
                 <?php endif; ?>
             </div>
         </div>

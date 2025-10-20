@@ -46,21 +46,21 @@ class CardPerson extends Controller
     }
 
     // All pages
-    public function segundaVia() : void 
+    public function secondCopy() : void 
     {
         echo $this->view->render("/card/start", [
             "menu" => "segundavia"
         ]);
     }
 
-    public function recarga() : void 
+    public function recharge() : void 
     {
         echo $this->view->render("/card/start", [
             "menu" => "recarga"
         ]);
     }
 
-    public function recargaExtra() : void 
+    public function rechargeExtra() : void 
     {
         echo $this->view->render("/card/start", [
             "menu" => "recarga"
@@ -611,6 +611,15 @@ class CardPerson extends Controller
             "menu" => "emergencial",
             "title" =>  "Emergencial"
         ]);
+    }
+
+    // Lista de cartões emergenciais solicitados
+    public function listEmergency() : void
+    {
+        echo $this->view->render("/card/start", [
+            "menu" => "listacartaoemergencial",
+            "title" =>  "Emergencial"
+        ]);        
     }
 
     // Modal quest
