@@ -17,6 +17,7 @@ use Source\Core\Controller;
 use Source\Models\Card\Card;
 use Source\Models\Card\RequestCard;
 use Source\Models\Card\Views\Vw_card;
+use Source\Models\Card\Views\Vw_recharge;
 use Source\Models\Card\Views\Vw_request;
 use Source\Models\Office;
 use Source\Models\PersonBenefit;
@@ -56,7 +57,9 @@ class CardPerson extends Controller
     public function recharge() : void 
     {
         echo $this->view->render("/card/start", [
-            "menu" => "recarga"
+            "title" => "Recarga",
+            "menu" => "recarga",
+            "listRecharge" => (new Vw_recharge())->find("id_card_recharge_fixed <> :id", "id=0")->fetch(true)
         ]);
     }
 
@@ -128,7 +131,7 @@ class CardPerson extends Controller
 
         echo $this->view->render("/card/start", [
             "title" => "Solicitação de Cartão",
-            "menu" => "soliticao",
+            "menu" => "solicitacao",
             "monthAll" => fncMonthAll(),
             "listCardName" => (new Vw_card())
                 ->find("status_request = :st AND status_card = :stc AND received = :re", "st=solicitado&stc=aguardando cartão&re=não")
@@ -592,7 +595,7 @@ class CardPerson extends Controller
 
             // Modal quest
             if(isset($data["btn-send"])) {
-                $this->modalQuest(url("/solicitaremergencial"));
+                $this->modalQuest(url("/cartaoemergencial"));
                 return;
             }
 
@@ -616,9 +619,13 @@ class CardPerson extends Controller
     // Lista de cartões emergenciais solicitados
     public function listEmergency() : void
     {
+
+
+
         echo $this->view->render("/card/start", [
             "menu" => "listacartaoemergencial",
-            "title" =>  "Emergencial"
+            "title" =>  "Emergencial",
+            "listCardName" => (new Vw_request())->find("type_request = :id","id=emergencial")->fetch(true)
         ]);        
     }
 

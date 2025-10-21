@@ -62,6 +62,7 @@ $route->post("/solicitado", "CardPerson:requestCard");
 
 $route->get("/novocartao", "CardPerson:requestCard");
 $route->get("/cartaoativo", "CardPerson:cardActive");
+$route->get("/solicitarnovocartao", "CardPerson:newCard");
 
 $route->get("/solicitaremergencial","CardPerson:listEmergency");
 $route->get("/cartaoemergencial","CardPerson:requestEmergency");
