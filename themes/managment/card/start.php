@@ -1,5 +1,5 @@
 <?php $this->layout("layout"); ?>
-<div class="flex flex-col h-screen w-screen md:w-auto">
+<div class="flex flex-col h-screen max-h-screen overflow-hidden w-screen md:w-auto">
     <div class="sidebar" data-menu="cartao"></div>
     <header class="p-4 px-6 flex justify-start mt-8 md:mt-0">
         <h1 class="font-semibold text-black">Cartão Alimentação</h1>
@@ -65,12 +65,11 @@
     <?php elseif ($menu === "listacartaoemergencial"): ?>
     <?php endif; ?>
 
-    <main class="p-6 px-0 h-full">
-        <div class="bg-white overflow-hidden">
-
+    <main class="h-full  overflow-hidden overflow-y-auto">
+        <div class="bg-white">
             <!-- Table -->
-            <div class="p-6 hidden md:block overflow-x-auto">
-                <div class="content-ajax">
+            <div class="p-6 px-0 hidden md:block">
+                <div class="content-ajax h-full ">
                     <?php if($menu === "novocartao"): ?>
                         <?= $this->insert("/card/formNewCard"); ?>
                     <?php elseif ($menu === "novo"): ?>
@@ -172,7 +171,31 @@
                     <?php elseif ($menu === "recarga"): ?>
                         <!-- header with options -->
                         <div class="p-6 items-center flex justify-end border-t border-gray-300">
-                            <div class="flex items-center gap-2">
+                            <div class="flex items-center gap-2 md:text-md ">
+                                <div class="flex flex-col justify-center -mt-[20px]">
+                                    <h1>Ano</h1>
+                                    <select name="" id="" class="pr-6 py-2 px-3 cursor-pointer border border-gray-400 rounded-md">
+                                        <option value="">Selecione</option>
+                                    </select>
+                                </div>
+                                <div class="flex flex-col justify-center -mt-[20px]">
+                                    <h1>Pagamento</h1>
+                                    <select name="" id="" class="pr-6 py-2 px-3 cursor-pointer border border-gray-400 rounded-md">
+                                        <option value="">Selecione</option>
+                                    </select>
+                                </div>
+                                <div class="flex flex-col justify-center -mt-[20px]">
+                                    <h1>Mês</h1>
+                                    <select name="" id="" class="pr-6 py-2 px-3 cursor-pointer border border-gray-400 rounded-md">
+                                        <option value="">Selecione</option>
+                                    </select>
+                                </div>
+                                <div class="flex flex-col justify-center -mt-[20px]">
+                                    <h1>Remessa</h1>
+                                    <select name="" id="" class="pr-6 py-2 px-3 cursor-pointer border border-gray-400 rounded-md">
+                                        <option value="">Selecione</option>
+                                    </select>
+                                </div>
                                 <a href="<?= url("/cartaoemergencial");?>" class="flex gap-1 items-center py-2 px-3 text-white rounded-md cursor-pointer bg-green-800 hover:bg-green-900 transition-all duration-200">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -187,9 +210,15 @@
                                 </a>
                             </div>
                         </div>
+<<<<<<< HEAD
                         <?= $this->insert("/card/listRecharge"); ?>
                     <?php elseif ($menu === "segundavia"): ?>
                         <?= $this->insert("/card/formSecondCard"); ?>
+=======
+                        <div class="p-6 overflow-hidden overflow-y-auto">  
+                            <?= $this->insert("/card/listRecharge"); ?>
+                        </div>
+>>>>>>> 8613a615f8b115c18d9c9d86481c335f8a6a5049
                     <?php endif; ?>
                 </div>
             </div>
@@ -241,28 +270,30 @@
     } else if (vUrlPage === 'solicitaremergencial') {
         emergencial[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
         emergencial[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500');
+        novo[0].classList.remove('bg-green-100', 'text-black', 'border', 'border-green-500');
     }
       else if (vUrlPage === 'segundavia') {
         via[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500');
     }
       else if (vUrlPage === 'recarga') {
         recarga[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500');
+        novo[0].classList.remove('bg-green-100', 'text-black', 'border', 'border-green-500');
     }
       else if (vUrlPage === 'recargaextra') {
         recarga_extra[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500');
     }
     // bottom options
       else if (vUrlPage === 'solicitado') {
-        solicitado[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
-        novo[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
+        solicitado[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500');
+        novo[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500');
+    }
+      else if (vUrlPage === 'enviado') {
+        enviado[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500');
+        novo[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500');
     }
       else if (vUrlPage === 'enviado') {
         enviado[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
-        novo[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
-    }
-      else if (vUrlPage === 'enviado') {
-        enviado[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
-        novo[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
+        novo[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500');
     }
 </script>
 
