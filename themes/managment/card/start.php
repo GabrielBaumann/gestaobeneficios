@@ -182,6 +182,9 @@
                                     <h1>Pagamento</h1>
                                     <select name="" id="" class="pr-6 py-2 px-3 cursor-pointer border border-gray-400 rounded-md">
                                         <option value="">Selecione</option>
+                                        <option value="1">Pagos</option>
+                                        <option value="2">Recargas Agendadas</option>
+                                        <option value="3">À Pagar</option>
                                     </select>
                                 </div>
                                 <div class="flex flex-col justify-center -mt-[20px]">
@@ -210,15 +213,9 @@
                                 </a>
                             </div>
                         </div>
-<<<<<<< HEAD
                         <?= $this->insert("/card/listRecharge"); ?>
                     <?php elseif ($menu === "segundavia"): ?>
-                        <?= $this->insert("/card/formSecondCard"); ?>
-=======
-                        <div class="p-6 overflow-hidden overflow-y-auto">  
-                            <?= $this->insert("/card/listRecharge"); ?>
-                        </div>
->>>>>>> 8613a615f8b115c18d9c9d86481c335f8a6a5049
+                        <?= $this->insert("/card/formSecondCard"); ?>                   
                     <?php endif; ?>
                 </div>
             </div>

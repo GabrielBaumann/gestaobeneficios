@@ -449,6 +449,7 @@ function fncDecrypt($hash) {
 /**
  * Retorna lista com meses
  */
+
 function fncMonthAll(): array {
 
     $month = [
@@ -459,4 +460,24 @@ function fncMonthAll(): array {
     $months = array_combine($index, $month);
 
     return $months;
+}
+
+// Retorna mês 
+function fncMonthString(int $monthNumber) : string
+{
+    return match($monthNumber) {
+        1 => 'JANEIRO',
+        2 => 'FEVEREIRO',
+        3 => 'MARÇO',
+        4 => 'ABRIL',
+        5 => 'MAIO',
+        6 => 'JUNHO',
+        7 => 'JULHO',
+        8 => 'AGOSTO',
+        9 => 'SETEMBRO',
+        10 => 'OUTUBRO',
+        11 => 'NOVEMBRO',
+        12 => 'DEZEMBRO',    
+        default => 'MÊS INVÁLIDO',    
+    };
 }
