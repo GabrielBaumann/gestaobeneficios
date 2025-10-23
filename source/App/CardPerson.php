@@ -61,12 +61,15 @@ class CardPerson extends Controller
         ]);
     }
 
+    // Recarga
     public function recharge() : void 
     {
         echo $this->view->render("/card/start", [
             "title" => "Recarga",
             "menu" => "recarga",
-            "listRecharge" => (new Vw_recharge())->find("id_card_recharge_fixed <> :id", "id=0")->fetch(true)
+            "listRecharge" => (new Vw_recharge())->find("id_card_recharge_fixed <> :id", "id=0")->fetch(true),
+            "yearRecharge" => (new Vw_recharge())->showYearRecharge(),
+            "monthRecharge" => (new Vw_recharge())->showMonthRecharge()
         ]);
     }
 
