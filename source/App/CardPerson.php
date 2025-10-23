@@ -17,6 +17,7 @@ use Source\Core\Controller;
 use Source\Models\Card\Card;
 use Source\Models\Card\RequestCard;
 use Source\Models\Card\Views\Vw_card;
+use Source\Models\Card\Views\Vw_card_canceled;
 use Source\Models\Card\Views\Vw_recharge;
 use Source\Models\Card\Views\Vw_request;
 use Source\Models\Office;
@@ -46,11 +47,17 @@ class CardPerson extends Controller
         ]); 
     }
 
-    // All pages
-    public function secondCopy() : void 
+    // Sehguda via e cartãp
+    public function secondCard(array $data) : void 
     {
+        if(isset($data["person-benefit"])) {
+            $secundCard = (new RequestCard())->secondCard($data);
+        }
+
         echo $this->view->render("/card/start", [
-            "menu" => "segundavia"
+            "title" => "Solicitar 2ª Via",
+            "menu" => "segundavia",
+            "personbenefit" => (new Vw_card_canceled())->find()->order("name_benefit")->limit(5000)->fetch(true)
         ]);
     }
 
@@ -173,8 +180,7 @@ class CardPerson extends Controller
             }
 
             // Dá baixa nos cartões para ficarem como enviados as unidades
-            $newSendCard = new Card();
-            $newSendCard->sendCardUnit($data);
+            $newSendCard = (new Card())->sendCardUnit($data);
             
             $vwCard = new Vw_card();
             $arraycard = [];
@@ -184,7 +190,9 @@ class CardPerson extends Controller
                 $string = explode("-", $key);
 
                 if($string[0] === "received") {
-                    $cardAll = $vwCard->findById((int)fncDecrypt($value));           
+                    $idCard = (int)fncDecrypt($value);
+                    $cardAll = $vwCard->find("id_card = :id","id={$idCard}")->fetch();
+
                     $unidade = $cardAll->id_unit;
 
                     if ($unidade) {
@@ -202,16 +210,16 @@ class CardPerson extends Controller
             // Emitir ofício e planilha excel
             $lastKey = null;
             foreach($arraycard as $key => $values) {
-                
+
                 foreach($values as $item) {
-                    
+
                     if($lastKey !== $item->id_unit) {
+                        
                         $numberoffice = (new Office())->lastNumberOffice(1)[0]->id_office;
                         $lastKey = $item->id_unit;
                     }
                     $checkOffice = (new Card())->sendUnitOffice($item->id_card_request, $numberoffice, $shipment);
                 }
-
             }
 
             unset($_SESSION["data"]);
@@ -239,6 +247,7 @@ class CardPerson extends Controller
         ]);             
     }
 
+    // Cartões ativos
     public function cardActive() : void
     {
         echo $this->view->render("/card/start", [

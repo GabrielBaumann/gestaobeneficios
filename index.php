@@ -17,9 +17,6 @@ $route = new Router(url(), ":");
 $route->namespace("Source\App");
 $route->get("/", "Web:login");
 
-
-// var_dump((new Vw_request())->dataOfficeSendCompany(4));
-
 // Início
 $route->get("/inicio", "Start:startPage");
 
@@ -68,8 +65,13 @@ $route->get("/solicitaremergencial","CardPerson:listEmergency");
 $route->get("/cartaoemergencial","CardPerson:requestEmergency");
 $route->post("/cartaoemergencial","CardPerson:requestEmergency");
 
+
+$route->get("/solicitarsegundaviacartao", "CardPerson:secondCard");
+$route->post("/solicitarsegundaviacartao", "CardPerson:secondCard");
+
+
 // All pages
-$route->get("/segundavia","CardPerson:secondCopy");
+// $route->get("/segundavia","CardPerson:secondCard");
 
 $route->get("/recarga","CardPerson:recharge");
 

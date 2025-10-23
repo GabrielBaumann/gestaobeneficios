@@ -162,5 +162,4 @@ class Card extends Model
         $recharge = (new Vw_recharge())->find("month_recharge = :mo AND year_recharge = :ye AND status_recharge = :st", "mo={$month}&ye={$year}&st={$status}")->fetch(true);
         return $recharge ?? [];
     }
-
 }

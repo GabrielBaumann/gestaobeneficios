@@ -14,7 +14,7 @@ class RequestCard extends Model
         parent::__construct("card_request",[],[], "id_card_request");
     }
 
-    // Novo Cartão e segunda via de cartão = true segunda via, false novo cartão
+    // Novo Cartão 
     public function newCard(array $data, bool $type = false) : bool   
     {   
         // Verifica os números dos meses são válidos
@@ -29,9 +29,6 @@ class RequestCard extends Model
             return false;  
         }
 
-        // Nova Cartão ou Segunda Via
-        $type ? $type = "novo cartão" : $type = "segunda via";
-
         // Buscar coordenador baseado no id do tecnico
         $unitUserSystem = new UnitUserSystem();
         $idunitCoordinator = $unitUserSystem->findById($data["technician"]);
@@ -42,7 +39,7 @@ class RequestCard extends Model
         $request->id_person_benefit = $data["person-benefit"];
         $request->id_unit_server = $data["technician"];
         $request->id_unit_coordinator = $idCoordinator;
-        $request->type_request = $type;
+        $request->type_request = "novo cartão";
         $request->status_request = "solicitado";
         $request->date_request = $data["date-request"];
         $request->id_user_system_register = 1;
@@ -58,6 +55,35 @@ class RequestCard extends Model
         $this->message->success("Solicitação feita com sucesso!");
         return true;
 
+    }
+
+    // Segunda via de cartão
+    public function secondCard(array $data) : bool
+    {
+        $cardCanceled = (new Vw_card())->find("id_person_benefit = :id AND status_card = :st", "id={$data["person-benefit"]}&st=cancelado")->order("id_card_request", "DESC")->fetch(true);
+        
+        // Seleciona todos as recargas que ainda não foram pagas
+        
+
+        // Buscar coordenador baseado no id do tecnico
+        $unitUserSystem = new UnitUserSystem();
+        $idunitCoordinator = $unitUserSystem->findById($data["technician"]);
+        $idCoordinator = $unitUserSystem->activeCoordinator($idunitCoordinator->id_unit);
+
+        // Criar solicitação
+        $request = new static();
+        $request->id_person_benefit = $data["person-benefit"];
+        $request->id_unit_server = $data["technician"];
+        $request->id_unit_coordinator = $idCoordinator;
+        $request->type_request = "segunda via";
+        $request->status_request = "solicitado";
+        $request->date_request = $data["date-request"];
+        $request->id_user_system_register = 1;
+
+        $request->save();
+
+
+        return true;
     }
 
     // Cartão emergencial
