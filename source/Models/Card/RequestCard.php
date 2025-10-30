@@ -67,8 +67,8 @@ class RequestCard extends Model
             ->order("id_card_request", "DESC")
             ->fetch();
 
-        if($cardCanceled) {
-            
+        if(!$cardCanceled) {
+            $this->message->warning("Erro ao enivar solicitação tente mais tarde!");
             return false;
         }
 
@@ -125,6 +125,7 @@ class RequestCard extends Model
             $recharge->save();
         }
 
+        $this->message->success("Registro salvo com sucesso!");
         return true;
     }
 

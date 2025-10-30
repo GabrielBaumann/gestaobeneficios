@@ -51,7 +51,18 @@ class CardPerson extends Controller
     public function secondCard(array $data) : void 
     {
         if(isset($data["person-benefit"])) {
-            $secundCard = (new RequestCard())->secondCard($data);
+            $secundCard = new RequestCard();
+            $secundCard->secondCard($data);
+
+            if(!$secundCard) {
+                $json["message"] = $secundCard->message()->render();
+                echo json_encode($json);
+                return;
+            }
+
+            $json["message"] = $secundCard->message()->render();
+            echo json_encode($json);
+            return;
         }
 
         echo $this->view->render("/card/start", [
