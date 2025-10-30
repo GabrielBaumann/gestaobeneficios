@@ -51,7 +51,7 @@
             <div class="flex flex-col md:flex-row px-6"> 
                 <a href="<?= url("/solicitado");?>" class="second-card-menu solicitado py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Solicitados</a>
                 <a href="<?= url("/enviado");?>" class="second-card-menu enviado py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Enviados</a>
-                <a href="<?= url("/cartaoativo"); ?>" class="second-card-menu cartao py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Cartões</a>
+                <a href="<?= url("/cartaoativo"); ?>" class="cartaoativo second-card-menu cartao py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Cartões</a>
             </div>
         </header>
     <?php elseif ($menu === "cartao"): ?>
@@ -59,7 +59,7 @@
             <div class="flex flex-col md:flex-row px-6"> 
                 <a href="<?= url("/solicitado");?>" class="second-card-menu solicitado py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Solicitados</a>
                 <a href="<?= url("/enviado");?>" class="second-card-menu enviado py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Enviados</a>
-                <a href="<?= url("/cartaoativo"); ?>" class="second-card-menu cartao py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Cartões</a>
+                <a href="<?= url("/cartaoativo"); ?>" class="cartaoativo second-card-menu cartao py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto text-sm rounded-full">Cartões</a>
             </div>
         </header>
     <?php elseif ($menu === "listacartaoemergencial"): ?>
@@ -281,6 +281,7 @@
 
     const solicitado = document.getElementsByClassName("solicitado");
     const enviado = document.getElementsByClassName("enviado");
+    const cartaoativo = document.getElementsByClassName("cartaoativo");
 
     if (vUrlPage === 'novocartao') {
        novo[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
@@ -308,8 +309,8 @@
         enviado[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500');
         novo[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500');
     }
-      else if (vUrlPage === 'enviado') {
-        enviado[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
+      else if (vUrlPage === 'cartaoativo') {
+        cartaoativo[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500'); 
         novo[0].classList.add('bg-green-100', 'text-black', 'border', 'border-green-500');
     }
 </script>
