@@ -185,14 +185,17 @@
                                 <div class="flex items-center gap-2">
                                     <div class="flex flex-col justify-center">
                                         <h1>Ano</h1>
-                                        <select name="" id="" class="bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
-                                            <option value="">Selecione</option>
+                                        <select name="yearSearche" id="yearSearche" class="bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
+                                            <option value="0">Selecione</option>
+                                                <?php foreach($yearRecharge as $yearRechargeItem): ?>
+                                                    <option value="<?= $yearRechargeItem->year_recharge ?>"><?= $yearRechargeItem->year_recharge ?></option>
+                                                <?php endforeach; ?>
                                         </select>
                                     </div>
                                     <div class="flex flex-col justify-center">
                                         <h1>Pagamento</h1>
-                                        <select name="" id="" class="bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
-                                            <option value="">Selecione</option>
+                                        <select name="typePaymentSearch" id="typePaymentSearch" class="bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
+                                            <option value="0">Selecione</option>
                                             <option value="1">Pagos</option>
                                             <option value="2">Recargas Agendadas</option>
                                             <option value="3">À Pagar</option>
@@ -200,8 +203,11 @@
                                     </div>
                                     <div class="flex flex-col justify-center">
                                         <h1>Mês</h1>
-                                        <select name="" id="" class="bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
-                                            <option value="">Selecione</option>
+                                        <select name="monthSearch" id="monthSearch" class="bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
+                                            <option value="0">Selecione</option>
+                                                <?php foreach($monthRecharge as $monthRechargeItem): ?>
+                                                    <option value="<?= $monthRechargeItem->month_recharge ?>"><?= fncMonthString($monthRechargeItem->month_recharge) ?></option>
+                                                <?php endforeach; ?>
                                         </select>
                                     </div>
                                     <div class="flex flex-col justify-center">

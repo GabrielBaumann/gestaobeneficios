@@ -60,10 +60,17 @@ class RequestCard extends Model
     // Segunda via de cartão
     public function secondCard(array $data) : bool
     {
-        $cardCanceled = (new Vw_card())->find("id_person_benefit = :id AND status_card = :st", "id={$data["person-benefit"]}&st=cancelado")->order("id_card_request", "DESC")->fetch(true);
-        
-        // Seleciona todos as recargas que ainda não foram pagas
-        
+        $cardCanceled = (new Vw_card())
+            ->find("id_person_benefit = :id AND 
+                status_card = :st", 
+                "id={$data["person-benefit"]}&st=cancelado")
+            ->order("id_card_request", "DESC")
+            ->fetch();
+
+        if($cardCanceled) {
+            
+            return false;
+        }
 
         // Buscar coordenador baseado no id do tecnico
         $unitUserSystem = new UnitUserSystem();
@@ -81,7 +88,42 @@ class RequestCard extends Model
         $request->id_user_system_register = 1;
 
         $request->save();
+        
+        // Cria cartão e retorna o id do cartão
+        $addCard = (new Card())->dataCard(["idCardRequest" => $request->id_card_request]);
 
+        // Seleciona todos as recargas que ainda não foram pagas e clona as recargas para o id da segunda via
+        $rechargeUpdate = (new CardRecharge())
+            ->find("id_card_request = :id AND 
+                id_card_recharge_fixed <> :idf AND
+                status_recharge = :st",
+                "id={$cardCanceled->id_card_request}&idf=0&st=cancelado ocorrencia")
+            ->fetch(true);
+
+        $rechargeFixed = (new CardRecharge());
+        $rechargeFixed->id_card_recharge_fixed = 0;
+        $rechargeFixed->id_card_request = $request->id_card_request;
+        $rechargeFixed->id_card = $addCard;
+        $rechargeFixed->month_start = $rechargeUpdate[0]->month_start;
+        $rechargeFixed->month_end = $rechargeUpdate[0]->month_end;
+        $rechargeFixed->month_recharge = 0;
+        $rechargeFixed->year_recharge = $rechargeUpdate[0]->year_recharge;
+        $rechargeFixed->id_user_system_register = 1;
+
+        $rechargeFixed->save();
+
+        foreach($rechargeUpdate as $rechargeUpdateItem) {
+            $recharge = (new CardRecharge());
+            $recharge->id_card_recharge_fixed = $rechargeFixed->id_card_recharge;
+            $recharge->id_card_request = $request->id_card_request;
+            $recharge->id_card = $addCard;
+            $recharge->month_start = $rechargeUpdateItem->month_start;
+            $recharge->month_end = $rechargeUpdateItem->month_end;
+            $recharge->month_recharge = $rechargeUpdateItem->month_recharge;
+            $recharge->year_recharge = $rechargeUpdateItem->year_recharge;
+            $recharge->id_user_system_register = 1;
+            $recharge->save();
+        }
 
         return true;
     }

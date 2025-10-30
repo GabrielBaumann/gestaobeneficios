@@ -38,8 +38,11 @@ class Card extends Model
     public function checkListCardRequest() : bool
     {
         $allNewCard = new Vw_card();
-        $allCard = $allNewCard->find("status_request = :st AND type_request = :ty AND status_card = :sc","st=solicitado&ty=novo cartão&sc=aguardando cartão")->fetch(true);
-        
+        $allCard = $allNewCard
+            ->find("status_request = :st AND (type_request = :ty OR type_request = :tr) AND status_card = :sc",
+                "st=solicitado&ty=novo cartão&tr=segunda via&sc=aguardando cartão")
+            ->fetch(true);
+
         // Verifica o find retorna um array
         if(!$allCard) {
             return false;
@@ -50,8 +53,12 @@ class Card extends Model
     // Envia remessa de cartões para empresa que vai confeccionar os cartões
     public function sendCardCompany(int $idOffice, string $month) : bool
     {
+
         $allNewCard = new Vw_card();
-        $allCard = $allNewCard->find("status_request = :st AND type_request = :ty AND status_card = :sc","st=solicitado&ty=novo cartão&sc=aguardando cartão")->fetch(true);
+        $allCard = $allNewCard
+            ->find("status_request = :st AND (type_request = :ty OR type_request = :tr )AND status_card = :sc",
+                "st=solicitado&ty=novo cartão&tr=segunda via&sc=aguardando cartão")
+            ->fetch(true);
             
         // Verifica o find retorna um array
         if(!$allCard) {

@@ -73,6 +73,12 @@ class CardPerson extends Controller
         ]);
     }
 
+    // Gerar recarga
+    public function generateRecharge(array $data) :  void
+    {
+        var_dump($data);
+    }
+
     public function rechargeExtra() : void 
     {
         echo $this->view->render("/card/start", [
@@ -122,8 +128,7 @@ class CardPerson extends Controller
 
             // Sessão que recebe os dados para ofício
             $numberOffice = (new Office())->lastNumberOffice(1)[0];
-            $newSendCard = new Card(); 
-            $newSendCard->sendCardCompany($numberOffice->id_office, $month);
+            $newSendCard = (new Card())->sendCardCompany($numberOffice->id_office, $month);
 
             $html = $this->view->render("/card/requestCard", [
             "listCardName" => (new Vw_card())
@@ -254,6 +259,7 @@ class CardPerson extends Controller
     public function cardActive() : void
     {
         echo $this->view->render("/card/start", [
+            "title" => "Cartão Ativo",
             "menu" => "cartao",
             "listCardName" => (new Vw_card())
                 ->find("received = :re AND send_card_unit = :se", "re=sim&se=sim")

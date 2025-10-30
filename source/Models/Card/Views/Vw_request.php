@@ -65,6 +65,7 @@ class Vw_request extends Model
     // Retorna lista com id_office (número de ofício encaminha para empresa de confecção de cartão)
     public function dataOfficeSendCompanyList(int $idOffice) : array
     {
+
         $dataUnit = (new static())->find("location = :lo AND office = :of","lo=company&of={$idOffice}")->fetch(true);
         return $dataUnit;        
     }

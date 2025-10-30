@@ -67,6 +67,7 @@ $route->get("/solicitaremergencial","CardPerson:listEmergency");
 $route->get("/cartaoemergencial","CardPerson:requestEmergency");
 $route->post("/cartaoemergencial","CardPerson:requestEmergency");
 
+$route->post("/gerarrecarga","CardPerson:generateRecharge");
 
 $route->get("/solicitarsegundaviacartao", "CardPerson:secondCard");
 $route->post("/solicitarsegundaviacartao", "CardPerson:secondCard");
