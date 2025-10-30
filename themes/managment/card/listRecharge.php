@@ -16,7 +16,7 @@
             <tbody class="divide-y divide-gray-200">
                 <?php if (!empty($listRecharge)): ?>
                     <?php foreach($listRecharge as $listRechargeItem):?>
-                        <tr class="hover:bg-gray-50 transition-colors">
+                        <tr onclick="showRecharges()"  class="hover:bg-gray-50 transition-colors">
                         <td class="py-3 px-4 text-sm text-gray-800"><?= $listRechargeItem->id_card_recharge; ?></td>
                         <td class="py-3 px-4 text-sm text-gray-800"><?= $listRechargeItem->name_benefit; ?></td>
                         <td class="py-3 px-4 text-sm text-gray-600"><?= $listRechargeItem->cpf; ?></td>
@@ -40,9 +40,20 @@
             </tbody>
         </table>
 
-        <button name="btn-send" value="send">Enviar Selecionados</button>
+        <button name="btn-send" value="send" class="cursor-pointer mt-4 bg-green-700 rounded-full py-3 px-4 text-white font semibold flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+            </svg>
+            <span>Enviar Selecionados</span>
+        </button>
 
     </form>
 <?php else: ?>
     <div>Não há dados.</div>
 <?php endif; ?>
+
+<script>
+    function showRecharges() {
+        
+    }
+</script>
