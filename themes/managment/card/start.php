@@ -175,8 +175,8 @@
                             <div class="flex flex-col gap-4">
                                 <!-- Search Field  -->
                                 <div class="flex items-center">
-                                    <input type="text" class="w-full pr-6 py-2 px-3 border border-gray-400 rounded-l-md" placeholder="Pesquisar Beneficiários...">
-                                    <button class="py-2 px-4 cursor-pointer border border-gray-400 bg-gray-100 rounded-r-md">
+                                    <input name="recipientname" id="recipientname" type="text" class="input-search w-full pr-6 py-2 px-3 border border-gray-400 rounded-l-md" placeholder="Pesquisar Beneficiários...">
+                                    <button data-url="<?= url("/procurarrecarga") ?>" class="py-2 px-4 cursor-pointer border border-gray-400 bg-gray-100 rounded-r-md">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                                         </svg>
@@ -185,7 +185,7 @@
                                 <div class="flex items-center gap-2">
                                     <div class="flex flex-col justify-center">
                                         <h1>Ano</h1>
-                                        <select name="yearSearche" id="yearSearche" class="bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
+                                        <select name="yearSearche" id="yearSearche" class="input-search bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
                                             <option value="0">Selecione</option>
                                                 <?php foreach($yearRecharge as $yearRechargeItem): ?>
                                                     <option value="<?= $yearRechargeItem->year_recharge ?>"><?= $yearRechargeItem->year_recharge ?></option>
@@ -194,7 +194,7 @@
                                     </div>
                                     <div class="flex flex-col justify-center">
                                         <h1>Pagamento</h1>
-                                        <select name="typePaymentSearch" id="typePaymentSearch" class="bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
+                                        <select name="typePaymentSearch" id="typePaymentSearch" class="input-search bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
                                             <option value="0">Selecione</option>
                                             <option value="1">Pagos</option>
                                             <option value="2">Recargas Agendadas</option>
@@ -203,7 +203,7 @@
                                     </div>
                                     <div class="flex flex-col justify-center">
                                         <h1>Mês</h1>
-                                        <select name="monthSearch" id="monthSearch" class="bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
+                                        <select name="monthSearch" id="monthSearch" class="input-search bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
                                             <option value="0">Selecione</option>
                                                 <?php foreach($monthRecharge as $monthRechargeItem): ?>
                                                     <option value="<?= $monthRechargeItem->month_recharge ?>"><?= fncMonthString($monthRechargeItem->month_recharge) ?></option>
@@ -212,7 +212,7 @@
                                     </div>
                                     <div class="flex flex-col justify-center">
                                         <h1>Remessa</h1>
-                                        <select name="" id="" class="bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
+                                        <select name="shipment" id="shipment" class="input-search bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
                                             <option value="">Selecione</option>
                                         </select>
                                     </div>

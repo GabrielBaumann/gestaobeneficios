@@ -82,6 +82,45 @@ if (vform) {
 }
 
 
+// Pesquisa dinâmica com qualquer quantidadede de campos de pesquisa, os campos com classe input-search serão capturados
+// Também é necessário colocar um data-ajax no input para indicar o local que será renderizado o novo conteúdo da pesquisa
+// data-url para encaminhar o local do backend que fará a pesquisa
+document.addEventListener("click", (e) => {
+    // const vInputsSearch =  e.target.classList.contains("input-search");
+    const vInputsSearch = document.querySelectorAll(".input-search");
+    console.log(vInputsSearch);
+    if(vInputsSearch) {
+
+        const vUrl = e.target.dataset.url;
+        const vName = e.target.name;
+        const vValue = e.target.value;
+        const vForm = new FormData();
+        const vIndex = vArrayInput.findIndex(objt => objt.hasOwnProperty(vName));
+        const vListAjax = e.target.dataset.ajax;
+
+        if (vIndex !== -1) {
+            vArrayInput[vIndex][vName] = vValue;
+        } else {
+            vArrayInput.push({[vName] : vValue});
+        }
+
+        vArrayInput.forEach(obj => {
+            for (let key in obj) {
+                vForm.append(key, obj[key]);
+            }
+        });
+
+        fetch(vUrl, {
+            method: "POST",
+            body: vForm
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById(vListAjax).innerHTML = data.html;
+        });
+    }
+});
+
 /*#################################*/
 /**###### Função de mensagem ######*/
 /**############################### */
@@ -294,18 +333,18 @@ function toggleMenu() {
 }
 
 // Encerramento de sessão
-let timeLimited = 30 * 60 * 1000;
-let timer;
+// let timeLimited = 30 * 60 * 1000;
+// let timer;
 
-function resetTimer() {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-        alert("Sessão expirada por inatividade!");
-    }, timeLimited);
-}
+// function resetTimer() {
+//     clearTimeout(timer);
+//     timer = setTimeout(() => {
+//         alert("Sessão expirada por inatividade!");
+//     }, timeLimited);
+// }
 
-window.onload = resetTimer;
-window.onmousemove = resetTimer;
-window.onkeypress = resetTimer;
-window.onclick = resetTimer;
-window.onscroll = resetTimer;
+// window.onload = resetTimer;
+// window.onmousemove = resetTimer;
+// window.onkeypress = resetTimer;
+// window.onclick = resetTimer;
+// window.onscroll = resetTimer;

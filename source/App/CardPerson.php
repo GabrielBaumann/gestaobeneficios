@@ -47,7 +47,7 @@ class CardPerson extends Controller
         ]); 
     }
 
-    // Sehguda via e cartãp
+    // Seguda via e cartãp
     public function secondCard(array $data) : void 
     {
         if(isset($data["person-benefit"])) {
@@ -88,6 +88,24 @@ class CardPerson extends Controller
     public function generateRecharge(array $data) :  void
     {
         var_dump($data);
+    }
+
+
+    // Procurar recargas
+    public function searchRecharge(array $data) : void
+    {
+        // Verifica se os campos de pesquisa estão vazios
+        $dataEmptyInput = count(cleanInputData($data)["errors"]);
+        $allInput = count($data);
+        
+        if($dataEmptyInput === $allInput) {
+            echo json_encode("Todo os campos estão vazios não fazer pesquisa");
+            return;
+        }
+
+        // Fazer a pesquisa e devolve os valores
+        $searchRecharg = (new Vw_recharge())->searchRecharg(cleanInputData($data)["data"]);
+        var_dump($searchRecharg);
     }
 
     public function rechargeExtra() : void 
