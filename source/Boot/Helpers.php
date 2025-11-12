@@ -203,7 +203,7 @@ function cleanInputData(array $data, ?array $removerFilds = null): array
  * STRING
  */
 
-function str_price(string $price) : string
+function fncstr_price(string $price) : string
 {
     return  "R$ " . number_format($price, 2, ",", ".");
 }
@@ -254,6 +254,8 @@ function date_complete_string(string $data) : string
 
     $newDate = $formatter->format(new DateTime($data));
     
+    $newDate = preg_replace('/(\b\d\b) de/', '0$1 de', $newDate);
+
     $newDate = preg_replace_callback(
     '/de ([a-zçãéêíóõú]+) de/',
     fn($m) => 'de ' . mb_strtoupper($m[1], 'UTF-8') . ' de',
@@ -267,8 +269,13 @@ function date_complete_string(string $data) : string
  * NUMBER
  */
 
- function format_number(int $number): string {
-    return str_pad($number, 3, '0', STR_PAD_LEFT);
+ function format_number(int $number, int $amount = 3): string {
+
+    return match($amount) {
+        1 => str_pad($number, 1, '0', STR_PAD_LEFT),
+        2 => str_pad($number, 2, '0', STR_PAD_LEFT),
+        3 => str_pad($number, 3, '0', STR_PAD_LEFT)
+    };
 }
 
 function mask_phone(string $phone, $simple = false): string

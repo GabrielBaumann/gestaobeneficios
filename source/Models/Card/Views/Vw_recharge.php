@@ -3,6 +3,8 @@
 namespace Source\Models\Card\Views;
 
 use Source\Core\Model;
+use Source\Models\Card\CardRecharge;
+use Source\Models\Office;
 
 class Vw_recharge extends Model
 {
@@ -34,11 +36,24 @@ class Vw_recharge extends Model
         return $monthArray ?? [];
     }
 
+    // Retorna os números de remessa
+    public function showShipmentRecharge(): array
+    {
+        $shipmentArray = $this->find("id_card_recharge_fixed <> :id 
+            AND status_recharge <> :st 
+            AND status_recharge <> :cc
+            AND shipment IS NOT NULL",
+            "id=0&st=aguardando cartão&cc=confecção",
+            "DISTINCT shipment")
+            ->order("shipment")
+            ->fetch(true);
+
+        return $shipmentArray ?? [];
+    }
+
     // Retonra dados da pesquisa do formulário de recarga
     public function searchRecharg(array $data) : array
-    {
-        var_dump($data); 
-        
+    {       
         //Índices dos pagamento
         // 1 - Pagos
         // 2 - Recargas Agendadas
@@ -65,6 +80,9 @@ class Vw_recharge extends Model
 
                 $conditions[] = "month_recharge = :mo";
                 $params["mo"] = $month;
+
+                $conditions[] = "status_recharge = :ty";
+                $params["ty"] = "solicitado";
             }
 
         if(!empty($year)) {
@@ -95,6 +113,78 @@ class Vw_recharge extends Model
         $resultSearch = (new static())->find($where, http_build_query($params))->fetch(true) ?? [];
 
         return $resultSearch;
+    }
+
+    // Liberar crédito das recargas
+    public function creditRecharge(array $data) : array
+    {
+        $numberOffice = (new Office())->lastNumberOffice(1)[0]->id_office;
+        $numberShipment = ($this->numberShipment());
+
+        unset($data["btn-send"]);
+        
+        foreach($data as $item) {
+            $recharge = (new CardRecharge())->findById((int)$item);
+
+            $recharge->id_card_recharge = (int)$item;
+            $recharge->status_recharge = "credito liberado";
+            $recharge->shipment = $numberShipment;
+            $recharge->id_office = $numberOffice;
+            $recharge->id_user_system_update = 1;
+            $recharge->save();
+        }
+
+        $return = ["numberShipment" => $numberShipment, "numberOffice" => $numberOffice];
+        return $return;
+    }
+
+    // Último número de remessa enviado para unidades
+    public function numberShipment() : int
+    {   
+        $year = date("Y");
+
+        $lastNumber = (new static())
+            ->find("id_card_recharge_fixed <> :id AND year_recharge = :ye","id=0&ye={$year}")
+            ->order("shipment", "DESC")
+            ->fetch();
+            
+        if(!$lastNumber) {
+            $number = 1;
+        } else {
+            $number = $lastNumber->shipment + 1;
+        }
+        return $number;    
+    }
+
+    // Retorna um array com as recargas usando o número de ofício com condição
+    public function listRecharge(int $idOffice) : array
+    {
+        $listRecharge = (new static())
+            ->find("id_office = :id","id={$idOffice}")
+            ->fetch(true);
+
+        return $listRecharge;
+    }
+
+    // Retorna um array com os dados para emissão do ofício
+    public function dataOfficeRecharge(int $idOffice) :  array
+    {
+        $recharge = (new static())
+            ->find("id_office = :id","id={$idOffice}")
+            ->fetch(true);
+
+        $array = [
+            "dataSend" => date_complete_string($recharge[0]->date_update),
+            "title" =>  "Ofício Encaminhamento - " . format_number($recharge[0]->number_office),
+            "countCard" => count($recharge ?? []),
+            "monthDocument" => $recharge[0]->month_recharge, 
+            "numberOffice" => format_number($recharge[0]->number_office), 
+            "valueCard" => fncstr_price($recharge[0]->value),
+            "monthRecharge" => fncMonthString($recharge[0]->month_recharge),
+            "unit" => "WEBCARD ADMINISTRATIVO LTDA."
+        ];
+
+        return $array;
     }
 
 }

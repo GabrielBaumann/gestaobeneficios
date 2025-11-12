@@ -1,6 +1,6 @@
 <?php
 
-namespace Source\Models;
+namespace Source\Models\Unit;
 
 use Source\Core\Model;
 

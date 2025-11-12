@@ -4,8 +4,8 @@
     <?= $this->insert("/letter/letterSendCompany"); ?>
 <?php elseif ($typedocument === "emergency"): ?>
     <?= $this->insert("/letter/letterEmergency"); ?>
-<?php elseif ($typedocument === "enviado"): ?>
-    <?= $this->insert("/card/sendCard"); ?>
+<?php elseif ($typedocument === "sendcompanyrecharge"): ?>
+    <?= $this->insert("/letter/letterSendCompanyRecharge"); ?>
 <?php elseif ($typedocument === "cartao"): ?>
     <?= $this->insert("/card/activeCard"); ?>
 <?php endif; ?>

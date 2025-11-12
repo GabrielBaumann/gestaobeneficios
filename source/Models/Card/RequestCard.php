@@ -60,10 +60,11 @@ class RequestCard extends Model
     // Segunda via de cartão
     public function secondCard(array $data) : bool
     {
+        $indBenefit = (int)$data["person-benefit"];
         $cardCanceled = (new Vw_card())
             ->find("id_person_benefit = :id AND 
                 status_card = :st", 
-                "id={$data["person-benefit"]}&st=cancelado")
+                "id={$indBenefit}&st=cancelado")
             ->order("id_card_request", "DESC")
             ->fetch();
 
@@ -196,7 +197,7 @@ class RequestCard extends Model
     {
         // Verificar o status da solicitação, se for solicitado pode exlcuir se não, não pode excluir
         $requestCard = (new Vw_card())->findById($idRequestCard);
-
+        
         if(mb_strtolower($requestCard->status_request, 'UTF-8') != "solicitado") {
             $this->message->warning("Impossível excluir essa solicitação, ela já está em tramitação!");
             return false;
@@ -206,7 +207,6 @@ class RequestCard extends Model
         $idDeleteRequest->destroy();
         $idDeleteCard = (new Card())->find("id_card_request = :id","id={$idRequestCard}")->fetch();
         $idDeleteCard->destroy();
-        $idDeleteCardRecharge = (new CardRecharge())->delete("id_card_request = :id","id={$idRequestCard}");
 
         $this->message->success("Registro excluído com sucesso!");
         return true;

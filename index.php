@@ -12,8 +12,6 @@ use CoffeeCode\Router\Router;
 $session = new Session();
 $route = new Router(url(), ":");
 
-
-
 // WEB
 // Login
 $route->namespace("Source\App");
@@ -59,6 +57,8 @@ $route->post("/enviado", "CardPerson:sendCard");
 $route->get("/solicitado", "CardPerson:requestCard");
 $route->post("/solicitado", "CardPerson:requestCard");
 
+$route->post("/deletarsolicitacaocartao", "CardPerson:deleteRequestCard");
+
 $route->get("/novocartao", "CardPerson:requestCard");
 $route->get("/cartaoativo", "CardPerson:cardActive");
 $route->get("/solicitarnovocartao", "CardPerson:newCard");
@@ -69,20 +69,21 @@ $route->post("/cartaoemergencial","CardPerson:requestEmergency");
 
 $route->post("/gerarrecarga","CardPerson:generateRecharge");
 $route->post("/procurarrecarga", "CardPerson:searchRecharge");
+$route->get("/baixarexcelerecarga/{office}", "CardPerson:listExcelRecharge");
 
 $route->get("/solicitarsegundaviacartao", "CardPerson:secondCard");
 $route->post("/solicitarsegundaviacartao", "CardPerson:secondCard");
 
-
-// All pages
-// $route->get("/segundavia","CardPerson:secondCard");
-
 $route->get("/recarga","CardPerson:recharge");
 
 $route->get("/recargaextra","CardPerson:rechargeExtra");
+$route->get("/recargacartao", "CardPerson:rechargCard");
+$route->post("/recargacartao", "CardPerson:rechargCard");
 
 $route->get("/documento/{office}/{type}", "CardPerson:documentOffice");
 $route->get("/documentounidade/{shipment}", "CardPerson:documentOfficeUnit");
+
+$route->post("/cancelarcartao", "CardPerson:cardCancel");
 
 // Rotas para solicitação de cartão feito nas unidades
 $route->get("/solicitarcartao", "CardRequest:formCardRequest");

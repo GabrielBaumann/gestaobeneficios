@@ -85,41 +85,62 @@ if (vform) {
 // Pesquisa dinâmica com qualquer quantidadede de campos de pesquisa, os campos com classe input-search serão capturados
 // Também é necessário colocar um data-ajax no input para indicar o local que será renderizado o novo conteúdo da pesquisa
 // data-url para encaminhar o local do backend que fará a pesquisa
-document.addEventListener("click", (e) => {
-    // const vInputsSearch =  e.target.classList.contains("input-search");
-    const vInputsSearch = document.querySelectorAll(".input-search");
-    console.log(vInputsSearch);
-    if(vInputsSearch) {
 
-        const vUrl = e.target.dataset.url;
-        const vName = e.target.name;
-        const vValue = e.target.value;
-        const vForm = new FormData();
+document.getElementById("search-all").addEventListener("click", async (e) => {
+
+    const vInputsSearch = document.querySelectorAll(".input-search");
+    const vForm = new FormData();
+    const vArrayInput = [];
+    const vUrl = e.target.closest("button").dataset.url;
+
+    vInputsSearch.forEach(element => {
+
+        const vName = element.name;
+        const vValue = element.value;
         const vIndex = vArrayInput.findIndex(objt => objt.hasOwnProperty(vName));
-        const vListAjax = e.target.dataset.ajax;
 
         if (vIndex !== -1) {
             vArrayInput[vIndex][vName] = vValue;
         } else {
             vArrayInput.push({[vName] : vValue});
         }
+    });
 
-        vArrayInput.forEach(obj => {
-            for (let key in obj) {
-                vForm.append(key, obj[key]);
-            }
-        });
+    vArrayInput.forEach(obj => {
+        for (let key in obj) {
+            vForm.append(key, obj[key]);
+        }
+    });
 
-        fetch(vUrl, {
+    let timeoutLoading = showSplash(true);
+
+    try {
+        const vResponse = await fetch(vUrl, {
             method: "POST",
             body: vForm
         })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById(vListAjax).innerHTML = data.html;
-        });
+
+        const vData = await vResponse.json();
+        
+        if(vData.message) {
+            fncMessage(vData.message);
+            return;
+        }
+
+        if(vData.html) {
+            document.querySelector(".ajax-update").innerHTML = vData.html;
+        }
+
+    } catch (error) {
+        console.log(error);
+        fncMessage();
+    } finally {
+        timeoutLoading?.remove();
     }
+
 });
+
+
 
 /*#################################*/
 /**###### Função de mensagem ######*/

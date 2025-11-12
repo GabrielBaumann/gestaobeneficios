@@ -3,7 +3,8 @@
 namespace Source\Models\UserSystem;
 
 use Source\Core\Model;
-use Source\Models\Unit;
+use Source\Models\Unit\Unit;
+use Source\Models\UserSystem\Views\Vw_unit_user;
 
 class UnitUserSystem extends Model
 {
@@ -34,6 +35,29 @@ class UnitUserSystem extends Model
         ];
 
         return $names;
+    }
+
+    // Retorna uma lista de técnicos baseado na unidade logada
+    public function listTechnicalUnit(?int $idUnit = null) : array
+    {
+        if($idUnit) {
+            $unit = (new Vw_unit_user())->find("
+                id_unit = :id AND 
+                (type_access_unit = :ty OR type_access_unit = :ta) AND
+                status_user_unit = :st AND
+                status_user_system = :stu",
+                "id={$idUnit}&ty=tecnico&ta=coordenadoria&st=ativo&stu=ativo")
+            ->fetch(true);
+        } else {
+            $unit = (new Vw_unit_user())->find("
+                (type_access_unit = :ty OR type_access_unit = :ta) AND
+                status_user_unit = :st AND
+                status_user_system = :stu",
+                "ty=tecnico&ta=coordenadoria&st=ativo&stu=ativo")
+            ->fetch(true);            
+        }
+
+        return $unit;
     }
 
 }

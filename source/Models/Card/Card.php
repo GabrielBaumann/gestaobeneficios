@@ -117,37 +117,34 @@ class Card extends Model
     // Envia cartões para suas unidades 
     public function sendCardUnit(array $data) : bool
     {
-        foreach($data as $key => $value) {
-            $string = explode("-", $key);
+        foreach ($data["received"] as $idCard) {
 
-            if($string[0] === "received") {
-                $id = (int)fncDecrypt($value);
+            $id = (int)fncDecrypt($idCard);
 
-                // Atualizar tabela do Cartão
-                $card = new Static();
-                $idCard = $card->findById($id);
-                $idCard->status_card = "ativo";
-                $idCard->send_card_unit = "sim";
-                $idCard->received = "sim";
-                $idCard->save();
+            // Atualizar tabela do Cartão
+            $card = new Static();
+            $idCard = $card->findById($id);
+            $idCard->status_card = "ativo";
+            $idCard->send_card_unit = "sim";
+            $idCard->received = "sim";
+            $idCard->save();
 
-                // Atualizar tabela de recarga
-                $recharge = new CardRecharge();
-                
-                $idRecharge = $recharge->find("id_card = :id","id={$idCard->id_card}")->fetch(true);
-                foreach($idRecharge as $idRechargeItem) {
+            // Atualizar tabela de recarga
+            $recharge = new CardRecharge();
+            
+            $idRecharge = $recharge->find("id_card = :id","id={$idCard->id_card}")->fetch(true);
+            foreach($idRecharge as $idRechargeItem) {
 
-                    if($idRechargeItem->id_card_recharge_fixed === 0) {
-                        $idRechargeItem->status_recharge = "ativo";
-                        $idRechargeItem->save();
-                    } else {
-                        $idRechargeItem->status_recharge = "solicitado";
-                        $idRechargeItem->save();
-                    }
+                if($idRechargeItem->id_card_recharge_fixed === 0) {
+                    $idRechargeItem->status_recharge = "ativo";
+                    $idRechargeItem->save();
+                } else {
+                    $idRechargeItem->status_recharge = "solicitado";
+                    $idRechargeItem->save();
                 }
-                
             }
         }
+
         return true;
     }
 

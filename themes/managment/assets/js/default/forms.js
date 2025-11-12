@@ -2,6 +2,7 @@
 document.addEventListener("submit", async (e)=> {
 
     if (e.target.tagName === "FORM") {
+
         e.preventDefault()
 
         const form = e.target;
@@ -37,7 +38,7 @@ document.addEventListener("submit", async (e)=> {
 
             // Retorna um elemento dinâmico ajax
             if(vData.html) {
-                const vReplaceContent = document.querySelector(".content-ajax");
+                const vReplaceContent = document.querySelector("." + vData.contentajax);
                 vReplaceContent.innerHTML = vData.html;
             }
 
