@@ -3,6 +3,7 @@
 namespace Source\App;
 
 use Source\Core\Controller;
+use Source\Models\Card\CardRecharge;
 use Source\Models\Card\RequestCard;
 use Source\Models\Card\Views\Vw_card;
 use Source\Models\Card\Views\Vw_recharge;
@@ -28,12 +29,23 @@ class CardRequest extends Controller
             
             $requestCard = new RequestCard();
 
+            // Verifica se já existe uma solicitação
             if(!$requestCard->checkRequest($data)) {
                 $json["message"] = $requestCard->message()->render();
                 echo json_encode($json);
                 return;
             }
 
+            $cardRecharge = new CardRecharge();
+            
+            // Verifica as regras de meses
+            if(!$cardRecharge->checkRechargeMonth($data)) {
+                $json["message"] = $cardRecharge->message()->render();
+                echo json_encode($json);
+                return;
+            }
+
+            
             $reponse = $requestCard->newCard($data, true);
 
             if(!$reponse) {

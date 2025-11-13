@@ -1,6 +1,5 @@
 <?php if (!empty($listCardName)): ?>
     <table class="w-full">
-
         <thead class="bg-gray-50">
             <tr>
                 <th class="py-3 px-4 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">Id</th>

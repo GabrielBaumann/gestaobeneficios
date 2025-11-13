@@ -53,9 +53,11 @@ $route->get("/baixarexcelunidade/{shipment}", "CardPerson:listExcelUnitSend");
 
 $route->get("/enviado", "CardPerson:sendCard");
 $route->post("/enviado", "CardPerson:sendCard");
+$route->post("/procurarenviados", "CardPerson:searchSend");
 
 $route->get("/solicitado", "CardPerson:requestCard");
 $route->post("/solicitado", "CardPerson:requestCard");
+$route->post("/procurarsolicitacao", "CardPerson:searchRequest");
 
 $route->post("/deletarsolicitacaocartao", "CardPerson:deleteRequestCard");
 

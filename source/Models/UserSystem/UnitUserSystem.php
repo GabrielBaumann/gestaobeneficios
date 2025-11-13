@@ -13,11 +13,15 @@ class UnitUserSystem extends Model
         parent::__construct("unit_user_system", [], [], "id_unit_user_system");        
     }
 
-    // Retorna o coordeandor ativo baseado no id da unidade
+    // Retorna o coordeandor ativo baseado no id do tecnico
     public function activeCoordinator(int $idTechnical) : int
     {   
         $idunitCoordinator = (new static)->findById($idTechnical);
-        $coordinato = $this->find("status = :st AND function_user = :fu AND id_unit = :id","st=ativo&fu=COORDENADOR(A)&id={$idunitCoordinator->id_unit}")->fetch();
+
+        $coordinato = $this->find(
+            "status = :st AND function_user = :fu AND id_unit = :id",
+            "st=ativo&fu=COORDENADOR(A)&id={$idunitCoordinator->id_unit}")->fetch();
+            
         $coordinato ? $id = $coordinato->id_unit_user_system : $id = 0;
 
         return $id;    

@@ -142,6 +142,71 @@ class CardPerson extends Controller
         echo json_encode($json);
     }
 
+    // Procura solicitados
+    public function searchRequest(array $data) : void
+    {
+        // Verifica se os campos de pesquisa estão vazios
+        $dataEmptyInput = count(cleanInputData($data)["errors"]);
+        $allInput = count($data);
+
+        if($dataEmptyInput === $allInput) {
+            $json["message"] = messageHelpers()->warning("Digite um nome ou CPF para pesquisar!")->render();
+            echo json_encode($json);
+            return;
+        }
+
+        // Fazer a pesquisa e devolve os valores
+        $searchRecharg = (new Vw_card())->searchRequest(cleanInputData($data)["data"]);
+
+        if(!$searchRecharg) {
+            $json["message"] = messageHelpers()->warning("Não há dados para pesquisa!")->render();
+            echo json_encode($json);
+            return;            
+        }
+
+        $html = $this->view->render("/card/requestCard", [
+            "title" => "Solicitação de Cartão",
+            "menu" => "solicitacao",
+            "monthAll" => fncMonthAll(),
+            "listCardName" => $searchRecharg
+        ]);
+
+        $json["html"] = $html;
+        echo json_encode($json);
+    }
+
+    // Procurar enviados
+    public function searchSend(array $data) : void  
+    {
+        // Verifica se os campos de pesquisa estão vazios
+        $dataEmptyInput = count(cleanInputData($data)["errors"]);
+        $allInput = count($data);
+        
+        if($dataEmptyInput === $allInput) {
+            $json["message"] = messageHelpers()->warning("Digite um nome ou CPF para pesquisar!")->render();
+            echo json_encode($json);
+            return;
+        }
+
+        // Fazer a pesquisa e devolve os valores
+        $searchRecharg = (new Vw_card())->searchSend(cleanInputData($data)["data"]);
+
+        if(!$searchRecharg) {
+            $json["message"] = messageHelpers()->warning("Não há dados para pesquisa!")->render();
+            echo json_encode($json);
+            return;            
+        }
+
+        $html = $this->view->render("/card/requestCard", [
+            "title" => "Enviados",
+            "menu" => "enviado",
+            "listCardName" => $searchRecharg
+        ]);
+
+        $json["html"] = $html;
+        echo json_encode($json);     
+    }
+
     public function rechargeExtra() : void 
     {
         var_dump(true);
@@ -163,6 +228,9 @@ class CardPerson extends Controller
                 return;
             }
 
+            $json["message"] = $recharg->message()->render();
+            echo json_encode($json);
+            return;
         }
 
         echo $this->view->render("/card/start", [

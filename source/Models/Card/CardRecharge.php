@@ -2,9 +2,11 @@
 
 namespace Source\Models\Card;
 
+use PhpOffice\PhpSpreadsheet\Calculation\Statistical\StandardDeviations;
 use PhpOffice\PhpSpreadsheet\Calculation\TextData\Replace;
 use Source\Core\Model;
 use Source\Models\Card\Views\Vw_card;
+use Source\Models\UserSystem\UnitUserSystem;
 
 class CardRecharge extends Model
 {
@@ -13,28 +15,59 @@ class CardRecharge extends Model
         parent::__construct("card_recharge", [], [], "id_card_recharge");
     }
 
+    // Inserir recargar a partir do novo cartão
     public function addRecharge(int $idCard, int $idRequestCard, array $data): bool
     {
+        $monthStart = (int)$data["month-start"];
+        $monthEnd = (int)$data["month-end"];
+       
+        $monthAll = [];
+        if ($monthStart > $monthEnd) {
+
+            for ($i = $monthStart; $i <= 12; $i++) {
+                $monthAll[] = format_number($i, 2) . ";" . date("Y");
+            }
+
+            for ($i = 1; $i <= $monthEnd; $i++) {
+                $monthAll[] = format_number($i, 2) . ";" . date("Y") + 1;
+            }
+        } else {
+            for ($i = $monthStart; $i <= $monthEnd; $i++) {
+                $monthAll[] = format_number($i, 2) . ";" . date("Y");
+            }
+        }
+
         // Registro espelho
-        $idFixed = $this->bootstrap($idCard, $idRequestCard, 0, 0, $data);
+        [$month, $year] = explode(";", $monthAll[0]);
+        $data["month"] = 0;
+        $data["year"] = $year;
+        $idFixed = $this->bootstrap($idCard, $idRequestCard, 0, $data);
 
         // Criar os registros fixos (as recargas de fato)
-        for ($i = (int)$data["month-start"]; $i <= (int)$data["month-end"]; $i++) {
+        foreach ($monthAll as $monthItem) {
+            [$month, $year] = explode(";", $monthItem);
+            $data["month"] = $month;
+            $data["year"] = $year;
+
             $newCardRecharge = new static;
-            $newCardRecharge->bootstrap($idCard, $idRequestCard, $i, $idFixed, $data);
+            $newCardRecharge->bootstrap($idCard, $idRequestCard, $idFixed, $data);
         }
+
         return true;
     }
 
-    public function bootstrap(int $idCard, int $idRequestCard, int $monthRecharge, int $idFifixed, array $data): int
+    public function bootstrap(int $idCard, int $idRequestCard, int $idFifixed, array $data): int
     {
         $this->id_card_request = $idRequestCard;
         $this->id_card_recharge_fixed = $idFifixed;
         $this->id_card = $idCard;
         $this->month_start = $data["month-start"];
         $this->month_end = $data["month-end"];
-        $this->month_recharge = $monthRecharge;
-        $this->year_recharge = date('Y');
+        $this->month_recharge = $data["month"];
+        $this->year_recharge = $data["year"];
+        if (isset($data["status_recharge"])) {
+            $this->status_recharge = $data["status_recharge"];
+        }
         $this->id_user_system_register = 1;
 
         $this->save();
@@ -71,6 +104,47 @@ class CardRecharge extends Model
         return true;
     }
 
+    // Regras de verificação para as solicitações de meses
+    public function checkRechargeMonth(array $data) : bool
+    {
+        $monthStart = (int)$data["month-start"];
+        $monthEnd = (int)$data["month-end"];
+
+        if ($monthEnd > 12 || $monthEnd <= 0 || $monthStart > 12 || $monthStart <= 0) {
+            $this->message->warning("Número não permitidos!");
+            return false;
+        }
+
+        if((int)$monthStart < (int)date("m")) {
+            $this->message->warning("Não é possível solicitar recergas para meses anterior ao mês atual!");
+            return false;
+        }
+
+        $monthAll = [];
+        if ($monthStart > $monthEnd) {
+
+            for ($i = $monthStart; $i <= 12; $i++) {
+                $monthAll[] = format_number($i, 2) . ";" . date("Y");
+            }
+
+            for ($i = 1; $i <= $monthEnd; $i++) {
+                $monthAll[] = format_number($i, 2) . ";" . date("Y") + 1;
+            }
+        } else {
+            for ($i = $monthStart; $i <= $monthEnd; $i++) {
+                $monthAll[] = format_number($i, 2) . ";" . date("Y");
+            }
+        }
+
+        if(count($monthAll) > 3) {
+            $this->message->warning("A solicitação não pode ser maior que três meses!");
+            return false;
+        }
+
+        return true;       
+    }
+
+    // Checar recargas e inserir recargas
     public function checkRecharge(array $data): bool
     {
         $monthStart = (int)$data["month-start"];
@@ -118,8 +192,8 @@ class CardRecharge extends Model
 
         $recharge = (new static())
             ->find(
-                "id_card_request = :id AND id_card_recharge_fixed <> :ca",
-                "id={$checkRecharge->id_card_request}&ca=0"
+                "id_card = :id AND id_card_recharge_fixed <> :ca AND (status_recharge = :st OR status_recharge = :sa)",
+                "id={$checkRecharge->id_card}&ca=0&st=solicitado&sa=credito liberado"
             )
             ->fetch(true);
 
@@ -161,8 +235,9 @@ class CardRecharge extends Model
             return false;
         }
 
-        var_dump($messageComplete);
-
+        // Inserir novas recargas
+        $this->addRechargeGeneral($checkRecharge->id_card, $data, $monthAll);
+        $this->message->success("Registro cadastrado com sucesso!");
         return true;
     }
 
@@ -192,4 +267,32 @@ class CardRecharge extends Model
 
         return $finishiString;
     }
+
+    // Inserir recargas e criar 
+    function addRechargeGeneral(int $idCard, array $data, array $month) : bool
+    {
+        $idRequest = (new RequestCard())->rechargeCard($data);
+        $cardRechargFixed = (new static());
+
+        // Registro espelho
+        [$months, $year] = explode(";", $month[0]);
+        $data["month"] = 0;
+        $data["year"] = $year;
+        $data["status_recharge"] = "ativo";
+        $idFixed = $cardRechargFixed->bootstrap($idCard, $idRequest, 0, $data);
+               
+        foreach($month as $monthItem) {
+            [$month, $year] = explode(";", $monthItem);
+
+            $data["month"] = $month; 
+            $data["year"] = $year;
+            $data["status_recharge"] = "solicitado";
+
+            $newCardRecharge = (new static());
+            $newCardRecharge->bootstrap($idCard, $idRequest, $idFixed, $data);
+        }
+
+        return true;
+    }
+
 }

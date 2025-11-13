@@ -52,4 +52,49 @@ class Vw_card extends Model
         return true;
     }
 
+    // Pesquisar lista de solicitados
+    public function searchRequest(array $data) : array
+    {
+        $recipient = $data["recipientname"];
+
+        $conditions = [];
+        $params = [];
+
+        if (!empty($recipient)) {
+            $conditions[] = "(name_benefit LIKE :na OR cpf LIKE :na)";
+            $params["na"] = "%{$recipient}%";
+        }
+
+        $conditions[] = "status_card = :st";
+        $params["st"] = "aguardando cartão";
+
+        $where = implode(" AND ", $conditions);
+
+        $resultSearch = (new static())->find($where, http_build_query($params))->fetch(true) ?? [];
+
+        return $resultSearch;
+    }
+
+    // Pesquisar lista de enviados
+    public function searchSend(array $data) : array
+    {
+        $recipient = $data["recipientname"];
+
+        $conditions = [];
+        $params = [];
+
+        if (!empty($recipient)) {
+            $conditions[] = "(name_benefit LIKE :na OR cpf LIKE :na)";
+            $params["na"] = "%{$recipient}%";
+        }
+
+        $conditions[] = "status_card = :st";
+        $params["st"] = "confecção";
+
+        $where = implode(" AND ", $conditions);
+
+        $resultSearch = (new static())->find($where, http_build_query($params))->fetch(true) ?? [];
+
+        return $resultSearch;
+    }
 }
