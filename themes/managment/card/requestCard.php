@@ -20,7 +20,11 @@
                         <input type="hidden" name="received[]" value="<?= fncEncrypt($listCardNameItem->id_card); ?>" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
                     </td>
                         <td class="py-3 px-4 text-center text-red-500 flex justify-center cursor-pointer">
-                            <form action="<?= url("/deletarsolicitacaocartao/"); ?>" method="post">
+                            <form 
+                                data-confirm="true" 
+                                data-message="Tem cerceza que deseja deletar esse registro?"
+                                action="<?= url("/deletarsolicitacaocartao"); ?>" 
+                                method="post">
                                 <?= csrf_input(); ?>
                                 <input type="hidden" name="id-request" value="<?= $listCardNameItem->id_card_request; ?>">
                                 <button type="submit">    
@@ -41,8 +45,13 @@
             <?php endif; ?>
         </tbody>
     </table>
-    <form action="<?= url("/solicitado"); ?>" method="post">
-    <?= csrf_input(); ?>
+    <form 
+        data-confirm="true" 
+        data-message="Tem cerceza que deseja encaminhar essas solicitações?" 
+        action="<?= url("/solicitado"); ?>" 
+        method="post"
+        >
+        <?= csrf_input(); ?>
         <select name="date-month" id="">
             <option value="">Selecione</option>
             <?php foreach($monthAll as $monthAllItem): ?>
@@ -56,3 +65,9 @@
 <?php else: ?>
     <div>Não há dados.</div>
 <?php endif; ?>
+<form action="">
+    <input type="file" name="list-xls">
+    <div>    
+        <button>Enviar lista</button>
+    </div>
+</form>

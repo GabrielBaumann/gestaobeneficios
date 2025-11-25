@@ -15,7 +15,6 @@ class CardValue extends Model
     public function valueCard() : int
     {
         $idValueCard = $this->find("status_value = :s","s=ativo")->fetch();
-
         $idValue = $idValueCard->id_card_value ?? 0;
 
         return $idValue;

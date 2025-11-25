@@ -37,15 +37,6 @@ abstract class Model
     // Atributo que muda o nome do id da tabela
     protected $id;
 
-    // SELECT INNER JOIN
-    // protected array $select = [];
-    // protected array $join = [];
-    // protected array $where = [];
-    // protected array $paramsSelect = [];
-    // protected array $orderBy = [];
-    // protected ?int  $limitJoin = null;
-    // protected ?int  $offsetJoin = null;
-
     /**
      * Model constructor.
      * @param string $entity database table name

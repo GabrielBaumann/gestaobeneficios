@@ -44,6 +44,8 @@ $route->get("/agua", "Water:startPage");
 /**
  *  Cartão 
  **/ 
+$route->post("/recebarexcel", "CardPerson:uploadExcel");
+
 $route->get("/cartao", "CardPerson:startPage");
 
 $route->get("/enivardesbloqueiocartao", "CardPerson:listExcelSendCardRecharge");
@@ -64,6 +66,7 @@ $route->post("/deletarsolicitacaocartao", "CardPerson:deleteRequestCard");
 $route->get("/novocartao", "CardPerson:requestCard");
 $route->get("/cartaoativo", "CardPerson:cardActive");
 $route->get("/solicitarnovocartao", "CardPerson:newCard");
+$route->post("/procurarcartao", "CardPerson:searchCard");
 
 $route->get("/solicitaremergencial","CardPerson:listEmergency");
 $route->get("/cartaoemergencial","CardPerson:requestEmergency");
@@ -79,6 +82,8 @@ $route->post("/solicitarsegundaviacartao", "CardPerson:secondCard");
 $route->get("/recarga","CardPerson:recharge");
 
 $route->get("/recargaextra","CardPerson:rechargeExtra");
+$route->post("/recargaextra","CardPerson:rechargeExtra");
+
 $route->get("/recargacartao", "CardPerson:rechargCard");
 $route->post("/recargacartao", "CardPerson:rechargCard");
 
@@ -94,6 +99,7 @@ $route->post("/solicitarcartao", "CardRequest:formCardRequest");
 $route->get("/deletesolicitacaocartao", "CardRequest:deleteRequestCard");
 $route->post("/deletesolicitacaocartao", "CardRequest:deleteRequestCard");
 
+$route->post("/modalquest", "CardPerson:modalQuest");
 
 // Emolumentos
 $route->get("/emolumentos", "Emoluments:startPage");

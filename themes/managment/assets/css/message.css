@@ -58,3 +58,8 @@ animation-delay: 0.2s;
 animation: bounce 1.2s infinite;
 animation-delay: 0.4s;
 }
+
+.requerid-alert {
+    border-color: red;
+    color: red;
+}

@@ -15,6 +15,7 @@ use Source\Core\Controller;
 use Source\Models\Card\Card;
 use Source\Models\Card\CardRecharge;
 use Source\Models\Card\RequestCard;
+use Source\Models\Card\Views\Vw_benefit_card;
 use Source\Models\Card\Views\Vw_card;
 use Source\Models\Card\Views\Vw_card_canceled;
 use Source\Models\Card\Views\Vw_recharge;
@@ -197,7 +198,7 @@ class CardPerson extends Controller
             return;            
         }
 
-        $html = $this->view->render("/card/requestCard", [
+        $html = $this->view->render("/card/sendCard", [
             "title" => "Enviados",
             "menu" => "enviado",
             "listCardName" => $searchRecharg
@@ -207,12 +208,60 @@ class CardPerson extends Controller
         echo json_encode($json);     
     }
 
-    public function rechargeExtra() : void 
+    // Procurar Cartões
+    public function searchCard(array $data) : void
     {
-        var_dump(true);
-        // echo $this->view->render("/card/start", [
-        //     "menu" => "recarga"
-        // ]);
+        // Verifica se os campos de pesquisa estão vazios
+        $dataEmptyInput = count(cleanInputData($data)["errors"]);
+        $allInput = count($data);
+        
+        if($dataEmptyInput === $allInput) {
+            $json["message"] = messageHelpers()->warning("Digite um nome ou CPF para pesquisar!")->render();
+            echo json_encode($json);
+            return;
+        }
+
+        // Fazer a pesquisa e devolve os valores
+        $searchRecharg = (new Vw_benefit_card())->searchCard(cleanInputData($data)["data"]);
+
+        if(!$searchRecharg) {
+            $json["message"] = messageHelpers()->warning("Não há dados para pesquisa!")->render();
+            echo json_encode($json);
+            return;            
+        }
+
+        $html = $this->view->render("/card/activeCard", [
+            "title" => "Enviados",
+            "menu" => "enviado",
+            "listCardName" => $searchRecharg
+        ]);
+
+        $json["html"] = $html;
+        echo json_encode($json);
+    }
+
+    public function rechargeExtra(?array $data) : void 
+    {
+
+        if (isset($data["person-benefit"]) && !empty($data["person-benefit"])) {
+            // var_dump($data);
+
+            $rechargeExtra = (new CardRecharge())->addRechargeExtra($data);
+
+
+            $json["message"] = messageHelpers()->warning("teste")->render();
+            echo json_encode($json);
+            return;
+        }
+
+        echo $this->view->render("/card/start", [
+            "title" => "Recarga Extra",
+            "menu" => "recargaextra",
+            "personbenefit" => (new Vw_card())
+                ->find("status_card = :st AND type_request <> :ty", "st=ativo&ty=emergencial")
+                ->fetch(true),
+            "technicalUnit" => (new UnitUserSystem())->listTechnicalUnit()
+        ]);
     }
 
     public function rechargCard(?array $data) : void
@@ -257,39 +306,54 @@ class CardPerson extends Controller
     }
 
     // Página de cartões solicitados
-    public function requestCard(?array $datall) : void
+    public function requestCard(?array $data) : void
     {  
-        if(isset($datall["csrf"])) {
+        if(isset($data["csrf"])) {
+            
+            // Campo criado no javascript para marcar que é somente para validação dos campos
+            if(isset($data["valid"])) {
+                $dataClean = cleanInputData($data);
 
-            if(empty($datall["date-month"])) {
-                $json["message"] = messageHelpers()->warning("Selecione um mês!")->render();
+                if(!$dataClean["valid"]) {
+                    $json["message"] = messageHelpers()->warning("Selecione um mês!")->render();
+                    echo json_encode($json);
+                    return;
+                }
+
+                $json["status"] = true;
                 echo json_encode($json);
-                return;
+                return;  
             }
 
-            if(isset($datall["btn-send"])) {
-                $month = $_SESSION["month"] = $datall["date-month"];
-            } else {
-                $month = $_SESSION["month"];
-            }
+            // if(empty($datall["date-month"])) {
+            //     $json["message"] = messageHelpers()->warning("Selecione um mês!")->render();
+            //     echo json_encode($json);
+            //     return;
+            // }
 
-            $newSendCard = new Card(); 
-            if(!$newSendCard->checkListCardRequest()) {
-                $json["message"] = messageHelpers()->warning("Erro!")->render();
-                echo json_encode($json);
-                return;
-            }
+            // if(isset($datall["btn-send"])) {
+            //     $month = $_SESSION["month"] = $datall["date-month"];
+            // } else {
+            //     $month = $_SESSION["month"];
+            // }
+
+            // $newSendCard = new Card(); 
+            // if(!$newSendCard->checkListCardRequest()) {
+            //     $json["message"] = messageHelpers()->warning("Erro!")->render();
+            //     echo json_encode($json);
+            //     return;
+            // }
 
             // Modal quest
-            if(isset($data["btn-send"])) {
-                $url = url("/solicitado");
-                $this->modalQuest($url);
-                return;
-            }
+            // if(isset($data["btn-send"])) {
+            //     $url = url("/solicitado");
+            //     $this->modalQuest($url);
+            //     return;
+            // }
 
             // Sessão que recebe os dados para ofício
             $numberOffice = (new Office())->lastNumberOffice(1)[0];
-            $newSendCard = (new Card())->sendCardCompany($numberOffice->id_office, $month);
+            $newSendCard = (new Card())->sendCardCompany($numberOffice->id_office, $data["date-month"]);
 
             $html = $this->view->render("/card/requestCard", [
             "listCardName" => (new Vw_card())
@@ -325,29 +389,43 @@ class CardPerson extends Controller
     }
 
     // Pagina com lista de enviados para a confecção
-    public function sendCard(?array $datall) : void
+    public function sendCard(?array $data) : void
     {   
         
-        if(isset($datall["csrf"])) {
+        if(isset($data["csrf"])) {
 
-            if(isset($datall["btn-send"])) {
-                $data = $_SESSION["data"] = $datall;
-            } else {
-                $data = $_SESSION["data"];
+            // Campo criado no javascript para marcar que é somente para validação dos campos
+            if(isset($data["valid"])) {
+
+                if(!isset($data["received"])) {
+                    $json["message"] = messageHelpers()->warning("Não há dados marcados!")->render();
+                    echo json_encode($json);
+                    return; 
+                } 
+
+                $json["status"] = true;
+                echo json_encode($json);
+                return;  
             }
 
-            if(!isset($data["received"])) {
-                $json["message"] = messageHelpers()->warning("Não há dados marcados!")->render();
-                echo json_encode($json);
-                return; 
-            } 
+            // if(isset($datall["btn-send"])) {
+            //     $data = $_SESSION["data"] = $datall;
+            // } else {
+            //     $data = $_SESSION["data"];
+            // }
+
+            // if(!isset($data["received"])) {
+            //     $json["message"] = messageHelpers()->warning("Não há dados marcados!")->render();
+            //     echo json_encode($json);
+            //     return; 
+            // } 
 
             // Modal quest
-            if(isset($datall["btn-send"])) {
-                $url = url("/enviado");
-                $this->modalQuest($url);
-                return;
-            }
+            // if(isset($datall["btn-send"])) {
+            //     $url = url("/enviado");
+            //     $this->modalQuest($url);
+            //     return;
+            // }
 
             // Dá baixa nos cartões para ficarem como enviados as unidades
             $newSendCard = (new Card())->sendCardUnit($data);
@@ -387,15 +465,14 @@ class CardPerson extends Controller
     // Exluir solicitação de cartão
     public function deleteRequestCard(array $data) : void
     {
-        // Modal quest
-        if(!isset($data["btn-yes"])) {
-            $url = url("/deletarsolicitacaocartao");
-            $_SESSION["data"] = $data;
-            $this->modalQuest($url, ["title" => "Atenção", "textMessage" => "Tem certeza que deseja excluir essa solicitação?!"]);
-            return;
+        // Campo criado no javascript para marcar que é somente para validação dos campos
+        if(isset($data["valid"])) {
+            $json["status"] = true;
+            echo json_encode($json);
+            return;  
         }
 
-        $idcard = (int)$_SESSION["data"]["id-request"];
+        $idcard = (int)$data["id-request"];
 
         // Excluir solicitação de cartão previsão de recarga
         $deleCard = new RequestCard();
@@ -418,8 +495,8 @@ class CardPerson extends Controller
         echo $this->view->render("/card/start", [
             "title" => "Cartão Ativo",
             "menu" => "cartao",
-            "listCardName" => (new Vw_card())
-                ->find("received = :re AND send_card_unit = :se", "re=sim&se=sim")
+            "listCardName" => (new Vw_benefit_card())
+                ->find()
                 ->fetch(true)
         ]);           
     }
@@ -868,32 +945,38 @@ class CardPerson extends Controller
     {
 
         if (isset($data["csrf"])) {
+            
+            // Campo criado no javascript para marcar que é somente para validação dos campos
+            if(isset($data["valid"])) {
+                $dataClean = cleanInputData($data);
 
-            // Armazena dados
-            if(isset($data["btn-send"])) {
-               $dataAll = $_SESSION["data"] = $data;
-            } else {
-                $dataAll = $_SESSION["data"];
-            }
+                if(!$dataClean["valid"]) {
+                    $json["message"] = messageHelpers()->warning("Preeencha todos os campos obrigatórios (*)")->render();
+                    echo json_encode($json);
+                    return;
+                }
 
-            $requestCard = new RequestCard();
+                $requestCard = new RequestCard();
 
-            if(!$requestCard->checkRequest($dataAll)) {
-                $json["message"] = $requestCard->message()->render();
+                if(!$requestCard->checkRequest($data)) {
+                    $json["message"] = $requestCard->message()->render();
+                    echo json_encode($json);
+                    return;
+                }
+
+                $json["status"] = true;
                 echo json_encode($json);
-                return;
+                return;  
             }
-
+            
             // Modal quest
-            if(isset($data["btn-send"])) {
-                $this->modalQuest(url("/cartaoemergencial"));
-                return;
-            }
+            // if(isset($data["btn-send"])) {
+            //     $this->modalQuest(url("/cartaoemergencial"));
+            //     return;
+            // }
 
             $newRequestEmergency = new RequestCard();
-            $dataRequest = $newRequestEmergency->requestEmergency($dataAll);
-            
-            unset($_SESSION["data"]);
+            $dataRequest = $newRequestEmergency->requestEmergency($data);
 
             $json["message"] = $newRequestEmergency->message()->render();
             $json["redirectedBlank"] = url("/documento/{$dataRequest["idoffice"]}/emergency");
@@ -903,7 +986,13 @@ class CardPerson extends Controller
 
         echo $this->view->render("/card/start", [
             "menu" => "emergencial",
-            "title" =>  "Emergencial"
+            "title" =>  "Emergencial",
+            "listEmergency" => (new PersonBenefit())
+                ->find()
+                ->limit(5000)
+                ->order("name_benefit")
+                ->fetch(true),
+            "listTechnical" => (new UnitUserSystem())->listTechnicalUnit()
         ]);
     }
 
@@ -914,20 +1003,36 @@ class CardPerson extends Controller
         echo $this->view->render("/card/start", [
             "menu" => "listacartaoemergencial",
             "title" =>  "Emergencial",
-            "listCardName" => (new Vw_request())->find("type_request = :id","id=emergencial")->fetch(true)
+            "listCardName" => (new Vw_request())
+                ->find("type_request = :id",
+                    "id=emergencial")
+                ->fetch(true)
         ]);        
     }
 
     // Modal quest
-    public function modalQuest($url = null, ?array $data = null) : void
+    public function modalQuest(?array $data) : void
     {
-        
+        // $html = $this->view->render("/modal/modalQuest", [
+        //     "title" => $data["title"] ?? "Confirmar Ação",
+        //     "textMessage" => $data["textMessage"] ?? "Tem certeza que deseja encaminhar essa lista!",
+        //     "urlYes" => $url,
+        //     "urlNo" => null,
+        //     "cancel" => true
+        // ]);
+        // var_dump($data);
+
+        if (isset($data["btn-yes"])) {
+
+
+            $json["response"] = true;
+            echo json_encode($json);
+            return;
+        }
+
         $html = $this->view->render("/modal/modalQuest", [
             "title" => $data["title"] ?? "Confirmar Ação",
-            "textMessage" => $data["textMessage"] ?? "Tem certeza que deseja encaminhar essa lista!",
-            "urlYes" => $url,
-            "urlNo" => null,
-            "cancel" => true
+            "textMessage" => $data["text"]
         ]);
 
         $json["modal"] = $html;
@@ -986,6 +1091,11 @@ class CardPerson extends Controller
             "title" => "Ofícios para unidades",
             "dataDocument" => (new Vw_request())->dataShipment((int)$data["shipment"])
         ]);
+    }
+
+    public function uploadExcel($data) : void
+    {
+        var_dump($data);
     }
 
     public function error() : void

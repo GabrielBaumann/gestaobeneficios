@@ -1,4 +1,9 @@
-<form action="<?= url("/enviado"); ?>" method="post">
+<form 
+    data-confirm="true" 
+    data-message="Tem cerceza que deseja enviar os cartões?" 
+    action="<?= url("/enviado"); ?>" 
+    method="post"
+    >
     <?= csrf_input(); ?>
     <table class="w-full">
     <thead class="bg-gray-50">

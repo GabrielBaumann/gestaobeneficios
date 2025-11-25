@@ -26,26 +26,42 @@ class CardRequest extends Controller
     public function formCardRequest(?array $data) : void
     {   
         if (isset($data["csrf"]) && !empty($data["csrf"])) {
+
+            // Campo criado no javascript para marcar que é somente para validação dos campos
+            if(isset($data["valid"])) {
+                $dataClean = cleanInputData($data);
+                
+                // Campos vazios
+                if(!$dataClean["valid"]) {
+                    $json["message"] = messageHelpers()->warning("Preeencha todos os campos obrigatórios (*)")->render();
+                    echo json_encode($json);
+                    return;
+                }
+
+                $requestCard = new RequestCard();
+
+                // Verifica se já existe uma solicitação
+                if(!$requestCard->checkRequest($data)) {
+                    $json["message"] = $requestCard->message()->render();
+                    echo json_encode($json);
+                    return;
+                }
+
+                $cardRecharge = new CardRecharge();
+                
+                // Verifica as regras de meses
+                if(!$cardRecharge->checkRechargeMonth($data)) {
+                    $json["message"] = $cardRecharge->message()->render();
+                    echo json_encode($json);
+                    return;
+                }
+
+                $json["status"] = true;
+                echo json_encode($json);
+                return;  
+            }            
             
             $requestCard = new RequestCard();
-
-            // Verifica se já existe uma solicitação
-            if(!$requestCard->checkRequest($data)) {
-                $json["message"] = $requestCard->message()->render();
-                echo json_encode($json);
-                return;
-            }
-
-            $cardRecharge = new CardRecharge();
-            
-            // Verifica as regras de meses
-            if(!$cardRecharge->checkRechargeMonth($data)) {
-                $json["message"] = $cardRecharge->message()->render();
-                echo json_encode($json);
-                return;
-            }
-
-            
             $reponse = $requestCard->newCard($data, true);
 
             if(!$reponse) {

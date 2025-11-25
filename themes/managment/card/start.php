@@ -81,7 +81,7 @@
             <h1 class="uppercase text-light text-gray-500">Filtros específicos</h1>
                 <div class="flex items-center">
                     <input name="recipientname" id="recipientname" type="text" class="input-search w-full pr-6 py-2 px-3 border border-gray-400 rounded-l-md" placeholder="Pesquisar Beneficiários...">
-                    <button data-url="<?= url("/procurarrecarga") ?>" id="search-all" class="py-2 px-4 cursor-pointer border border-gray-400 bg-gray-100 rounded-r-md">
+                    <button data-url="<?= url("/procurarcartao") ?>" id="search-all" class="py-2 px-4 cursor-pointer border border-gray-400 bg-gray-100 rounded-r-md">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                         </svg>
@@ -187,7 +187,9 @@
                                 </a>
                             </div>
                         </div>
-                        <?= $this->insert("/card/activeCard"); ?>
+                        <div class="ajax-update">
+                            <?= $this->insert("/card/activeCard"); ?>
+                        </div>
                     <?php elseif ($menu === "listacartaoemergencial"): ?>
                         <!-- header with options -->
                         <div class="py-4 items-center flex justify-end">
@@ -276,7 +278,11 @@
                     <?php elseif ($menu === "recargageral"): ?>
                         <div class="ajax-update">
                             <?= $this->insert("/card/formRechargeAll"); ?>
-                        </div>  
+                        </div>
+                    <?php elseif ($menu === "recargaextra"): ?>
+                        <div class="ajax-update">
+                            <?= $this->insert("/card/formRechargeExtra"); ?>
+                        </div>    
                     <?php elseif ($menu === "segundavia"): ?>
                         <?= $this->insert("/card/formSecondCard"); ?>                   
                     <?php endif; ?>
@@ -339,5 +345,5 @@
 </script>
 
 <?php $this->start("scripts"); ?>
-    <script src="<?= theme("/js/default/forms.js", CONF_VIEW_APP); ?>"></script>
+    <script type="module" src="<?= theme("/js/default/forms.js", CONF_VIEW_APP); ?>"></script>
 <?php $this->stop("scripts"); ?>

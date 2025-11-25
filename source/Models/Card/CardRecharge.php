@@ -6,7 +6,9 @@ use PhpOffice\PhpSpreadsheet\Calculation\Statistical\StandardDeviations;
 use PhpOffice\PhpSpreadsheet\Calculation\TextData\Replace;
 use Source\Core\Model;
 use Source\Models\Card\Views\Vw_card;
+use Source\Models\Card\Views\Vw_recharge;
 use Source\Models\UserSystem\UnitUserSystem;
+use Source\Models\Card\CardValue;
 
 class CardRecharge extends Model
 {
@@ -20,7 +22,8 @@ class CardRecharge extends Model
     {
         $monthStart = (int)$data["month-start"];
         $monthEnd = (int)$data["month-end"];
-       
+        $idValueCard = (new CardValue())->valueCard();
+
         $monthAll = [];
         if ($monthStart > $monthEnd) {
 
@@ -41,13 +44,16 @@ class CardRecharge extends Model
         [$month, $year] = explode(";", $monthAll[0]);
         $data["month"] = 0;
         $data["year"] = $year;
-        $idFixed = $this->bootstrap($idCard, $idRequestCard, 0, $data);
+        $data["id_card_value"] = 0;
+
+        $idFixed = (new static())->bootstrap($idCard, $idRequestCard, 0, $data);
 
         // Criar os registros fixos (as recargas de fato)
         foreach ($monthAll as $monthItem) {
             [$month, $year] = explode(";", $monthItem);
             $data["month"] = $month;
             $data["year"] = $year;
+            $data["id_card_value"] = (int)$idValueCard;
 
             $newCardRecharge = new static;
             $newCardRecharge->bootstrap($idCard, $idRequestCard, $idFixed, $data);
@@ -58,6 +64,7 @@ class CardRecharge extends Model
 
     public function bootstrap(int $idCard, int $idRequestCard, int $idFifixed, array $data): int
     {
+
         $this->id_card_request = $idRequestCard;
         $this->id_card_recharge_fixed = $idFifixed;
         $this->id_card = $idCard;
@@ -68,9 +75,11 @@ class CardRecharge extends Model
         if (isset($data["status_recharge"])) {
             $this->status_recharge = $data["status_recharge"];
         }
+        $this->id_card_value = $data["id_card_value"];
         $this->id_user_system_register = 1;
 
         $this->save();
+
         return $this->id_card_recharge;
     }
 
@@ -292,6 +301,37 @@ class CardRecharge extends Model
             $newCardRecharge->bootstrap($idCard, $idRequest, $idFixed, $data);
         }
 
+        return true;
+    }
+
+    // Inserir recarga extra
+    function addRechargeExtra(array $data) : bool
+    {
+        $idBenefit = (int)$data["person-benefit"];
+        $idValueCard = (new CardValue())->valueCard();
+
+        // Procurar cartão ativo baseado no id do beneficiário
+        $idCard = (new Vw_card())->find("id_person_benefit = :id AND status_card = :st AND type_request <> :ty",
+            "id={$idBenefit}&st=ativo&ty=emergencial")
+            ->fetch()->id_card;
+
+        // Procurar id_card_recharge_fixed a partir do id o cartão
+        $idCardRechargeFixed = (new Vw_recharge())
+            ->find("id_card = :id AND id_card_recharge_fixed <> :ca","id={$idCard}&ca=0")
+            ->fetch()->id_card_recharge_fixed;
+
+        $idRequest = (new RequestCard())->requestRechargeExtraCard($data);
+        $cardRechargFixed = (new static());
+
+        // Registro espelho
+        $data["month"] = (int)date("m");
+        $data["year"] = (int)date("Y");
+        $data["month-start"] = (int)date("m");
+        $data["month-end"] = (int)date("m");
+        $data["status_recharge"] = "credito liberado";
+        $data["id_card_value"] = $idValueCard;
+        $cardRechargFixed->bootstrap($idCard, $idRequest, $idCardRechargeFixed, $data);
+            
         return true;
     }
 
