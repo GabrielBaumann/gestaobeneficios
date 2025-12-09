@@ -1,8 +1,8 @@
 <?php $this->layout("layout"); ?>
-<div class="flex flex-col h-screen max-h-screen overflow-hidden w-screen md:w-auto">
+<div class="flex flex-col md:h-screen md:max-h-screen overflow-hidden w-screen md:w-auto">
     <div class="sidebar" data-menu="cartao"></div>
-    <header class="py-6 px-6 flex justify-start bg-green-700 mb-4">
-        <h1 class="font-semibold text-white text-4xl uppercase">Cartão Alimentação</h1>
+    <header class="p-4 flex justify-start mb-4 border-b border-gray-400">
+        <h1 class="font-semibold text-gray-800 text-md uppercase">Cartão Alimentação</h1>
     </header>
 
     <header class="w-screen md:w-auto md:flex md:justify-start flex flex-col py-3 px-6 gap-3">
