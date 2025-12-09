@@ -30,7 +30,7 @@
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
                         </td>
                         <td class="py-3 px-4 text-center">
-                            <button onclick="">
+                            <button type="submit" id="showModal">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                 </svg>
@@ -113,6 +113,71 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         document.getElementById("response")?.remove();
         document.getElementById('modal').remove();
+    }
+});
+
+///////////////////////////////////
+
+// Formulário de submição
+document.addEventListener("submit", async (e)=> {
+
+    if (e.target.tagName === "FORM") {
+        e.preventDefault()
+
+        const form = e.target;
+        const formData = new FormData(form, e.submitter);
+        const actionForm = e.target.action;
+
+        // let timeoutLoading;
+        // timeoutLoading = showSplash(true)
+
+        try {
+            const vResponse = await fetch(actionForm, {
+            method: "POST",
+            body: formData
+        })
+            const vData = await vResponse.json();
+
+            document.getElementById("modal")?.remove();
+
+            // Redireciona
+            if(vData.redirect) {
+                window.location.href = vData.redirect
+            }
+            
+            // Redireciona e cria uma nova aba (impressão)
+            if(vData.redirectedBlank) {
+                window.open(vData.redirectedBlank, "_blank");
+            }
+
+            // Retorna mensagem
+            if(vData.message){
+                document.getElementById("response")?.remove();
+                const vlemente = document.createElement("div");
+                vlemente.id = "response"
+                vlemente.innerText = vData.message;
+                document.body.appendChild(vlemente);
+            }
+
+            // Retorna um elemento dinâmico ajax
+            if(vData.html) {
+                const vReplaceContent = document.querySelector(".content-ajax");
+                vReplaceContent.innerHTML = vData.html;
+            }
+
+            // // Retorna uma janela modal
+            if(vData.modal) {
+                const vElement = document.createElement("div");
+                vElement.id = "modal";
+                vElement.innerHTML = vData.modal;
+                document.body.appendChild(vElement);
+            }
+
+        } catch (error) {
+            fncMessage();
+        } finally {
+
+        }
     }
 });
 </script>
