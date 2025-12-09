@@ -1,23 +1,22 @@
 <?php $this->layout("layout"); ?>
 <div class="flex flex-col md:h-screen md:max-h-screen overflow-hidden w-screen md:w-auto">
     <div class="sidebar" data-menu="cartao"></div>
-    <header class="p-4 flex justify-start mb-4 border-b border-gray-400">
-        <h1 class="font-semibold text-gray-800 text-md uppercase">Cartão Alimentação</h1>
+    <header class="pt-4 px-4 flex justify-start">
+        <h1 class="font-semibold text-md uppercase text-gray-800">Cartão Alimentação</h1>
     </header>
 
-    <header class="w-screen md:w-auto md:flex md:justify-start flex flex-col py-3 px-6 gap-3">
-        <h1 class="uppercase text-light text-gray-500">Fitrar por status gerais</h1>
+    <header class="w-screen md:w-auto md:flex md:justify-start flex flex-col pt-4 px-3 gap-3 border-b border-gray-200">
         <div class="flex flex-col md:flex-row">
-            <a href="<?= url("/cartao/novocartao");?>" class="main-card-menu novo py-1 px-4 text-gray-600 cursor-pointer font-semibold duration-all transition-300 w-full md:w-auto rounded-full bg-green-700 text-white">Novo</a>
-            <a href="<?= url("/cartao/solicitaremergencial");?>" class="main-card-menu emergencial py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Emergencial</a>
-            <a href="<?= url("/cartao/recarga");?>" class="main-card-menu recarga py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Recarga</a>
+            <a href="<?= url("/cartao/novocartao");?>" class="main-card-menu novo py-1 px-4 cursor-pointer font-semibold duration-all transition-300 w-full md:w-auto text-gray-400 text-gray-800 border-b-4 border-green-600">Novo</a>
+            <a href="<?= url("/cartao/solicitaremergencial");?>" class="main-card-menu emergencial py-1 px-4 cursor-pointer text-gray-400 font-semibold duration-all transition-300 w-full md:w-auto">Emergencial</a>
+            <a href="<?= url("/cartao/recarga");?>" class="main-card-menu recarga py-1 px-4 cursor-pointer text-gray-400 font-semibold duration-all transition-300 w-full md:w-auto">Recarga</a>
         </div>
     </header>
 
     <?php if($menu === "novocartao"): ?>
         <header class="w-screen md:w-auto md:flex md:justify-start mt-6 md:mt-0 py-3 px-6 flex flex-col gap-3 flex flex-col gap-3">
             <h1 class="uppercase text-light text-gray-500">Filtros específicos</h1>
-            <div class="flex flex-col md:flex-row"> 
+            <div class="flex flex-col md:flex-row">
                 <a href="<?= url("/cartao/solicitado");?>" class="solicitado py-1 px-4 cursor-pointer font-semibold duration-all transition-300 w-full md:w-auto rounded-full text-gray-600 solicitado text-white">Solicitados</a>
                 <a href="<?= url("/cartao/enviado");?>" class="second-card-menu enviado py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Enviados</a>
                 <a href="<?= url("/cartao/cartaoativo"); ?>" class="second-card-menu cartao py-1 px-4 cursor-pointer text-gray-600 font-semibold duration-all transition-300 w-full md:w-auto rounded-full">Cartões</a>
@@ -321,40 +320,40 @@
     const cartaoativo = document.getElementsByClassName("cartaoativo");
 
     if (vUrlPage === 'novocartao') {
-       novo[0].classList.add('bg-green-700', 'text-white'); 
-       solicitado[0].classList.add('bg-green-700', 'text-white'); 
+       novo[0].classList.add('border-b-4', 'border-green-600', 'text-gray-800'); 
+       solicitado[0].classList.add('border-b-4', 'border-green-600', 'text-gray-800'); 
     } else if (vUrlPage === 'solicitaremergencial') {
-        emergencial[0].classList.add('bg-green-700', 'text-white'); 
-        emergencial[0].classList.add('bg-green-700', 'text-white');
-        novo[0].classList.remove('bg-green-700', 'text-white');
+        emergencial[0].classList.add('border-b-4', 'border-green-600', 'text-gray-800'); 
+        emergencial[0].classList.add('border-b-4', 'border-green-600', 'text-gray-800');
+        novo[0].classList.remove('border-b-4', 'border-green-600', 'text-gray-800');
     }
       else if (vUrlPage === 'segundavia') {
-        via[0].classList.add('bg-green-700', 'text-white');
+        via[0].classList.add('border-b-4', 'border-green-600', 'text-gray-800');
     }
       else if (vUrlPage === 'recarga') {
-        recarga[0].classList.add('bg-green-700', 'text-white');
-        novo[0].classList.remove('bg-green-700', 'text-white');
+        recarga[0].classList.add('border-b-4', 'border-green-600', 'text-gray-800');
+        novo[0].classList.remove('border-b-4', 'border-green-600', 'text-gray-800');
     }
       else if (vUrlPage === 'recargaextra') {
-        recarga_extra[0].classList.add('bg-green-700', 'text-white');
+        recarga_extra[0].classList.add('border-b-4', 'border-green-600', 'text-gray-800');
     }
     // bottom options
       else if (vUrlPage === 'solicitado') {
-        solicitado[0].classList.add('bg-green-700', 'text-white');
-        novo[0].classList.add('bg-green-700', 'text-white');
+        solicitado[0].classList.add('border-b-4', 'border-green-600', 'text-gray-800');
+        novo[0].classList.add('border-b-4', 'border-green-600', 'text-gray-800');
     }
       else if (vUrlPage === 'enviado') {
-        enviado[0].classList.add('bg-green-700', 'text-white');
-        novo[0].classList.add('bg-green-700', 'text-white');
+        enviado[0].classList.add('border-b-4', 'border-green-600', 'text-gray-800');
+        novo[0].classList.add('border-b-4', 'border-green-600', 'text-gray-800');
     }
       else if (vUrlPage === 'cartaoativo') {
-        cartaoativo[0].classList.add('bg-green-700', 'text-white'); 
-        novo[0].classList.add('bg-green-700', 'text-white');
+        cartaoativo[0].classList.add('border-b-4', 'border-green-600', 'text-gray-800'); 
+        novo[0].classList.add('border-b-4', 'border-green-600', 'text-gray-800');
     }
       else if (vUrlPage === 'solicitado') {
         solicitato[0].classList.remove('text-gray-700'); 
         solicitato[0].classList.add('text-white'); 
-        novo[0].classList.add('bg-green-700', 'text-white');
+        novo[0].classList.add('border-b-4', 'border-green-600', 'text-gray-800');
     }
 </script>
 
