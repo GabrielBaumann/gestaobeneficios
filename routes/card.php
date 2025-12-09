@@ -54,6 +54,7 @@ $route->namespace("Source\App\Card");
    //  $route->post("/deletesolicitacaocartao", "CardRequest:deleteRequestCard");
 
    $route->post("/modalquest", "CardPerson:modalQuest");
+   $route->get("/modalrecarga/{idCard}", "CardPerson:modalExtractRecharge");
    
 /**
  * Ipressão de documento e baixar excel

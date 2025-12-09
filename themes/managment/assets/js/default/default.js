@@ -1,3 +1,5 @@
+import { fncModalQuest } from "../libs/utility"
+
 //*  Scripts padrões para todo o sistema *//
 let vArrayInput = [];
 removeFlash()
@@ -296,57 +298,59 @@ function showSplashNavigation() {
 /*#############  Modal yes/no ############*/
 /*########################################*/
 
+fncModalQuest("showModal");
+
 // Função para chamar modal quest
-function fncModalQuest (vIdButton) {
-    document.addEventListener("click", (e) => {
-        const vButton = e.target.closest("button");
-        if(vButton && vButton.id === vIdButton) {
-            const vUrl = vButton.dataset.url;
-            fetch(vUrl)
-            .then(response => response.json())
-            .then(data => {
+// function fncModalQuest (vIdButton) {
+//     document.addEventListener("click", (e) => {
+//         const vButton = e.target.closest("button");
+//         if(vButton && vButton.id === vIdButton) {
+//             const vUrl = vButton.dataset.url;
+//             fetch(vUrl)
+//             .then(response => response.json())
+//             .then(data => {
 
-                if(data.message) {
-                    fncMessage(data.message);
-                    return;
-                }
+//                 if(data.message) {
+//                     fncMessage(data.message);
+//                     return;
+//                 }
 
-                document.getElementById("response")?.remove();
-                if (document.getElementById("modal")) return document.getElementById("modal").remove();
+//                 document.getElementById("response")?.remove();
+//                 if (document.getElementById("modal")) return document.getElementById("modal").remove();
 
-                const vElement = document.createElement("div");
-                vElement.id = "modal";
-                vElement.innerHTML = data.html;
-                document.body.appendChild(vElement);
-            })
-        }
-    });
-}
+//                 const vElement = document.createElement("div");
+//                 vElement.id = "modal";
+//                 vElement.innerHTML = data.html;
+//                 document.body.appendChild(vElement);
+//             })
+//         }
+//     });
+// }
 
-// Cancelar ação
-document.addEventListener("click", (e) => {
-    const vButton = e.target.closest("button")
-    if(vButton && vButton.id === "cancelBtn") {
-        document.getElementById("response")?.remove();
-        document.getElementById('modal').remove();
-    }
-});
+// // Cancelar ação
+// document.addEventListener("click", (e) => {
+//     const vButton = e.target.closest("button")
+//     if(vButton && vButton.id === "cancelBtn") {
+//         document.getElementById("response")?.remove();
+//         document.getElementById('modal').remove();
+//     }
+// });
 
-// Fechar modal clicando no overlay (fora da modal)
-document.addEventListener("click", (e) => {
-    if(e.target.id === "confirmationModal") {
-        document.getElementById("response")?.remove();
-        document.getElementById("modal").remove();
-    }
-})
+// // Fechar modal clicando no overlay (fora da modal)
+// document.addEventListener("click", (e) => {
+//     if(e.target.id === "confirmationModal") {
+//         document.getElementById("response")?.remove();
+//         document.getElementById("modal").remove();
+//     }
+// })
 
-// Fechar com ESC
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        document.getElementById("response")?.remove();
-        document.getElementById('modal').remove();
-    }
-});
+// // Fechar com ESC
+// document.addEventListener('keydown', (e) => {
+//     if (e.key === 'Escape') {
+//         document.getElementById("response")?.remove();
+//         document.getElementById('modal').remove();
+//     }
+// });
 
 // toggle menu on mobile
 function toggleMenu() {

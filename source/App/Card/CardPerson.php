@@ -162,6 +162,19 @@ class CardPerson extends Controller
         return;
     }
 
+    // Extrato de recargaas por beneficiário
+    public function modalExtractRecharge(?array $data) : void
+    {
+        
+        $html = $this->view->render("/modal/modalExtract", [
+            
+        ]);
+
+        $json["html"] = $html;
+        echo json_encode($json);
+        return;
+    }
+
     // Procurar recargas
     public function searchRecharge(array $data) : void
     {

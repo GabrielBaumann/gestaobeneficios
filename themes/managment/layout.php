@@ -159,7 +159,7 @@
 
     </div>
 
-    <script src="<?= theme("/js/default/default.js", CONF_VIEW_APP); ?>">
+    <script type="module" src="<?= theme("/js/default/default.js", CONF_VIEW_APP); ?>">
         // toggle menu on mobile
         function toggleMenu() {
             const sidebar = document.getElementById("sidebar-main");
