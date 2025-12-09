@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="<?= theme("/css/message.css", CONF_VIEW_APP); ?>">
+    <link rel="icon" href="<?= theme("/img/white-logo-gs.png", CONF_VIEW_APP); ?>">
     <?= $this->section("css") ?>
     <title><?= $this->e($title)?></title>
     <style>
