@@ -133,7 +133,7 @@ async function fncModalQuest(message) {
         const timeoutLoading = showSplash();
 
         try {
-            const url = getBaseURL() + "modalquest"
+            const url = getBaseURL(2) + "modalquest"
             const formData = new FormData();
             formData.append("text", message);
 

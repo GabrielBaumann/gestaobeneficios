@@ -1,5 +1,5 @@
 <?php if (!empty($listRecharge)): ?>
-    <form action="<?= url("/gerarrecarga"); ?>" method="post">
+    <form action="<?= url("/cartao/gerarrecarga"); ?>" method="post">
         <table class="w-full">
             <thead class="bg-gray-50">
                 <tr>

@@ -3,7 +3,7 @@
     <form 
         data-confirm="true" 
         data-message="Tem cerceza que deseja fazer essa solicitação?" 
-        action="<?= url("/cartaoemergencial") ?>" 
+        action="<?= url("/cartao/cartaoemergencial") ?>" 
         method="post" 
         class="w-full p-4 flex flex-col gap-12">
     <?= csrf_input(); ?>

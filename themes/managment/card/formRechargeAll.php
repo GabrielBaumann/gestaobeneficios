@@ -1,6 +1,6 @@
 <div class="flex items-center mx-auto bg-white max-w-[960px] h-full" data-menu="cartao">
     
-    <form action="<?= url("/recargacartao") ?>" method="post" class="w-full p-4 flex flex-col gap-12">
+    <form action="<?= url("/cartao/recargacartao") ?>" method="post" class="w-full p-4 flex flex-col gap-12">
     <?= csrf_input(); ?>
         <div class="flex flex-col gap-2">
             <h1 class="text-xl font-semibold">Solicitação de Recarga</h1>

@@ -12,108 +12,33 @@ use CoffeeCode\Router\Router;
 $session = new Session();
 $route = new Router(url(), ":");
 
-// WEB
-// Login
-$route->namespace("Source\App");
-$route->get("/", "Web:login");
+/**
+ * Arquivos de rotas
+ */
+
+// Rotas gerais 
+require __DIR__ . "/routes/web.php";
 
 // Início
-$route->get("/inicio", "Start:startPage");
+require __DIR__ . "/routes/start.php";
 
-// Benficiários
-$route->get("/beneficiarios", "PersonBenefit:startPage");
-
-// Aluguel
-$route->get("/aluguel", "Rent:startPage");
-
-// Energia
-$route->get("/energia", "Energy:startPage");
-
-// Natalidade
-$route->get("/natalidade", "Birth:startPage");
-
-// Transporte
-$route->get("/transporte", "Transport:startPage");
-
-// Funeral
-$route->get("/funeral", "Funeral:startPage");
-
-// Água
-$route->get("/agua", "Water:startPage");
-
-/**
- *  Cartão 
- **/ 
-$route->post("/recebarexcel", "CardPerson:uploadExcel");
-
-$route->get("/cartao", "CardPerson:startPage");
-
-$route->get("/enivardesbloqueiocartao", "CardPerson:listExcelSendCardRecharge");
-
-$route->get("/baixarexcelempresa/{office}", "CardPerson:listExcelSendCard");
-$route->get("/baixarexcelunidade/{shipment}", "CardPerson:listExcelUnitSend");
-
-$route->get("/enviado", "CardPerson:sendCard");
-$route->post("/enviado", "CardPerson:sendCard");
-$route->post("/procurarenviados", "CardPerson:searchSend");
-
-$route->get("/solicitado", "CardPerson:requestCard");
-$route->post("/solicitado", "CardPerson:requestCard");
-$route->post("/procurarsolicitacao", "CardPerson:searchRequest");
-
-$route->post("/deletarsolicitacaocartao", "CardPerson:deleteRequestCard");
-
-$route->get("/novocartao", "CardPerson:requestCard");
-$route->get("/cartaoativo", "CardPerson:cardActive");
-$route->get("/solicitarnovocartao", "CardPerson:newCard");
-$route->post("/procurarcartao", "CardPerson:searchCard");
-
-$route->get("/solicitaremergencial","CardPerson:listEmergency");
-$route->get("/cartaoemergencial","CardPerson:requestEmergency");
-$route->post("/cartaoemergencial","CardPerson:requestEmergency");
-
-$route->post("/gerarrecarga","CardPerson:generateRecharge");
-$route->post("/procurarrecarga", "CardPerson:searchRecharge");
-$route->get("/baixarexcelerecarga/{office}", "CardPerson:listExcelRecharge");
-
-$route->get("/solicitarsegundaviacartao", "CardPerson:secondCard");
-$route->post("/solicitarsegundaviacartao", "CardPerson:secondCard");
-
-$route->get("/recarga","CardPerson:recharge");
-
-$route->get("/recargaextra","CardPerson:rechargeExtra");
-$route->post("/recargaextra","CardPerson:rechargeExtra");
-
-$route->get("/recargacartao", "CardPerson:rechargCard");
-$route->post("/recargacartao", "CardPerson:rechargCard");
-
-$route->get("/documento/{office}/{type}", "CardPerson:documentOffice");
-$route->get("/documentounidade/{shipment}", "CardPerson:documentOfficeUnit");
-
-$route->post("/cancelarcartao", "CardPerson:cardCancel");
-
-// Rotas para solicitação de cartão feito nas unidades
-$route->get("/solicitarcartao", "CardRequest:formCardRequest");
-$route->post("/solicitarcartao", "CardRequest:formCardRequest");
-
-$route->get("/deletesolicitacaocartao", "CardRequest:deleteRequestCard");
-$route->post("/deletesolicitacaocartao", "CardRequest:deleteRequestCard");
-
-$route->post("/modalquest", "CardPerson:modalQuest");
-
-// Emolumentos
-$route->get("/emolumentos", "Emoluments:startPage");
-
-// Gás
-$route->get("/gas", "Gas:startPage");
+// Módulos específicos
+require __DIR__ . "/routes/card.php";
+require __DIR__ . "/routes/benefit.php";
+require __DIR__ . "/routes/rent.php";
+require __DIR__ . "/routes/energy.php";
+require __DIR__ . "/routes/birth.php";
+require __DIR__ . "/routes/transport.php";
+require __DIR__ . "/routes/funeral.php";
+require __DIR__ . "/routes/water.php";
+require __DIR__ . "/routes/emoluments.php";
+require __DIR__ . "/routes/gas.php";
 
 
 // ERROR ROUTES
 
 $route->namespace("Source\App")->group("/ops");
 $route->get("/{errcode}", "Web:error");
-
-// ROUTE
 
 $route->dispatch();
 

@@ -103,7 +103,7 @@
 <body>
     <!-- Modal de confirmação -->
     <div class="modal-overlay" id="confirmationModal">
-        <div class="modal-content">
+        <div class="modal-content max-h-[70vh] overflow-y-auto">
             <?= $this->section("content"); ?>
         </div>
     </div>

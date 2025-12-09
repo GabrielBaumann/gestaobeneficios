@@ -1,7 +1,7 @@
 <form 
     data-confirm="true" 
     data-message="Tem cerceza que deseja enviar os cartões?" 
-    action="<?= url("/enviado"); ?>" 
+    action="<?= url("/cartao/enviado"); ?>" 
     method="post"
     >
     <?= csrf_input(); ?>

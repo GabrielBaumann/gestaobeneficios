@@ -121,6 +121,9 @@ class RequestCard extends Model
     // Cartão emergencial
     public function requestEmergency(array $data) : array
     {   
+        // Caso o cartão foi usaod será cancelado
+        $this->checkNumberEmergency($data["number-card"], $data["person-benefit"]);
+
         // Buscar coordenador baseado no id do tecnico e a unidade
         $unitUserSystem = new UnitUserSystem();
         $idCoordinator = $unitUserSystem->activeCoordinator($data["technician"]);
@@ -281,5 +284,42 @@ class RequestCard extends Model
         return $recharge->id_card_request;
     }
 
+    // Verificar se o cartão emergencial já foi solicitado no mês atual
+    private function checkNumberEmergency(string $numberCard, int $idBenefit = 0) : void
+    {   
+        $vwCard = (new Vw_card())
+            ->find("number_card = :nu AND type_request = :ty AND status_card = :st", 
+                "nu={$numberCard}&ty=emergencial&st=ativo")
+            ->fetch(true);
+            
+        // Caso o cartão tenha sido usando antes ele será cancelado
+        if ($vwCard) {
 
+            foreach($vwCard as $vwCardItem) {
+                $card = (new Card())->findById($vwCardItem->id_card);
+                $card->status_card = "cancelado";
+                $card->save();
+            }
+
+            return;
+        }
+
+        // Se o usuário está com outro número de cartão e precisa e foi lançado outro número cancela o número anterior
+        if ($idBenefit !== 0) {
+            $vwCardBenefit = (new Vw_card())
+                ->find("id_person_benefit = :id AND type_request = :ty AND status_card = :st", 
+                "id={$idBenefit}&ty=emergencial&st=ativo")
+                ->fetch(true);
+
+            if ($vwCardBenefit) {
+
+                foreach($vwCardBenefit as $vwCardBenefitItem) {
+                    $card = (new Card())->findById($vwCardBenefitItem->id_card);
+                    $card->status_card = "cancelado";
+                    $card->save();
+                }
+            }
+            return;
+        }       
+    }
 }

@@ -1,11 +1,11 @@
 /*#################################*/
 /**###### Função Url base ######*/
 /**############################### */
-export function getBaseURL() {
+export function getBaseURL(level = 1) {
     const origin = window.location.origin;
-    const path = window.location.pathname.split("/");
+    const path = window.location.pathname.split("/").filter(Boolean);
 
-    const projectFolder = path[1];
+    const projectFolder = path.slice(0, level).join("/");
 
     return `${origin}/${projectFolder}/`;
 }

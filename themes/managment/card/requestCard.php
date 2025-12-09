@@ -23,7 +23,7 @@
                             <form 
                                 data-confirm="true" 
                                 data-message="Tem cerceza que deseja deletar esse registro?"
-                                action="<?= url("/deletarsolicitacaocartao"); ?>" 
+                                action="<?= url("/cartao/deletarsolicitacaocartao"); ?>" 
                                 method="post">
                                 <?= csrf_input(); ?>
                                 <input type="hidden" name="id-request" value="<?= $listCardNameItem->id_card_request; ?>">
@@ -48,7 +48,7 @@
     <form 
         data-confirm="true" 
         data-message="Tem cerceza que deseja encaminhar essas solicitações?" 
-        action="<?= url("/solicitado"); ?>" 
+        action="<?= url("/cartao/solicitado"); ?>" 
         method="post"
         >
         <?= csrf_input(); ?>
@@ -65,8 +65,19 @@
 <?php else: ?>
     <div>Não há dados.</div>
 <?php endif; ?>
-<form action="">
-    <input type="file" name="list-xls">
+<form action="<?= url("/documentocartao/receberexcel"); ?>" enctype="multipart/form-data">
+    <label for="list-xls">Arquivo *</label>
+    <input type="file" name="list-xls" id="list-xls">
+    <div>
+        <label for="month">Mês *</label>
+        <select name="month" id="month">
+            <option value="">Selecionar</option>
+            <option value="9">Setembro</option>
+            <option value="10">Outubro</option>
+            <option value="11">Novembro</option>
+            <option value="12">Dezembro</option>
+        </select>
+    </div>
     <div>    
         <button>Enviar lista</button>
     </div>

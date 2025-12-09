@@ -1,7 +1,7 @@
 <div class="flex items-center mx-auto bg-white max-w-[960px] h-full" data-menu="cartao">
     
     <form 
-        action="<?= url("/recargaextra") ?>" 
+        action="<?= url("/cartao/recargaextra") ?>" 
         data-confirm="true" 
         data-message="Tem cerceza que deseja fazer a solicitação?" 
         method="post" 

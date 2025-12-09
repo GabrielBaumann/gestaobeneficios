@@ -28,7 +28,7 @@
             </button>
             <div class="flex flex-col gap-8">
                 <div class="px-4 flex items-center gap-2">
-                    <img src="./themes/managment/assets/img//logo.png" alt="logo" class="w-[45px] object-contain">
+                    <img src="<?=  theme("/img/logo.png", CONF_VIEW_APP); ?>" alt="logo" class="w-[45px] object-contain">
                     <div class="flex flex-col">
                         <span class="uppercase leading-[1] font-semibold text-xl text-green-900">gestão</span>
                         <span class="uppercase leading-[1] font-light text-sm">socioassistencial</span>
@@ -89,7 +89,7 @@
                             </svg>
                             <span class="menu" data-sidebar="agua">Água</span>
                         </a>
-                        <a href="<?= url("/cartao") ?>" class="menu flex items-center gap-2 px-3 py-2 border-l border-gray-300 hover:text-green-800 hover:border-green-800 flex items-center gap-2 transition-all duration-300 cursor-pointer text-gray-800 font-semibold">
+                        <a href="<?= url("/cartao/cartao") ?>" class="menu flex items-center gap-2 px-3 py-2 border-l border-gray-300 hover:text-green-800 hover:border-green-800 flex items-center gap-2 transition-all duration-300 cursor-pointer text-gray-800 font-semibold">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
                             </svg>

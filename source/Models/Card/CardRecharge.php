@@ -250,7 +250,7 @@ class CardRecharge extends Model
         return true;
     }
 
-    // Função usanda na função de verificação da recarga, retorna uma mensagem com a lista de meses
+    // Função usada na função de verificação da recarga, retorna uma mensagem com a lista de meses
     function messageCheckRecharge(array $data, array $text, int $count): string
     {
         $textAll = array_map(function ($item) {
