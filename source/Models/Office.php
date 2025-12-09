@@ -13,10 +13,10 @@ class Office extends Model
 
 
     // Cria novos números de ofício
-    public function createdNewNumberOffice() : bool
-    {
+    // public function createdNewNumberOffice() : bool
+    // {
         
-    }
+    // }
 
     // Verficar a quantidade de números e a quantidade solicitada, caso a quantidade solicitada seja menos ou proximo a finalizar gera mais números
     public function lastNumberOffice(int $amountRequest) : array 

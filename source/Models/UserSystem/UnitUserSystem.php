@@ -3,7 +3,8 @@
 namespace Source\Models\UserSystem;
 
 use Source\Core\Model;
-use Source\Models\Unit;
+use Source\Models\Unit\Unit;
+use Source\Models\UserSystem\Views\Vw_unit_user;
 
 class UnitUserSystem extends Model
 {
@@ -12,11 +13,15 @@ class UnitUserSystem extends Model
         parent::__construct("unit_user_system", [], [], "id_unit_user_system");        
     }
 
-    // Retorna o coordeandor ativo baseado no id da unidade
+    // Retorna o coordeandor ativo baseado no id do tecnico
     public function activeCoordinator(int $idTechnical) : int
     {   
         $idunitCoordinator = (new static)->findById($idTechnical);
-        $coordinato = $this->find("status = :st AND function_user = :fu AND id_unit = :id","st=ativo&fu=COORDENADOR(A)&id={$idunitCoordinator->id_unit}")->fetch();
+
+        $coordinato = $this->find(
+            "status = :st AND function_user = :fu AND id_unit = :id",
+            "st=ativo&fu=COORDENADOR(A)&id={$idunitCoordinator->id_unit}")->fetch();
+            
         $coordinato ? $id = $coordinato->id_unit_user_system : $id = 0;
 
         return $id;    
@@ -34,6 +39,29 @@ class UnitUserSystem extends Model
         ];
 
         return $names;
+    }
+
+    // Retorna uma lista de técnicos baseado na unidade logada
+    public function listTechnicalUnit(?int $idUnit = null) : array
+    {
+        if($idUnit) {
+            $unit = (new Vw_unit_user())->find("
+                id_unit = :id AND 
+                (type_access_unit = :ty OR type_access_unit = :ta) AND
+                status_user_unit = :st AND
+                status_user_system = :stu",
+                "id={$idUnit}&ty=tecnico&ta=coordenadoria&st=ativo&stu=ativo")
+            ->fetch(true);
+        } else {
+            $unit = (new Vw_unit_user())->find("
+                (type_access_unit = :ty OR type_access_unit = :ta) AND
+                status_user_unit = :st AND
+                status_user_system = :stu",
+                "ty=tecnico&ta=coordenadoria&st=ativo&stu=ativo")
+            ->fetch(true);            
+        }
+
+        return $unit;
     }
 
 }

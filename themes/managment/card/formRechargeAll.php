@@ -1,16 +1,9 @@
 <div class="flex items-center mx-auto bg-white max-w-[960px] h-full" data-menu="cartao">
     
-    <form 
-        data-confirm="true" 
-        data-message="Tem cerceza que deseja fazer essa solicitação?" 
-        action="<?= url("/solicitarcartao") ?>" 
-        method="post" 
-        class="w-full p-4 flex flex-col gap-12"
-    >
-    
+    <form action="<?= url("/recargacartao") ?>" method="post" class="w-full p-4 flex flex-col gap-12">
     <?= csrf_input(); ?>
         <div class="flex flex-col gap-2">
-            <h1 class="text-xl font-semibold">Solicitação de Cartão</h1>
+            <h1 class="text-xl font-semibold">Solicitação de Recarga</h1>
             <p>Preencha as seguintes informações</p>
             <span class="bg-gray-200 h-[3px] w-full"></span>
         </div>
@@ -33,11 +26,11 @@
 
             <div class="flex flex-col md:flex-row w-full gap-4">
                 <div class="flex flex-col w-full">
-                    <label for="person-benefit" class="text-gray-800 font-semibold">Beneficiário *</label>
-                        <select name="person-benefit" id="person-benefit" class="w-full border border-gray-300 p-2 rounded-xs">
+                    <label for="bene" class="text-gray-800 font-semibold">Beneficiário</label>
+                        <select name="person-benefit" class="w-full border border-gray-300 p-2 rounded-xs">
                             <option value="">Selecione</option>
                             <?php foreach($personbenefit as $personbenefititem): ?>    
-                                <option value="<?= $personbenefititem->id_person_benefit; ?>"><?= $personbenefititem->name_benefit; ?></option>
+                                <option value="<?= $personbenefititem->id_person_benefit; ?>"><?= $personbenefititem->id_card_request; ?> - <?= $personbenefititem->name_benefit; ?></option>
                             <?php endforeach; ?>
                         </select>
                 </div>
@@ -45,30 +38,29 @@
 
             <div class="flex flex-col md:flex-row w-full gap-4">
                 <div class="flex flex-col w-full">
-                    <label for="month-start" class="text-gray-800 font-semibold">Mês inicio *</label>
-                    <input type="text" name="month-start" id="month-start" placeholder="Mês de início" class="w-full border border-gray-300 p-2 rounded-xs">
+                    <label for="tec" class="text-gray-800 font-semibold">Mês inicio</label>
+                    <input type="text" name="month-start" placeholder="Mês de início" class="w-full border border-gray-300 p-2 rounded-xs">
                 </div>
                 <div class="flex flex-col w-full">
-                    <label for="month-end" class="text-gray-800 font-semibold">Mês fim *</label>
-                    <input type="text" name="month-end" id="month-end" placeholder="Mês de fim" class="w-full border border-gray-300 p-2 rounded-xs">
+                    <label for="tec" class="text-gray-800 font-semibold">Mês fim</label>
+                    <input type="text" name="month-end" placeholder="Mês de fim" class="w-full border border-gray-300 p-2 rounded-xs">
                 </div>
             </div>
             
             <div class="flex flex-col md:flex-row w-full gap-4">
                 <div class="flex flex-col w-full">
-                    <label for="technician" class="text-gray-800 font-semibold">Técnico(a) *</label>
-                    <select type="text" name="technician" id="technician" placeholder="Técnico" class="w-full border border-gray-300 p-2 rounded-xs">
+                    <label for="tec" class="text-gray-800 font-semibold">Técnico(a)</label>
+                    <select type="text" name="technician" placeholder="Técnico" class="w-full border border-gray-300 p-2 rounded-xs">
                         <option value="">Selecione</option>
-                        <option value="1">LUCAS DOS SANTOS SILVA</option>
-                        <option value="2">ALDENORA BAIA</option>
-                        <option value="3">KARINA COSTA BARROS</option>
-                        <option value="4">GABRIEL</option>
+                            <?php foreach($technicalUnit as $technicalUnitItem): ?>    
+                                <option value="<?= $technicalUnitItem->id_unit_user_system; ?>"><?= $technicalUnitItem->name_full; ?> - <?= $technicalUnitItem->name_unit; ?></option>
+                            <?php endforeach; ?>
                     </select>
                 </div>
 
                 <div class="flex flex-col w-full">
-                    <label for="date-request" class="text-gray-800 font-semibold">Data da Solicitação *</label>
-                    <input type="date" name="date-request" id="date-request" placeholder="data" class="w-full border border-gray-300 p-2 rounded-xs">
+                    <label for="data" class="text-gray-800 font-semibold">Data da Solicitação</label>
+                    <input type="date" name="date-request" placeholder="data" class="w-full border border-gray-300 p-2 rounded-xs">
                 </div>
             </div>
 
@@ -79,7 +71,5 @@
             </div>
 
         </div>
-
     </form>
-
 </div>

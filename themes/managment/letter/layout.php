@@ -56,32 +56,32 @@
             <!-- De/Para -->
             <div class="mb-4">
                 <p class="font-bold">Da: Setor de Benefícios Eventuais - Coordenadoria de Gestão de Benefícios Socioassistencial-CGBSA</p>
-                <p class="font-bold"><?= $unit ??  null; ?></p>
+                <p class="font-bold">Para: <?= $unit ??  null; ?></p>
             </div>
 
             <!-- Conteúdo -->
             <?= $this->section("content"); ?>
 
             <p class="mb-8">Atenciosamente,</p>
-                <div class="mt-[70px]">
-                    <!-- Assinatura (alinhada à direita) -->
-                    <div class="text-center mb-6 mb-[70px]">
-                        <p class="font-bold text-lg">Victor Nunes Lara</p>
-                        <p class="font">Coordenadoria de Gestão de Benefícios</p>
-                        <p class="text-sm">Mat: 0282067</p>
+                <div class="mt-[40px]">
+                        <!-- Assinatura (alinhada à direita) -->
+                        <div class="text-center mb-6 mb-[50px]">
+                            <p class="font-bold text-lg">Victor Nunes Lara</p>
+                            <p class="font">Coordenadoria de Gestão de Benefícios</p>
+                            <p class="text-sm">Mat: 0282067</p>
+                        </div>
+                        <div class="h-[3px] w-full bg-gradient-to-r from-blue-500 via-green-500 to-yellow-500"></div>
+                        <!-- Rodapé com logos e endereço -->
+                    <div class="flex flex-col items-center text-sm">
+                        <div class="flex items-center gap-2">
+                            <img src="<?= theme("/img/logo_semdes.jpeg", CONF_VIEW_APP); ?>" alt="logo semdes" class="w-[90px]">
+                            <img src="<?= theme("/img/pmcc.png", CONF_VIEW_APP); ?>" alt="Logo Canaã" class="w-[120px]">
+                        </div>
+                        <p>SECRETARIA DE DESENVOLVIMENTO SOCIAL - SEMDES</p>
+                        <p>Avenida Ipanema S/N, - Novo Horizonte II - CEP 68.356.193 - Canaã dos Carajás/PA</p>
+                        <div>e-mail institucional: <span class="text-blue-500 font-bold">semdes@canaadoscarajas.pa.gov.br</span></div>
                     </div>
-                    <div class="h-[3px] w-full bg-gradient-to-r from-blue-500 via-green-500 to-yellow-500"></div>
-                    <!-- Rodapé com logos e endereço -->
-                <div class="flex flex-col items-center text-sm">
-                    <div class="flex items-center gap-2">
-                        <img src="<?= theme("/img/logo_semdes.jpeg", CONF_VIEW_APP); ?>" alt="logo semdes" class="w-[90px]">
-                        <img src="<?= theme("/img/pmcc.png", CONF_VIEW_APP); ?>" alt="Logo Canaã" class="w-[120px]">
-                    </div>
-                    <p>SECRETARIA DE DESENVOLVIMENTO SOCIAL - SEMDES</p>
-                    <p>Avenida Ipanema S/N, - Novo Horizonte II - CEP 68.356.193 - Canaã dos Carajás/PA</p>
-                    <div>e-mail institucional: <span class="text-blue-500 font-bold">semdes@canaadoscarajas.pa.gov.br</span></div>
                 </div>
-            </div>
         </div>
     </div>
 

@@ -22,7 +22,7 @@
                         <td class="py-3 px-4 text-sm text-gray-800"><?= $listRechargeItem->name_benefit; ?></td>
                         <td class="py-3 px-4 text-sm text-gray-600"><?= $listRechargeItem->cpf; ?></td>
                         <td class="py-3 px-4 text-center"><?= fncMonthString($listRechargeItem->month_recharge); ?>/<?= $listRechargeItem->year_recharge; ?></td>
-                        <td class="py-3 px-4 text-center"><?= str_price($listRechargeItem->value); ?></td>
+                        <td class="py-3 px-4 text-center"><?= fncstr_price($listRechargeItem->value); ?></td>
                         <td class="py-3 px-4 text-center"><?= $listRechargeItem->status_recharge; ?>-<?= $listRechargeItem->type_request; ?></td>
                         <td class="py-3 px-4 text-center">
                             <input type="checkbox" name="sendrecharge-<?= $count ++; ?>" 

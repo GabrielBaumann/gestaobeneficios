@@ -17,18 +17,6 @@ class RequestCard extends Model
     // Novo Cartão 
     public function newCard(array $data, bool $type = false) : bool   
     {   
-        // Verifica os números dos meses são válidos
-        if(!is_int($data["month-start"]) && $data["month-start"] <= 0 || !is_int($data["month-end"]) && $data["month-end"] < 0) {
-            $this->message->warning("Os números de meses não são válidos!");
-            return false;  
-        }
-
-        // Verificar se o mês de início é maior que o mês de fim
-        if($data["month-start"] > $data["month-end"]) {
-            $this->message->warning("O Mês de início não pode ser maior que o mês de fim!");
-            return false;  
-        }
-
         // Buscar coordenador baseado no id do tecnico
         $unitUserSystem = new UnitUserSystem();
         $idunitCoordinator = $unitUserSystem->findById($data["technician"]);
@@ -46,7 +34,7 @@ class RequestCard extends Model
 
         $request->save();
 
-        // // Cria cartão e retorna o id do cartão
+        // Cria cartão e retorna o id do cartão
         $addCard = (new Card())->dataCard(["idCardRequest" => $request->id_card_request]);
 
         // Criar quantidade de recargas
@@ -60,10 +48,11 @@ class RequestCard extends Model
     // Segunda via de cartão
     public function secondCard(array $data) : bool
     {
+        $indBenefit = (int)$data["person-benefit"];
         $cardCanceled = (new Vw_card())
             ->find("id_person_benefit = :id AND 
                 status_card = :st", 
-                "id={$data["person-benefit"]}&st=cancelado")
+                "id={$indBenefit}&st=cancelado")
             ->order("id_card_request", "DESC")
             ->fetch();
 
@@ -196,7 +185,7 @@ class RequestCard extends Model
     {
         // Verificar o status da solicitação, se for solicitado pode exlcuir se não, não pode excluir
         $requestCard = (new Vw_card())->findById($idRequestCard);
-
+        
         if(mb_strtolower($requestCard->status_request, 'UTF-8') != "solicitado") {
             $this->message->warning("Impossível excluir essa solicitação, ela já está em tramitação!");
             return false;
@@ -206,7 +195,6 @@ class RequestCard extends Model
         $idDeleteRequest->destroy();
         $idDeleteCard = (new Card())->find("id_card_request = :id","id={$idRequestCard}")->fetch();
         $idDeleteCard->destroy();
-        $idDeleteCardRecharge = (new CardRecharge())->delete("id_card_request = :id","id={$idRequestCard}");
 
         $this->message->success("Registro excluído com sucesso!");
         return true;
@@ -216,7 +204,20 @@ class RequestCard extends Model
     public function checkRequest(array $data) : bool
     {
         // Verificar se já existe pedido de novo cartão ou segunda via de cartão
-        $vwCard = (new Vw_card())->find("id_person_benefit = :id AND type_request IN ('novo cartão','segunda via') AND status_card IN ('ativo','confecção','aguardando cartão')", "id={$data["person-benefit"]}")->fetch(true);
+        $vwCard = (new Vw_card())
+        ->find("id_person_benefit = :id AND 
+            type_request IN ('novo cartão','segunda via') AND 
+            status_card IN ('ativo','confecção','aguardando cartão','cancelado')",
+            "id={$data["person-benefit"]}")
+            ->fetch(true);
+
+        // Verificar se é cancelado
+        if (!empty($vwCard) && $vwCard[0]->status_card === "cancelado") {
+            $this->message->warning("O cartão foi cancelado, por favor faça uma solicitação de segunda-via!");
+            return false;
+        }
+
+        // Solicitação já existentes
         if($vwCard) {
             $this->message->warning("Já existe uma solicitação para esse beneficiário!");
             return false;
@@ -237,5 +238,48 @@ class RequestCard extends Model
         }
         return $number;    
     }
-    
+
+    // Recarga
+    public function rechargeCard(array $data) : int
+    {
+
+        $idBenefit = (int)$data["person-benefit"];;
+        $idCoordenator = (new UnitUserSystem())
+            ->activeCoordinator((int)$data["technician"]);
+
+        $recharge = (new static());
+        $recharge->id_person_benefit = $idBenefit;
+        $recharge->id_unit_server = (int)$data["technician"];
+        $recharge->id_unit_coordinator = $idCoordenator;
+        $recharge->status_request = "concluída";
+        $recharge->type_request = "recarga";
+        $recharge->date_request = $data["date-request"];
+        $recharge->id_user_system_register = 1;
+        $recharge->save();
+
+        return $recharge->id_card_request;
+    }
+
+    // Recarga extra
+    public function requestRechargeExtraCard(array $data) : int
+    {
+
+        $idBenefit = (int)$data["person-benefit"];;
+        $idCoordenator = (new UnitUserSystem())
+            ->activeCoordinator((int)$data["technician"]);
+
+        $recharge = (new static());
+        $recharge->id_person_benefit = $idBenefit;
+        $recharge->id_unit_server = (int)$data["technician"];
+        $recharge->id_unit_coordinator = $idCoordenator;
+        $recharge->status_request = "concluída";
+        $recharge->type_request = "recarga extra";
+        $recharge->date_request = $data["date-request"];
+        $recharge->id_user_system_register = 1;
+        $recharge->save();
+
+        return $recharge->id_card_request;
+    }
+
+
 }

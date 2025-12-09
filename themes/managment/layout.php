@@ -17,7 +17,8 @@
         }
     </style>
 <body>
-    <div class="flex h-screen p-4 bg-green-50 flex gap-4">
+    <div class="flex h-screen">
+    <div><?= flash(); ?></div>
         <!-- lateral aside -->
         <aside id="sidebar-main" class="bg-white rounded-xl  relative hidden w-full md:flex flex-col justify-between md:w-[300px] md:min-w-[300px] md:max-w-[300px] p-6 overflow-y-auto">
             <button class="md:hidden absolute top-4 right-4" onclick="toggleMenu()">

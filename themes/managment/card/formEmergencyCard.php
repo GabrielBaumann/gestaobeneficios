@@ -1,6 +1,11 @@
 <div class="flex items-center mx-auto bg-white max-w-[960px] h-full" data-menu="cartao">
     
-    <form action="<?= url("/cartaoemergencial") ?>" method="post" class="w-full p-4 flex flex-col gap-12">
+    <form 
+        data-confirm="true" 
+        data-message="Tem cerceza que deseja fazer essa solicitação?" 
+        action="<?= url("/cartaoemergencial") ?>" 
+        method="post" 
+        class="w-full p-4 flex flex-col gap-12">
     <?= csrf_input(); ?>
         <div class="flex flex-col gap-2">
             <h1 class="text-xl font-semibold">Solicitação de Cartão Emergencial</h1>
@@ -23,42 +28,44 @@
                     </div>
                 </div>
                     <div class="flex flex-col w-full">
-                    <label for="bene" class="text-gray-800 font-semibold">Nº Cartão</label>
+                    <label for="number-card" class="text-gray-800 font-semibold">Nº Cartão *</label>
                     <div class="flex gap-2">
-                        <input type="text" name="number-card" class="w-[300px] border border-gray-300 p-2 rounded-xs">
+                        <input type="text" name="number-card" id="number-card" class="w-[300px] border border-gray-300 p-2 rounded-xs">
                     </div>
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row w-full gap-4">
                 <div class="flex flex-col w-full">
-                    <label for="bene" class="text-gray-800 font-semibold">Beneficiário</label>
-                    <select name="person-benefit" class="w-full border border-gray-300 p-2 rounded-xs">
-                        <option value="1">Selecione</option>
-                        <option value="111">Teste</option>
-                        <option value="1111">AAAA</option>
+                    <label for="person-benefit" class="text-gray-800 font-semibold">Beneficiário *</label>
+                    <select name="person-benefit" id="person-benefit" class="w-full border border-gray-300 p-2 rounded-xs">
+                        <option value="">Selecione</option>
+                        <?php foreach($listEmergency as $listEmergencyItem): ?>    
+                            <option value="<?= $listEmergencyItem->id_person_benefit; ?>"><?= $listEmergencyItem->name_benefit; ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
             </div>
             
             <div class="flex flex-col md:flex-row w-full gap-4">
                 <div class="flex flex-col w-full">
-                    <label for="tec" class="text-gray-800 font-semibold">Técnico(a)</label>
-                    <select type="text" name="technician" placeholder="Técnico" class="w-full border border-gray-300 p-2 rounded-xs">
-                        <option value="1">LUCAS DOS SANTOS SILVA</option>
-                        <option value="3">KARINA COSTA BARROS</option>
-                        <option value="4">GABRIEL</option>
+                    <label for="technician" class="text-gray-800 font-semibold">Técnico(a) *</label>
+                    <select type="text" name="technician" id="technician" placeholder="Técnico" class="w-full border border-gray-300 p-2 rounded-xs">
+                        <option value="">Selecione</option>
+                        <?php foreach($listTechnical as $listTechnicalItem): ?>
+                            <option value="<?= $listTechnicalItem->id_unit_user_system; ?>"><?= $listTechnicalItem->name_full; ?> - <?= $listTechnicalItem->name_unit; ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
 
                 <div class="flex flex-col w-full">
-                    <label for="data" class="text-gray-800 font-semibold">Data da Solicitação</label>
-                    <input type="date" name="date-request" placeholder="data" class="w-full border border-gray-300 p-2 rounded-xs">
+                    <label for="date-request" class="text-gray-800 font-semibold">Data da Solicitação *</label>
+                    <input type="date" name="date-request" id="date-request" placeholder="data" class="w-full border border-gray-300 p-2 rounded-xs">
                 </div>
             </div>
 
             <div class="flex justify-end">
-            <button name="btn-send" value="send" class="rounded-md bg-green-700 text-white font-semibold px-6 py-2 cursor-pointer hover:bg-green-800">
+            <button class="rounded-md bg-green-700 text-white font-semibold px-6 py-2 cursor-pointer hover:bg-green-800">
                 <span>Salvar</span>
             </button>
             </div>
