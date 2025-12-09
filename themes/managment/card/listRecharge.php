@@ -1,5 +1,5 @@
 <?php if (!empty($listRecharge)): ?>
-    <form action="<?= url("/gerarrecarga"); ?>" method="post">
+    <form action="<?= url("/gerarrecarga"); ?>" method="post" id="all">
         <table class="w-full">
             <thead class="bg-gray-50">
                 <tr>
@@ -10,6 +10,7 @@
                     <th class="py-3 px-4 text-center text-sm font-medium text-gray-700 uppercase tracking-wider">Valor</th>
                     <th class="py-3 px-4 text-center text-sm font-medium text-gray-700 uppercase tracking-wider">Status</th>
                     <th class="py-3 px-4 text-center text-sm font-medium text-gray-700 uppercase tracking-wider">Sem resposta</th>
+                    <th class="py-3 px-4 text-center text-sm font-medium text-gray-700 uppercase tracking-wider">opções</th>
                 </tr>
             </thead>
             <?php $count = 1; ?>
@@ -27,6 +28,13 @@
                             <input type="checkbox" name="sendrecharge-<?= $count ++; ?>" 
                                 value="<?= $listRechargeItem->id_card_recharge; ?>"
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                        </td>
+                        <td class="py-3 px-4 text-center">
+                            <button onclick="">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                </svg>
+                            </button>
                         </td>
                         </tr>
                     <?php endforeach;?>
@@ -48,12 +56,63 @@
         </button>
 
     </form>
+
+    
+
 <?php else: ?>
     <div>Não há dados.</div>
 <?php endif; ?>
 
 <script>
-    function showRecharges() {
-        
+    // Função para chamar modal quest
+function fncModalQuest (vIdButton) {
+    document.addEventListener("click", (e) => {
+        const vButton = e.target.closest("button");
+        if(vButton && vButton.id === vIdButton) {
+            const vUrl = vButton.dataset.url;
+            fetch(vUrl)
+            .then(response => response.json())
+            .then(data => {
+
+                if(data.message) {
+                    fncMessage(data.message);
+                    return;
+                }
+
+                document.getElementById("response")?.remove();
+                if (document.getElementById("modal")) return document.getElementById("modal").remove();
+
+                const vElement = document.createElement("div");
+                vElement.id = "modal";
+                vElement.innerHTML = data.html;
+                document.body.appendChild(vElement);
+            })
+        }
+    });
+}
+
+// Cancelar ação
+document.addEventListener("click", (e) => {
+    const vButton = e.target.closest("button")
+    if(vButton && vButton.id === "cancelBtn") {
+        document.getElementById("response")?.remove();
+        document.getElementById('modal').remove();
     }
+});
+
+// Fechar modal clicando no overlay (fora da modal)
+document.addEventListener("click", (e) => {
+    if(e.target.id === "confirmationModal") {
+        document.getElementById("response")?.remove();
+        document.getElementById("modal").remove();
+    }
+})
+
+// Fechar com ESC
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        document.getElementById("response")?.remove();
+        document.getElementById('modal').remove();
+    }
+});
 </script>
