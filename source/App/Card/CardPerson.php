@@ -565,6 +565,11 @@ class CardPerson extends Controller
         ]);           
     }
 
+    public function benefit() : void
+    {
+        
+    }
+
     // Cancelar cartão
     public function cardCancel(array $data) : void 
     {

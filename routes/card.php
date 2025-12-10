@@ -28,6 +28,8 @@ $route->namespace("Source\App\Card");
    $route->get("/solicitarnovocartao", "CardPerson:newCard");
    $route->post("/procurarcartao", "CardPerson:searchCard");
 
+   $route->get("/beneficiario", "CardPerson:benefit");
+
    $route->get("/solicitaremergencial","CardPerson:listEmergency");
    $route->get("/cartaoemergencial","CardPerson:requestEmergency");
    $route->post("/cartaoemergencial","CardPerson:requestEmergency");

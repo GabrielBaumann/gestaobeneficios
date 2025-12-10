@@ -11,6 +11,7 @@
                 <a href="<?= url("/cartao/novocartao");?>" class="text-center justify-center main-card-menu novo py-1 px-4 cursor-pointer font-semibold duration-all transition-300 w-full md:w-auto text-gray-400 text-gray-800 border-b-4 border-gray-900">Novo</a>
                 <a href="<?= url("/cartao/solicitaremergencial");?>" class="text-center justify-center main-card-menu emergencial py-1 px-4 cursor-pointer text-gray-400 font-semibold duration-all transition-300 w-full md:w-auto">Emergencial</a>
                 <a href="<?= url("/cartao/recarga");?>" class="text-center justify-center main-card-menu recarga py-1 px-4 cursor-pointer text-gray-400 font-semibold duration-all transition-300 w-full md:w-auto">Recarga</a>
+                <a href="<?= url("/cartao/beneficiario");?>" class="text-center justify-center main-card-menu recarga py-1 px-4 cursor-pointer text-gray-400 font-semibold duration-all transition-300 w-full md:w-auto">Beneficiário</a>
             </div>
         </header>
     
@@ -310,7 +311,7 @@
 <script>
     
     const vUrlPage =  window.location.pathname.replace(/\/$/, "").split("/").pop();
-    
+    console.log(vUrlPage)
     const novo = document.getElementsByClassName("novo");
     const emergencial = document.getElementsByClassName("emergencial");
     const via = document.getElementsByClassName("2_via");
@@ -333,6 +334,10 @@
         via[0].classList.add('border-b-4', 'border-gray-900', 'text-gray-800');
     }
       else if (vUrlPage === 'recarga') {
+        recarga[0].classList.add('border-b-4', 'border-gray-900', 'text-gray-800');
+        novo[0].classList.remove('border-b-4', 'border-gray-900', 'text-gray-800');
+    }
+      else if (vUrlPage === 'beneficiario') {
         recarga[0].classList.add('border-b-4', 'border-gray-900', 'text-gray-800');
         novo[0].classList.remove('border-b-4', 'border-gray-900', 'text-gray-800');
     }

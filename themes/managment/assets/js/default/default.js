@@ -1,7 +1,7 @@
 import { fncModalQuest, fncClosedModal, fncClosedOverlay, fncClosedEsc } from "../libs/utility"
 
-//*  Scripts padrões para todo o sistema *//
-let vArrayInput = [];
+// //*  Scripts padrões para todo o sistema *//
+// let vArrayInput = [];
 removeFlash()
 
 // Verifica o tamanho da tela e chama a função de responsividade
@@ -160,6 +160,7 @@ document.getElementById("search-all")?.addEventListener("click", async (e) => {
 /**############################### */
 function showSplash($new = false) {
     if(document.getElementById("response")) document.getElementById("response").remove();
+    let load 
     load = document.createElement("div");
     load.id = "response";
     load.innerHTML = 
