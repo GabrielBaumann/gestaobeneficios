@@ -1,6 +1,6 @@
 <?php
 
-namespace Source\App;
+namespace Source\App\Water;
 
 use Source\Core\Controller;
 
@@ -11,7 +11,7 @@ class Water extends Controller
 
     public function __construct()
     {
-        parent::__construct(__DIR__ . "/../../themes/" . CONF_VIEW_APP . "/");
+        parent::__construct(__DIR__ . "/../../../themes/" . CONF_VIEW_APP . "/");
         
         // if (!$this->user = Auth::user()) {
         //     $this->message->warning("Efetue login para acessar o sistema.")->flash();

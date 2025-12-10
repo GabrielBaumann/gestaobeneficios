@@ -185,26 +185,32 @@ export function fncModalQuest (vIdButton) {
 }
 
 // Cancelar ação
-document.addEventListener("click", (e) => {
-    const vButton = e.target.closest("button")
-    if(vButton && vButton.id === "cancelBtn") {
-        document.getElementById("response")?.remove();
-        document.getElementById('modal').remove();
-    }
-});
+export function fncClosedModal() {
+    document.addEventListener("click", (e) => {
+        const vButton = e.target.closest("button")
+        if(vButton && vButton.id === "cancelBtn") {
+            document.getElementById("response")?.remove();
+            document.getElementById('modal').remove();
+        }
+    });
+}
 
 // Fechar modal clicando no overlay (fora da modal)
-document.addEventListener("click", (e) => {
-    if(e.target.id === "confirmationModal") {
-        document.getElementById("response")?.remove();
-        document.getElementById("modal").remove();
-    }
-})
+export function fncClosedOverlay() {
+    document.addEventListener("click", (e) => {
+        if(e.target.id === "confirmationModal") {
+            document.getElementById("response")?.remove();
+            document.getElementById("modal").remove();
+        }
+    })
+}
 
 // Fechar com ESC
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        document.getElementById("response")?.remove();
-        document.getElementById('modal').remove();
-    }
-});
+export function fncClosedEsc() {
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.getElementById("response")?.remove();
+            document.getElementById('modal').remove();
+        }
+    });
+}

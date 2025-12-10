@@ -1,4 +1,4 @@
-import { fncModalQuest } from "../libs/utility"
+import { fncModalQuest, fncClosedModal, fncClosedOverlay, fncClosedEsc } from "../libs/utility"
 
 //*  Scripts padrões para todo o sistema *//
 let vArrayInput = [];
@@ -298,8 +298,6 @@ function showSplashNavigation() {
 /*#############  Modal yes/no ############*/
 /*########################################*/
 
-fncModalQuest("showModal");
-
 // Função para chamar modal quest
 // function fncModalQuest (vIdButton) {
 //     document.addEventListener("click", (e) => {
@@ -326,6 +324,7 @@ fncModalQuest("showModal");
 //         }
 //     });
 // }
+fncModalQuest("showModal");
 
 // // Cancelar ação
 // document.addEventListener("click", (e) => {
@@ -335,7 +334,7 @@ fncModalQuest("showModal");
 //         document.getElementById('modal').remove();
 //     }
 // });
-
+fncClosedModal();
 // // Fechar modal clicando no overlay (fora da modal)
 // document.addEventListener("click", (e) => {
 //     if(e.target.id === "confirmationModal") {
@@ -343,7 +342,7 @@ fncModalQuest("showModal");
 //         document.getElementById("modal").remove();
 //     }
 // })
-
+fncClosedOverlay();
 // // Fechar com ESC
 // document.addEventListener('keydown', (e) => {
 //     if (e.key === 'Escape') {
@@ -351,7 +350,7 @@ fncModalQuest("showModal");
 //         document.getElementById('modal').remove();
 //     }
 // });
-
+fncClosedEsc();
 // toggle menu on mobile
 function toggleMenu() {
     const sidebar = document.getElementById("sidebar-main");
