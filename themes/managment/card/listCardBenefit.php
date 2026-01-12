@@ -1,14 +1,14 @@
 <?php if (!empty($card)): ?>
 
     <table class="w-full">
-        <thead class="bg-gray-50">
+        <thead class="">
             <tr>
-                <th class="py-3 px-4 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">Id_card</th>
-                <th class="py-3 px-4 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">Nº Cartão</th>
-                <th class="py-3 px-4 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">Data Requerimento</th>
-                <th class="py-3 px-4 text-center text-sm font-medium text-gray-700 uppercase tracking-wider">Tipo</th>
-                <th class="py-3 px-4 text-center text-sm font-medium text-gray-700 uppercase tracking-wider">Status</th>
-                 <th class="py-3 px-4 text-center text-sm font-medium text-gray-700 uppercase tracking-wider">Ações</th>
+                <th class="py-3 px-4 text-left text-sm font-medium text-white uppercase tracking-wider">Id_card</th>
+                <th class="py-3 px-4 text-left text-sm font-medium text-white uppercase tracking-wider">Nº Cartão</th>
+                <th class="py-3 px-4 text-left text-sm font-medium text-white uppercase tracking-wider">Data Requerimento</th>
+                <th class="py-3 px-4 text-center text-sm font-medium text-white uppercase tracking-wider">Tipo</th>
+                <th class="py-3 px-4 text-center text-sm font-medium text-white uppercase tracking-wider">Status</th>
+                 <th class="py-3 px-4 text-center text-sm font-medium text-white uppercase tracking-wider">Ações</th>
             </tr>
         </thead>
         <?php $count = 1; ?>
@@ -16,9 +16,9 @@
             <?php if (!empty($card)): ?>
                 <?php foreach($card as $item):?>
                     <!-- <tr onclick="showRecharges()"  class="hover:bg-gray-50 transition-colors"> -->
-                    <td class="py-3 px-4 text-sm text-gray-800"><?= $item->id_card; ?></td>
-                    <td class="py-3 px-4 text-sm text-gray-800"><?= $item->number_card ?? 000; ?></td>
-                    <td class="py-3 px-4 text-sm text-gray-600"><?= date_simple($item->date_request); ?></td>
+                    <td class="py-3 px-4 text-sm text-white"><?= $item->id_card; ?></td>
+                    <td class="py-3 px-4 text-sm text-white"><?= $item->number_card ?? 000; ?></td>
+                    <td class="py-3 px-4 text-sm text-white"><?= date_simple($item->date_request); ?></td>
                     <td class="py-3 px-4 text-center"><?= $item->type_request; ?></td>
                     <td class="py-3 px-4 text-center">
                         <span class="status px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">

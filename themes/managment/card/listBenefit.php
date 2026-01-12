@@ -1,22 +1,22 @@
 <?php if (!empty($listBenefit)): ?>
 
     <table class="w-full">
-        <thead class="bg-gray-50">
+        <thead class="">
             <tr>
-                <th class="py-3 px-4 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">Id</th>
-                <th class="py-3 px-4 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">Nome</th>
-                <th class="py-3 px-4 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">CPF</th>
-                <th class="py-3 px-4 text-center text-sm font-medium text-gray-700 uppercase tracking-wider">Recarga</th>
-                <th class="py-3 px-4 text-center text-sm font-medium text-gray-700 uppercase tracking-wider">Cartão</th>
+                <th class="py-3 px-4 text-left text-sm font-medium text-white uppercase tracking-wider">Id</th>
+                <th class="py-3 px-4 text-left text-sm font-medium text-white uppercase tracking-wider">Nome</th>
+                <th class="py-3 px-4 text-left text-sm font-medium text-white uppercase tracking-wider">CPF</th>
+                <th class="py-3 px-4 text-center text-sm font-medium text-white uppercase tracking-wider">Recarga</th>
+                <th class="py-3 px-4 text-center text-sm font-medium text-white uppercase tracking-wider">Cartão</th>
             </tr>
         </thead>
         <?php $count = 1; ?>
         <tbody class="divide-y divide-gray-200">
                 <?php foreach($listBenefit as $listBenefitItem):?>
                     <!-- <tr onclick="showRecharges()"  class="hover:bg-gray-50 transition-colors"> -->
-                    <td class="py-3 px-4 text-sm text-gray-800"><?= $listBenefitItem->id_person_benefit; ?></td>
-                    <td class="py-3 px-4 text-sm text-gray-800"><?= $listBenefitItem->name_benefit; ?></td>
-                    <td class="py-3 px-4 text-sm text-gray-600"><?= $listBenefitItem->cpf; ?></td>
+                    <td class="py-3 px-4 text-sm text-white"><?= $listBenefitItem->id_person_benefit; ?></td>
+                    <td class="py-3 px-4 text-sm text-white"><?= $listBenefitItem->name_benefit; ?></td>
+                    <td class="py-3 px-4 text-sm text-white"><?= $listBenefitItem->cpf; ?></td>
                     <td class="py-3 px-4 text-center">
                         
                         <a href="<?=  url("/cartao/recargabeneficiario") . "/" . fncEncrypt($listBenefitItem->id_person_benefit); ?>">

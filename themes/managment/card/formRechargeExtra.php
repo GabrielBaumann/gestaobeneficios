@@ -1,4 +1,4 @@
-<div class="flex items-center mx-auto bg-white max-w-[960px] h-full" data-menu="cartao">
+<div class="flex items-center mx-auto max-w-[960px] h-full" data-menu="cartao">
     
     <form 
         action="<?= url("/cartao/recargaextra") ?>" 

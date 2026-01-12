@@ -1,13 +1,13 @@
 <?php if (!empty($recharge)): ?>
 
     <table class="w-full">
-        <thead class="bg-gray-50">
+        <thead class="">
             <tr>
-                <th class="py-3 px-4 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">Id_Recarga</th>
-                <th class="py-3 px-4 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">Valor</th>
-                <th class="py-3 px-4 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">Mês</th>
-                <th class="py-3 px-4 text-center text-sm font-medium text-gray-700 uppercase tracking-wider">Ano</th>
-                <th class="py-3 px-4 text-center text-sm font-medium text-gray-700 uppercase tracking-wider">Status</th>
+                <th class="py-3 px-4 text-left text-sm font-medium text-white uppercase tracking-wider">Id_Recarga</th>
+                <th class="py-3 px-4 text-left text-sm font-medium text-white uppercase tracking-wider">Valor</th>
+                <th class="py-3 px-4 text-left text-sm font-medium text-white uppercase tracking-wider">Mês</th>
+                <th class="py-3 px-4 text-center text-sm font-medium text-white uppercase tracking-wider">Ano</th>
+                <th class="py-3 px-4 text-center text-sm font-medium text-white uppercase tracking-wider">Status</th>
             </tr>
         </thead>
         <?php $count = 1; ?>
