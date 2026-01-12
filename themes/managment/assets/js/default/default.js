@@ -1,4 +1,4 @@
-import { fncModalQuest, fncClosedModal, fncClosedOverlay, fncClosedEsc } from "../libs/utility"
+import { fncModalQuest, fncClosedModal, fncClosedOverlay, fncClosedEsc, fncSearchInput, fncCleanInput } from "../libs/utility"
 
 // //*  Scripts padrões para todo o sistema *//
 // let vArrayInput = [];
@@ -61,98 +61,12 @@ function fncSanitizeCaractere(vTextSanitize) {
         .trim();
 }
 
-// Aviso de input vazio realce no campo e na label
-// const vform = document.getElementsByTagName('form');
-// if (vform) {
 
-//     document.addEventListener("submit", (e) => {
-//         const vLabel = document.querySelectorAll("label");
-//         vLabel.forEach(element => {
+// Função para pesquisar resultados a partir do valor de um input
+fncSearchInput();
 
-//             // const vElemente = element.innerText.includes("*")
-           
-//             if (element.innerText.includes("*")) {
-//                 // console.log(element.getAttribute("for"))
-//                 element.classList.add("requerid-alert");
-//                 const elemente =  document.getElementById(element.getAttribute("for"))
-//                 elemente.classList.add("requerid-alert");
-//             }
-
-//             // if(element.innerText.includes("*") && element.nextElementSibling.value === "") {
-//             //     element.classList.add("requerid-alert");
-//             //     element.nextElementSibling.classList.add("requerid-alert");
-//             //     console.log(element.nextElementSibling)        
-//             // };
-//         })
-//     })
-
-//     document.addEventListener("input", (e) => {
-//         if(e.target.classList.contains("requerid-alert") && e.target.value != "") {
-//             e.target.classList.remove("requerid-alert")
-//             e.target.previousElementSibling.classList.remove("requerid-alert");
-//         };
-//     })
-// }
-
-
-// Pesquisa dinâmica com qualquer quantidadede de campos de pesquisa, os campos com classe input-search serão capturados
-// Também é necessário colocar um data-ajax no input para indicar o local que será renderizado o novo conteúdo da pesquisa
-// data-url para encaminhar o local do backend que fará a pesquisa
-
-document.getElementById("search-all")?.addEventListener("click", async (e) => {
-
-    const vInputsSearch = document.querySelectorAll(".input-search");
-    const vForm = new FormData();
-    const vArrayInput = [];
-    const vUrl = e.target.closest("button").dataset.url;
-
-    vInputsSearch.forEach(element => {
-
-        const vName = element.name;
-        const vValue = element.value;
-        const vIndex = vArrayInput.findIndex(objt => objt.hasOwnProperty(vName));
-
-        if (vIndex !== -1) {
-            vArrayInput[vIndex][vName] = vValue;
-        } else {
-            vArrayInput.push({[vName] : vValue});
-        }
-    });
-
-    vArrayInput.forEach(obj => {
-        for (let key in obj) {
-            vForm.append(key, obj[key]);
-        }
-    });
-
-    let timeoutLoading = showSplash(true);
-
-    try {
-        const vResponse = await fetch(vUrl, {
-            method: "POST",
-            body: vForm
-        })
-
-        const vData = await vResponse.json();
-        
-        if(vData.message) {
-            fncMessage(vData.message);
-            return;
-        }
-
-        if(vData.html) {
-            document.querySelector(".ajax-update").innerHTML = vData.html;
-        }
-
-    } catch (error) {
-        console.log(error);
-        fncMessage();
-    } finally {
-        timeoutLoading?.remove();
-    }
-
-});
-
+// Função para limpar input de pesquisa e renderizar lista completa
+fncCleanInput();
 
 
 /*#################################*/
@@ -300,58 +214,17 @@ function showSplashNavigation() {
 /*########################################*/
 
 // Função para chamar modal quest
-// function fncModalQuest (vIdButton) {
-//     document.addEventListener("click", (e) => {
-//         const vButton = e.target.closest("button");
-//         if(vButton && vButton.id === vIdButton) {
-//             const vUrl = vButton.dataset.url;
-//             fetch(vUrl)
-//             .then(response => response.json())
-//             .then(data => {
-
-//                 if(data.message) {
-//                     fncMessage(data.message);
-//                     return;
-//                 }
-
-//                 document.getElementById("response")?.remove();
-//                 if (document.getElementById("modal")) return document.getElementById("modal").remove();
-
-//                 const vElement = document.createElement("div");
-//                 vElement.id = "modal";
-//                 vElement.innerHTML = data.html;
-//                 document.body.appendChild(vElement);
-//             })
-//         }
-//     });
-// }
 fncModalQuest("showModal");
 
 // // Cancelar ação
-// document.addEventListener("click", (e) => {
-//     const vButton = e.target.closest("button")
-//     if(vButton && vButton.id === "cancelBtn") {
-//         document.getElementById("response")?.remove();
-//         document.getElementById('modal').remove();
-//     }
-// });
 fncClosedModal();
+
 // // Fechar modal clicando no overlay (fora da modal)
-// document.addEventListener("click", (e) => {
-//     if(e.target.id === "confirmationModal") {
-//         document.getElementById("response")?.remove();
-//         document.getElementById("modal").remove();
-//     }
-// })
 fncClosedOverlay();
+
 // // Fechar com ESC
-// document.addEventListener('keydown', (e) => {
-//     if (e.key === 'Escape') {
-//         document.getElementById("response")?.remove();
-//         document.getElementById('modal').remove();
-//     }
-// });
 fncClosedEsc();
+
 // toggle menu on mobile
 function toggleMenu() {
     const sidebar = document.getElementById("sidebar-main");

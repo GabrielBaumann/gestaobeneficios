@@ -33,6 +33,7 @@
     </style>
 </head>
 <body>
+    <div><?= flash(); ?></div>
     <!-- Modal de confirmação -->
     <div class="modal-overlay" id="confirmationModal">
         <div class="modal-content max-h-[70vh] overflow-y-auto">

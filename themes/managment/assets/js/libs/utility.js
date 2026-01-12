@@ -116,6 +116,95 @@ export function fncCheckInput() {
     return result;
 }
 
+// Pesquisar valores e devolver resultado
+export function fncSearchInput(){
+    document.getElementById("search-all")?.addEventListener("click", async (e) => {
+
+        const vInputsSearch = document.querySelectorAll(".input-search");
+        const vForm = new FormData();
+        const vArrayInput = [];
+        const vUrl = e.target.closest("button").dataset.url;
+
+        vInputsSearch.forEach(element => {
+
+            const vName = element.name;
+            const vValue = element.value;
+            const vIndex = vArrayInput.findIndex(objt => objt.hasOwnProperty(vName));
+
+            if (vIndex !== -1) {
+                vArrayInput[vIndex][vName] = vValue;
+            } else {
+                vArrayInput.push({[vName] : vValue});
+            }
+        });
+
+        vArrayInput.forEach(obj => {
+            for (let key in obj) {
+                vForm.append(key, obj[key]);
+            }
+        });
+
+        let timeoutLoading = showSplash(true);
+
+        try {
+            const vResponse = await fetch(vUrl, {
+                method: "POST",
+                body: vForm
+            })
+
+            const vData = await vResponse.json();
+            
+            if(vData.message) {
+                fncMessage(vData.message);
+                return;
+            }
+
+            if(vData.html) {
+                document.querySelector(".ajax-update").innerHTML = vData.html;
+            }
+
+        } catch (error) {
+            fncMessage();
+        } finally {
+            timeoutLoading?.remove();
+        }
+
+    });
+}
+
+// Limpar filtro
+export function fncCleanInput() {
+    document.getElementById("cleaninput")?.addEventListener("click", async (e) => {
+        
+        const vForm = new FormData();
+        const vUrl = e.target.closest("button").dataset.url; 
+        vForm.append("clean", "clean");
+        console.log(vUrl)
+        let timeoutLoading = showSplash(true);
+
+        try {
+
+            const vResponse = await fetch(vUrl, {
+                method: "POST",
+                body: vForm
+            })
+
+            const vData = await vResponse.json();
+
+            if(vData.html) {
+                document.querySelector(".input-search").value = "";
+                document.querySelector(".ajax-update").innerHTML = vData.html;
+            }
+
+        } catch (error) {
+            fncMessage();
+        } finally {
+            timeoutLoading?.remove();
+        }
+
+    })
+}
+
 // Retorno do controlador campos vazios true/false
  export async function fncControllerEmpty(e)  {
     let timeoutLoading = showSplash();
@@ -156,6 +245,9 @@ export function fncCheckInput() {
 /**###### Eventos para modal ######*/
 /**############################### */
 // Função para chamar modal quest
+
+let arraymodal = [];
+
 export function fncModalQuest (vIdButton) {
     document.addEventListener("click", (e) => {
         const vButton = e.target.closest("button");
@@ -173,16 +265,23 @@ export function fncModalQuest (vIdButton) {
                 }
 
                 document.getElementById("response")?.remove();
-                if (document.getElementById("modal")) return document.getElementById("modal").remove();
+                
+                const vModal = document.querySelectorAll(".modal");
+                if(vModal.length === 0) {
+                    arraymodal = []
+                }
 
                 const vElement = document.createElement("div");
-                vElement.id = "modal";
+                vElement.id = data.idmodal;
+                arraymodal.push(data.idmodal)
                 vElement.innerHTML = data.html;
+                vElement.className = "modal"
                 document.body.appendChild(vElement);
             })
         }
     });
 }
+
 
 // Cancelar ação
 export function fncClosedModal() {
@@ -190,7 +289,16 @@ export function fncClosedModal() {
         const vButton = e.target.closest("button")
         if(vButton && vButton.id === "cancelBtn") {
             document.getElementById("response")?.remove();
-            document.getElementById('modal').remove();
+            
+            // Caso haja um segundo modal preserva o primeiro
+            const vModal = e.target.closest(".modal")
+
+                document.getElementById(vModal.id).remove();
+            if(arraymodal[1]) {
+                document.getElementById(arraymodal[1])?.remove()
+                arraymodal.pop()
+            }
+
         }
     });
 }
@@ -200,7 +308,15 @@ export function fncClosedOverlay() {
     document.addEventListener("click", (e) => {
         if(e.target.id === "confirmationModal") {
             document.getElementById("response")?.remove();
-            document.getElementById("modal").remove();
+
+            // Caso haja um segundo modal preserva o primeiro
+            const vModal = e.target.closest(".modal")
+            document.getElementById(vModal.id).remove();
+            if(arraymodal[1]) {
+                document.getElementById(arraymodal[1])?.remove()
+                arraymodal.pop()
+            }
+
         }
     })
 }
@@ -209,8 +325,23 @@ export function fncClosedOverlay() {
 export function fncClosedEsc() {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
+
             document.getElementById("response")?.remove();
-            document.getElementById('modal').remove();
+
+            const modal = document.querySelectorAll(".modal");
+            const lastModal = modal[modal.length - 1]
+
+            console.log(modal)
+
+            if (lastModal) {
+                lastModal.remove()
+            }
+
+            // Caso haja um segundo modal preserva o primeiro
+            if(arraymodal[1]) {
+                document.getElementById(arraymodal[1])?.remove()
+                arraymodal.pop()
+            }
         }
     });
 }

@@ -6,7 +6,6 @@ use Source\Core\Model;
 use Source\Models\Card\Views\Vw_card;
 use Source\Models\Card\CardNotFound;
 use Source\Models\Card\Views\Vw_recharge;
-use Source\Models\PersonBenefit;
 
 class CardBalance extends Model
 {

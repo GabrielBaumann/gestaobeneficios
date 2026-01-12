@@ -83,36 +83,6 @@ class CardRecharge extends Model
         return $this->id_card_recharge;
     }
 
-    public function cardCancel(int $idRequest): bool
-    {
-
-        $cardAll = (new Vw_card())->findById($idRequest);
-
-        // Cancelar cartão
-        $card = (new Card())->findById($cardAll->id_card);
-        $card->status_card = "cancelado";
-
-        if (!$card->save()) {
-            $this->message->warning("Erro atualize a página e tente novamente!");
-            return false;
-        }
-
-        // Cancelar recarga
-        $recharge = (new static())->find(
-            "id_card = :id AND id_card_recharge_fixed <> :ca",
-            "id={$cardAll->id_card}&ca=0"
-        )
-            ->fetch(true);
-
-        foreach ($recharge as $rechargeItem) {
-            if ($rechargeItem->status_recharge === "solicitado") {
-                $rechargeItem->status_recharge = "cancelado ocorrencia";
-                $rechargeItem->save();
-            }
-        }
-        return true;
-    }
-
     // Regras de verificação para as solicitações de meses
     public function checkRechargeMonth(array $data) : bool
     {

@@ -65,20 +65,3 @@
 <?php else: ?>
     <div>Não há dados.</div>
 <?php endif; ?>
-<form action="<?= url("/documentocartao/receberexcel"); ?>" enctype="multipart/form-data">
-    <label for="list-xls">Arquivo *</label>
-    <input type="file" name="list-xls" id="list-xls">
-    <div>
-        <label for="month">Mês *</label>
-        <select name="month" id="month">
-            <option value="">Selecionar</option>
-            <option value="9">Setembro</option>
-            <option value="10">Outubro</option>
-            <option value="11">Novembro</option>
-            <option value="12">Dezembro</option>
-        </select>
-    </div>
-    <div>    
-        <button>Enviar lista</button>
-    </div>
-</form>

@@ -97,4 +97,28 @@ class Vw_card extends Model
 
         return $resultSearch;
     }
+
+    // Pesquisar lista de emergencial
+    public function searchEmergency(array $data) : array
+    {
+        $recipient = $data["recipientname"];
+
+        $conditions = [];
+        $params = [];
+
+        if (!empty($recipient)) {
+            $conditions[] = "(name_benefit LIKE :na OR cpf LIKE :na)";
+            $params["na"] = "%{$recipient}%";
+        }
+
+        $conditions[] = "type_request = :st";
+        $params["st"] = "emergencial";
+
+        $where = implode(" AND ", $conditions);
+
+        $resultSearch = (new static())->find($where, http_build_query($params))->fetch(true) ?? [];
+
+        return $resultSearch;            
+    }
+
 }

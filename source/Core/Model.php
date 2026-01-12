@@ -122,8 +122,7 @@ abstract class Model
         $this->query = "SELECT {$columns} FROM " . static::$entity;
         return $this;
     }
-
-
+       
     public function findById(int $id, string $columns = "*"): ?Model
     {
         // var_dump($this->id);

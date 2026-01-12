@@ -120,13 +120,23 @@ class Vw_recharge extends Model
     {
         $numberOffice = (new Office())->lastNumberOffice(1)[0]->id_office;
         $numberShipment = ($this->numberShipment());
-
-        unset($data["btn-send"]);
         
-        foreach($data as $item) {
-            $recharge = (new CardRecharge())->findById((int)$item);
+        $month = date("m");
+        $year = date("Y");
+        
+        $rechargeNow = (new static())
+            ->find(
+                "id_card_recharge_fixed <> :id
+                AND year_recharge = ". $year ."
+                AND month_recharge = ". $month ."
+                AND status_recharge = :st", 
+                "id=0&st=solicitado")
+            ->fetch(true);
+        
+        foreach($rechargeNow as $item) {
+            $recharge = (new CardRecharge())->findById((int)$item->id_card_recharge);
 
-            $recharge->id_card_recharge = (int)$item;
+            $recharge->id_card_recharge = (int)$item->id_card_recharge;
             $recharge->status_recharge = "credito liberado";
             $recharge->shipment = $numberShipment;
             $recharge->id_office = $numberOffice;

@@ -8,9 +8,7 @@
                 <th class="py-3 px-4 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">CPF</th>
                 <th class="py-3 px-4 text-center text-sm font-medium text-gray-700 uppercase tracking-wider">Mês</th>
                 <th class="py-3 px-4 text-center text-sm font-medium text-gray-700 uppercase tracking-wider">Valor</th>
-                <th class="py-3 px-4 text-center text-sm font-medium text-gray-700 uppercase tracking-wider">Status</th>
-                <th class="py-3 px-4 text-center text-sm font-medium text-gray-700 uppercase tracking-wider">Sem resposta</th>
-                <th class="py-3 px-4 text-center text-sm font-medium text-gray-700 uppercase tracking-wider">opções</th>
+                <th class="py-3 px-4 text-center text-sm font-medium text-gray-700 uppercase tracking-wider">Data Requerimento</th>
             </tr>
         </thead>
         <?php $count = 1; ?>
@@ -23,19 +21,7 @@
                     <td class="py-3 px-4 text-sm text-gray-600"><?= $listRechargeItem->cpf; ?></td>
                     <td class="py-3 px-4 text-center"><?= fncMonthString($listRechargeItem->month_recharge); ?>/<?= $listRechargeItem->year_recharge; ?></td>
                     <td class="py-3 px-4 text-center"><?= fncstr_price($listRechargeItem->value); ?></td>
-                    <td class="py-3 px-4 text-center"><?= $listRechargeItem->status_recharge; ?>-<?= $listRechargeItem->type_request; ?></td>
-                    <td class="py-3 px-4 text-center">
-                        <input type="checkbox" name="sendrecharge-<?= $count ++; ?>" 
-                            value="<?= $listRechargeItem->id_card_recharge; ?>"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
-                    </td>
-                    <td class="py-3 px-4 text-center">
-                        <button type="submit" id="showModal" data-url="<?=  url("/cartao/modalrecarga/" . fncEncrypt($listRechargeItem->id_card_recharge)); ?>">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 cursor-pointer">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                            </svg>
-                        </button>
-                    </td>
+                    <td class="py-3 px-4 text-center"><?= date_simple($listRechargeItem->date_request); ?></td>
                     </tr>
                 <?php endforeach;?>
             <?php else:?>
@@ -48,12 +34,18 @@
         </tbody>
     </table>
 
-    <form action="<?= url("/cartao/gerarrecarga"); ?>" method="post">
+    <form 
+        data-confirm="true"
+        data-message="Tem certeza que deseja baixar a lista?"
+        action="<?= url("/cartao/gerarrecarga"); ?>" 
+        method="post">
+        
+        <?= csrf_input(); ?>
         <button name="btn-send" value="send" class="cursor-pointer mt-4 bg-green-700 rounded-full py-3 px-4 text-white font semibold flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
             </svg>
-            <span>Enviar Selecionados</span>
+            <span>Bixar Lista</span>
         </button>
 
     </form> 

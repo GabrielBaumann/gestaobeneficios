@@ -6,7 +6,7 @@ document.addEventListener("submit", async (e) => {
     if (e.target.tagName !== "FORM") return;
 
     e.preventDefault();
-
+    
     // Verfifica os campos obrigatórios no javascritp
     const resultController = await fncControllerEmpty(e)
     
@@ -18,7 +18,7 @@ document.addEventListener("submit", async (e) => {
         
     const form = e.target;
     const actionForm = form.action;
-
+    
     // Confirmação (se existir)
     if (form.dataset.confirm === "true") {
         const confirmed = await fncModalQuest(form.dataset.message);
@@ -88,7 +88,7 @@ async function submitForm(form, actionForm, submitter) {
         });
         
         const vData = await vResponse.json();
-        document.getElementById("modal")?.remove();
+        document.getElementById("modalGeneral")?.remove();
 
         // Redireciona
         if (vData.redirected) {
@@ -113,10 +113,16 @@ async function submitForm(form, actionForm, submitter) {
 
         // Retorna uma janela modal
         if (vData.modal) {
+            document.querySelectorAll(".modal")?.forEach(modal => modal.remove());;
+
             const vElement = document.createElement("div");
-            vElement.id = "modal";
+            vElement.id = "modalGeneral";
             vElement.innerHTML = vData.modal;
+            vElement.className = "modal";
             document.body.appendChild(vElement);
+
+            vData.message && fncMessage(vData.message);
+            
         }
 
     } catch (error) {
@@ -146,9 +152,11 @@ async function fncModalQuest(message) {
 
             // Abrir modal de confirmação
             if (data.modal) {
+
                 const vElement = document.createElement("div");
                 vElement.id = "modal";
                 vElement.innerHTML = data.modal;
+                vElement.className = "modal"
                 document.body.appendChild(vElement); 
             }
 
