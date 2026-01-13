@@ -100,7 +100,7 @@
                             </svg>
                             <span class="menu" data-sidebar="agua">Água</span>
                         </a>
-                        <a href="<?= url("/cartao/cartao") ?>" class="menu flex items-center gap-2 px-6 py-2 flex items-center gap-2 transition-all duration-300 cursor-pointer text-gray-300 hover:text-white">
+                        <a href="<?= url("/cartao/novocartao") ?>" class="menu flex items-center gap-2 px-6 py-2 flex items-center gap-2 transition-all duration-300 cursor-pointer text-gray-300 hover:text-white">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
                             </svg>
