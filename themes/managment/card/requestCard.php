@@ -1,11 +1,11 @@
 <?php if (!empty($listCardName)): ?>
     <table class="w-full">
-        <thead class="bg-gray-50">
+        <thead class="">
             <tr>
-                <th class="py-3 px-4 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">Id</th>
-                <th class="py-3 px-4 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">Nome</th>
-                <th class="py-3 px-4 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">CPF</th>
-                <th class="py-3 px-4 text-center text-sm font-medium text-gray-700 uppercase tracking-wider">Opções</th>
+                <th class="py-3 px-4 text-left text-sm font-medium text-white uppercase tracking-wider">Id</th>
+                <th class="py-3 px-4 text-left text-sm font-medium text-white uppercase tracking-wider">Nome</th>
+                <th class="py-3 px-4 text-left text-sm font-medium text-white uppercase tracking-wider">CPF</th>
+                <th class="py-3 px-4 text-center text-sm font-medium text-white uppercase tracking-wider">Opções</th>
             </tr>
         </thead>
 

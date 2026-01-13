@@ -45,7 +45,7 @@ function updateResponsive() {
         vMenus.forEach(vElemet => {
             if(vElemet.dataset.sidebar === vLinkOrContent) {
                 vElemet.closest("a.menu").classList.remove("text-gray-800", "border-gray-300");
-                vElemet.closest("a.menu").classList.add("text-white", "bg-gray-700", "hover:none");
+                vElemet.closest("a.menu").classList.add("text-white", "border-l-2","border-green-500", "hover:none", "font-semibold");
             }
         });
     }

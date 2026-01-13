@@ -1,4 +1,4 @@
-<div class="flex items-center mx-auto bg-white max-w-[960px] h-full" data-menu="cartao">
+<div class="flex items-center mx-auto max-w-[960px] h-full" data-menu="cartao">
     
     <form 
         data-confirm="true" 
@@ -17,7 +17,7 @@
             <!-- in this div i can put many inputs i want that appears side to side on desktop -->
             <div class="flex flex-col md:flex-row w-full gap-4">
                 <div class="flex flex-col w-full">
-                    <label for="bene" class="text-gray-800 font-semibold">CPF</label>
+                    <label for="bene" class="text-white font-semibold">CPF</label>
                     <div class="flex gap-2">
                         <input type="text" class="w-[300px] border border-gray-300 p-2 rounded-xs">
                         <button class="cursor-pointer bg-gray-100 p-2 rounded-md hover:bg-gray-200">
@@ -28,7 +28,7 @@
                     </div>
                 </div>
                     <div class="flex flex-col w-full">
-                    <label for="number-card" class="text-gray-800 font-semibold">Nº Cartão *</label>
+                    <label for="number-card" class="text-white font-semibold">Nº Cartão *</label>
                     <div class="flex gap-2">
                         <input type="text" name="number-card" id="number-card" class="w-[300px] border border-gray-300 p-2 rounded-xs">
                     </div>
@@ -37,7 +37,7 @@
 
             <div class="flex flex-col md:flex-row w-full gap-4">
                 <div class="flex flex-col w-full">
-                    <label for="person-benefit" class="text-gray-800 font-semibold">Beneficiário *</label>
+                    <label for="person-benefit" class="text-white font-semibold">Beneficiário *</label>
                     <select name="person-benefit" id="person-benefit" class="w-full border border-gray-300 p-2 rounded-xs">
                         <option value="">Selecione</option>
                         <?php foreach($listEmergency as $listEmergencyItem): ?>    
@@ -49,7 +49,7 @@
             
             <div class="flex flex-col md:flex-row w-full gap-4">
                 <div class="flex flex-col w-full">
-                    <label for="technician" class="text-gray-800 font-semibold">Técnico(a) *</label>
+                    <label for="technician" class="text-white font-semibold">Técnico(a) *</label>
                     <select type="text" name="technician" id="technician" placeholder="Técnico" class="w-full border border-gray-300 p-2 rounded-xs">
                         <option value="">Selecione</option>
                         <?php foreach($listTechnical as $listTechnicalItem): ?>
@@ -59,7 +59,7 @@
                 </div>
 
                 <div class="flex flex-col w-full">
-                    <label for="date-request" class="text-gray-800 font-semibold">Data da Solicitação *</label>
+                    <label for="date-request" class="text-white font-semibold">Data da Solicitação *</label>
                     <input type="date" name="date-request" id="date-request" placeholder="data" class="w-full border border-gray-300 p-2 rounded-xs">
                 </div>
             </div>
