@@ -145,12 +145,12 @@
                 <h1 class="uppercase text-light text-gray-500">Filtros específicos</h1>
                     <div class="flex items-center">
                         <input name="recipientname" id="recipientname" type="text" class="input-search w-full pr-6 py-2 px-3 border border-gray-400 rounded-l-md" placeholder="Pesquisar Beneficiários...">
-                        <button data-url="<?= url("/cartao/procurarcartao") ?>" id="search-all" class="py-2 px-4 cursor-pointer border border-gray-400 bg-gray-100 rounded-r-md">
+                        <button data-url="<?= url("/cartao/procurarbeneficiario") ?>" id="search-all" class="py-2 px-4 cursor-pointer border border-gray-400 bg-gray-100 rounded-r-md">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                             </svg>
                         </button>
-                        <button name="" id="" class="flex items-center gap-2 text-white font-semibold bg-blue-500 rounded-md py-2 px-3 cursor-pointer">
+                        <button data-url="<?= url("/cartao/procurarbeneficiario") ?>" id="cleaninput" class="flex items-center gap-2 text-white font-semibold bg-blue-500 rounded-md py-2 px-3 cursor-pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
                             </svg>
@@ -336,7 +336,7 @@
                                             </select>
                                         </div> -->
     
-                                        <button name="" id="" class="flex items-center gap-2 text-white font-semibold bg-blue-500 rounded-md py-2 px-3 cursor-pointer">
+                                        <button data-url="<?= url("/cartao/procurarrecarga") ?>" id="cleaninput" class="flex items-center gap-2 text-white font-semibold bg-blue-500 rounded-md py-2 px-3 cursor-pointer">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
                                             </svg>
@@ -374,7 +374,9 @@
                         <?php elseif ($menu === "segundavia"): ?>
                             <?= $this->insert("/card/formSecondCard"); ?>
                         <?php elseif ($menu === "beneficiario"): ?>
-                            <?= $this->insert("/card/listBenefit"); ?>
+                            <div class="ajax-update">
+                                <?= $this->insert("/card/listBenefit"); ?>
+                            </div>
                         <?php elseif ($menu === "saldo"): ?>
                             <?= $this->insert("/card/listBalance"); ?>
                         <?php elseif ($menu === "recargaextrato"): ?>
@@ -387,14 +389,14 @@
                                     <!-- Search Field  -->
                                     <div class="flex items-center">
                                         <input name="recipientname" id="recipientname" type="text" class="input-search w-full pr-6 py-2 px-3 border border-gray-400 rounded-l-md" placeholder="Pesquisar Beneficiários...">
-                                        <button data-url="<?= url("/cartao/procurarrecarga") ?>" id="search-all" class="py-2 px-4 cursor-pointer border border-gray-400 bg-gray-100 rounded-r-md">
+                                        <button data-url="<?= url("/cartao/procurarrecargabeneficiario") ?>" id="search-all" class="py-2 px-4 cursor-pointer border border-gray-400 bg-gray-100 rounded-r-md">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                                             </svg>
                                         </button>
                                     </div>
                                     <div class="flex items-center gap-2">
-                                        <div class="flex flex-col justify-center">
+                                        <!-- <div class="flex flex-col justify-center">
                                             <h1>Ano</h1>
                                             <select name="yearSearche" id="yearSearche" class="input-search bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
                                                 <option value="">Selecione</option>
@@ -429,9 +431,9 @@
                                                         <option value="<?= $shipmentRechargeItem->shipment; ?>"><?= format_number((int)$shipmentRechargeItem->shipment, 2); ?></option>
                                                     <?php endforeach; ?>
                                             </select>
-                                        </div>
+                                        </div> -->
     
-                                        <button name="" id="" class="flex items-center gap-2 text-white font-semibold bg-blue-500 rounded-md py-2 px-3 cursor-pointer">
+                                        <button data-url="<?= url("/cartao/procurarrecargabeneficiario") ?>" name="" id="cleaninput" class="flex items-center gap-2 text-white font-semibold bg-blue-500 rounded-md py-2 px-3 cursor-pointer">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
                                             </svg>
@@ -461,7 +463,7 @@
                                         </button>
                                     </div>
                                     <div class="flex items-center gap-2">
-                                        <div class="flex flex-col justify-center">
+                                        <!-- <div class="flex flex-col justify-center">
                                             <h1>Ano</h1>
                                             <select name="yearSearche" id="yearSearche" class="input-search bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
                                                 <option value="">Selecione</option>
@@ -496,7 +498,7 @@
                                                         <option value="<?= $shipmentRechargeItem->shipment; ?>"><?= format_number((int)$shipmentRechargeItem->shipment, 2); ?></option>
                                                     <?php endforeach; ?>
                                             </select>
-                                        </div>
+                                        </div> -->
     
                                         <button name="" id="" class="flex items-center gap-2 text-white font-semibold bg-blue-500 rounded-md py-2 px-3 cursor-pointer">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -541,11 +543,15 @@
 
     if (vUrlPage === 'novocartao') {
        novo[0].classList.add('border-b-4', 'border-gray-900', 'text-gray-800'); 
-       solicitado[0].classList.add('border-b-4', 'border-gray-900', 'text-gray-800'); 
-    } else if (vUrlPage === 'solicitaremergencial') {
+       solicitado[0].classList.add('border-b-4', 'border-gray-900', 'text-gray-800');
+    } 
+      else if (vUrlPage === 'solicitaremergencial') {
         emergencial[0].classList.add('border-b-4', 'border-gray-900', 'text-gray-800'); 
-        emergencial[0].classList.add('border-b-4', 'border-gray-900', 'text-gray-800');
         novo[0].classList.remove('border-b-4', 'border-gray-900', 'text-gray-800');
+    }
+      else if (vUrlPage === 'cartaoemergencial') {
+        novo[0].classList.remove('border-b-4', 'border-gray-900', 'text-gray-800');   
+        emergencial[0].classList.add('border-b-4', 'border-gray-900', 'text-gray-800');
     }
       else if (vUrlPage === 'segundavia') {
         via[0].classList.add('border-b-4', 'border-gray-900', 'text-gray-800');

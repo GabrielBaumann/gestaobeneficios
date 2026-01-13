@@ -16,27 +16,31 @@ $route->namespace("Source\App\Card");
 
   $route->get("/enviado", "CardPerson:sendCard");
   $route->post("/enviado", "CardPerson:sendCard");
-  $route->post("/procurarenviados", "CardPerson:searchSend");
+  $route->post("/procurarenviados", "CardPersonSearch:searchSend");
 
   $route->get("/solicitado", "CardPerson:requestCard");
   $route->post("/solicitado", "CardPerson:requestCard");
-  $route->post("/procurarsolicitacao", "CardPerson:searchRequest");
+  $route->post("/procurarsolicitacao", "CardPersonSearch:searchRequest");
   $route->post("/deletarsolicitacaocartao", "CardPerson:deleteRequestCard");
 
   $route->get("/novocartao", "CardPerson:requestCard");
   $route->get("/cartaoativo", "CardPerson:cardActive");
   $route->get("/solicitarnovocartao", "CardPerson:newCard");
-  $route->post("/procurarcartao", "CardPerson:searchCard");
+  $route->post("/procurarcartao", "CardPersonSearch:searchCard");
 
   $route->get("/beneficiario", "CardPerson:benefit");
+  $route->post("/procurarbeneficiario", "CardPersonSearch:searchBenefit");
+  $route->post("/procurarrecargabeneficiario", "CardPersonSearch:searchRechargeBenefit");
+  $route->post("/procurarcartaobeneficiario", "CardPersonSearch:searchCardBenefit");
+
 
   $route->get("/solicitaremergencial","CardPerson:listEmergency");
   $route->get("/cartaoemergencial","CardPerson:requestEmergency");
   $route->post("/cartaoemergencial","CardPerson:requestEmergency");
-  $route->post("/procuraremergencial", "CardPerson:searchEmergency");
+  $route->post("/procuraremergencial", "CardPersonSearch:searchEmergency");
 
   // $route->post("/gerarrecarga","CardPerson:generateRecharge");
-  $route->post("/procurarrecarga", "CardPerson:searchRecharge");
+  $route->post("/procurarrecarga", "CardPersonSearch:searchRecharge");
 
   $route->get("/atualizarsaldo", "CardPerson:balanceUpdate");
 

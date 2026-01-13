@@ -54,55 +54,27 @@ class Vw_recharge extends Model
     // Retonra dados da pesquisa do formulário de recarga
     public function searchRecharg(array $data) : array
     {       
-        //Índices dos pagamento
-        // 1 - Pagos
-        // 2 - Recargas Agendadas
-        // 3 - À Pagar 
+        $year = date("Y");
+        $month = (int)date("m");
 
-        $year = isset($data["yearSearche"]) ? $data["yearSearche"] : date("Y");
-        $month = isset($data["monthSearch"]) ? $data["monthSearch"] : null;
         $recipient = isset($data["recipientname"]) ? $data["recipientname"] : null;
-        $shipment = isset($data["shipment"]) ? $data["shipment"] : null;
-        $typepaymentsearch = isset($data["typePaymentSearch"]) ? $data["typePaymentSearch"] : null;
 
         $conditions = [];
         $params = [];
 
-        //Verificar o tipo de pagamento pagos - recargas agendads - à pagar
+        $conditions[] = "year_recharge = :ye";
+        $params["ye"] = $year;
 
-            if($typepaymentsearch == 1 || $typepaymentsearch == 3) {
-                $type = ($typepaymentsearch == 3) ? "solicitado" : "credito liberado" ;
-                $conditions[] = "status_recharge = :ty";
-                $params["ty"] = $type;
+        $conditions[] = "month_recharge = :mo";
+        $params["mo"] = $month;
 
-            } else if ($typepaymentsearch == 2) {
-                $month = date("m");
+        $conditions[] = "status_recharge = :st";
+        $params["st"] = "solicitado";
 
-                $conditions[] = "month_recharge = :mo";
-                $params["mo"] = $month;
-
-                $conditions[] = "status_recharge = :ty";
-                $params["ty"] = "solicitado";
-            }
-
-        if(!empty($year)) {
-            $conditions[] = "year_recharge = :ye";
-            $params["ye"] = $year;
-        }
-
-        if(!empty($month)) {
-            $conditions[] = "month_recharge = :mo";
-            $params["mo"] = $month;
-        }
 
         if(!empty($recipient)) {
             $conditions[] = "(name_benefit LIKE :na OR cpf LIKE :na)";
             $params["na"] = "%{$recipient}%";
-        }
-
-        if(!empty($shipment)) {
-            $conditions[] = "shipment = :sh";
-            $params["sh"] = $shipment;
         }
 
         $conditions[] = "id_card_recharge_fixed <> :idf";
