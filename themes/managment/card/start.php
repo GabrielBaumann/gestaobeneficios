@@ -591,21 +591,12 @@
     const cartaoativo = document.getElementsByClassName("cartaoativo");
 
     if (vUrlPage === 'novocartao') {
-<<<<<<< HEAD
        novo[0].classList.add('border-b-4', 'border-gray-900', 'text-gray-800'); 
        solicitado[0].classList.add('border-b-4', 'border-gray-900', 'text-gray-800');
     } 
       else if (vUrlPage === 'solicitaremergencial') {
         emergencial[0].classList.add('border-b-4', 'border-gray-900', 'text-gray-800'); 
         novo[0].classList.remove('border-b-4', 'border-gray-900', 'text-gray-800');
-=======
-       novo[0].classList.add('border-b-2', 'border-green-500', 'text-white'); 
-       solicitado[0].classList.add('border-b-2', 'border-green-500', 'text-white'); 
-    } else if (vUrlPage === 'solicitaremergencial') {
-        emergencial[0].classList.add('border-b-2', 'border-green-500', 'text-white'); 
-        emergencial[0].classList.add('border-b-2', 'border-green-500', 'text-white');
-        novo[0].classList.remove('border-b-2', 'border-green-500', 'text-white');
->>>>>>> 948986fb10da7f4cda56072d70ef7575b75e6641
     }
       else if (vUrlPage === 'cartaoemergencial') {
         novo[0].classList.remove('border-b-4', 'border-gray-900', 'text-gray-800');   
