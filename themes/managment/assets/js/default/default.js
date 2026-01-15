@@ -1,4 +1,21 @@
-import { fncModalQuest, fncClosedModal, fncClosedOverlay, fncClosedEsc, fncSearchInput, fncCleanInput } from "../libs/utility"
+import { 
+    fncModalQuest, 
+    fncClosedModal, 
+    fncClosedOverlay, 
+    fncClosedEsc, 
+    fncSearchInput, 
+    fncCleanInput,
+    cleanInputText
+
+} from "../libs/utility"
+
+import {
+    fncMaskCpf,
+    fncCheckedCPF,
+    fncCheckedEmail,
+    fncPhone
+} from "../libs/mask"
+
 
 // //*  Scripts padrões para todo o sistema *//
 // let vArrayInput = [];
@@ -239,3 +256,18 @@ function toggleMenu() {
         main.classList.remove("hidden");
     }
 }
+
+// Limpar texto com (somente texto sem acento e maiúsculo)
+cleanInputText();
+
+// máscara de CPF
+fncMaskCpf();
+
+// Máscara para telefone
+fncPhone();
+
+// Verificar se CPF é válido e se já existe cadastro na base
+fncCheckedCPF();
+
+// Verificar se email é válido e se já existe cadastro na base
+fncCheckedEmail();

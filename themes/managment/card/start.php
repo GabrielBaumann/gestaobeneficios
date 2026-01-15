@@ -429,13 +429,14 @@
                         <?php elseif ($menu === "saldo"): ?>
                             <?= $this->insert("/card/listBalance"); ?>
                         <?php elseif ($menu === "recargaextrato"): ?>
+                            Recargas
                             <div><?= $recharge[0]->name_benefit; ?></div>
                             <?= $recharge[0]->cpf; ?>
 
-                            <div class="py-4 flex items-center justify-between">
+                            <!-- <div class="py-4 flex items-center justify-between">
     
                                 <div class="flex flex-col gap-4">
-                                    <!-- Search Field  -->
+
                                     <div class="flex items-center">
                                         <input name="recipientname" id="recipientname" type="text" class="input-search w-full pr-6 py-2 px-3 border border-gray-400 rounded-l-md" placeholder="Pesquisar Beneficiários...">
                                         <button data-url="<?= url("/cartao/procurarrecargabeneficiario") ?>" id="search-all" class="py-2 px-4 cursor-pointer border border-gray-400 bg-gray-100 rounded-r-md">
@@ -445,7 +446,7 @@
                                         </button>
                                     </div>
                                     <div class="flex items-center gap-2">
-                                        <!-- <div class="flex flex-col justify-center">
+                                        <div class="flex flex-col justify-center">
                                             <h1>Ano</h1>
                                             <select name="yearSearche" id="yearSearche" class="input-search bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
                                                 <option value="">Selecione</option>
@@ -480,7 +481,7 @@
                                                         <option value="<?= $shipmentRechargeItem->shipment; ?>"><?= format_number((int)$shipmentRechargeItem->shipment, 2); ?></option>
                                                     <?php endforeach; ?>
                                             </select>
-                                        </div> -->
+                                        </div>
     
                                         <button data-url="<?= url("/cartao/procurarrecargabeneficiario") ?>" name="" id="cleaninput" class="flex items-center gap-2 text-white font-semibold bg-blue-500 rounded-md py-2 px-3 cursor-pointer">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -490,19 +491,20 @@
                                         </button>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
     
                             <div class="ajax-update">
                                 <?= $this->insert("/card/listRechargeExtract"); ?>
                             </div>
                         <?php elseif ($menu === "cartaobaneficiario"): ?>
+                            Cartões
                             <div><?= $card[0]->name_benefit; ?></div>
                             <?= $card[0]->cpf; ?>
 
-                            <div class="py-4 flex items-center justify-between">
+                            <!-- <div class="py-4 flex items-center justify-between">
     
                                 <div class="flex flex-col gap-4">
-                                    <!-- Search Field  -->
+
                                     <div class="flex items-center">
                                         <input name="recipientname" id="recipientname" type="text" class="input-search w-full pr-6 py-2 px-3 border border-gray-400 rounded-l-md" placeholder="Pesquisar Beneficiários...">
                                         <button data-url="<?= url("/cartao/procurarrecarga") ?>" id="search-all" class="py-2 px-4 cursor-pointer border border-gray-400 bg-gray-100 rounded-r-md">
@@ -512,7 +514,7 @@
                                         </button>
                                     </div>
                                     <div class="flex items-center gap-2">
-                                        <!-- <div class="flex flex-col justify-center">
+                                        <div class="flex flex-col justify-center">
                                             <h1>Ano</h1>
                                             <select name="yearSearche" id="yearSearche" class="input-search bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
                                                 <option value="">Selecione</option>
@@ -547,7 +549,7 @@
                                                         <option value="<?= $shipmentRechargeItem->shipment; ?>"><?= format_number((int)$shipmentRechargeItem->shipment, 2); ?></option>
                                                     <?php endforeach; ?>
                                             </select>
-                                        </div> -->
+                                        </div>
     
                                         <button name="" id="" class="flex items-center gap-2 text-white font-semibold bg-blue-500 rounded-md py-2 px-3 cursor-pointer">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -557,7 +559,7 @@
                                         </button>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
     
                             <div class="ajax-update">
                                 <?= $this->insert("/card/listCardBenefit"); ?>

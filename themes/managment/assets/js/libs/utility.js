@@ -345,3 +345,24 @@ export function fncClosedEsc() {
         }
     });
 }
+
+// Sanitizar input
+export function cleanInputText() {
+
+    const vInput = document.querySelectorAll(".clean-input-text")
+
+    vInput.forEach(element => {
+        document.addEventListener("input", function() {
+
+            // Remove acentos
+            let valor =element.value.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+            // Remove números e caracteres especiais (permite apenas letras e espaço)
+            valor = valor.replace(/[^a-zA-Z\s]/g, "");
+
+            // Converte para maiúsculas
+            element.value = valor.toUpperCase();
+
+        })
+    })
+}
