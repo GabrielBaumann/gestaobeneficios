@@ -24,7 +24,7 @@
             <?php endforeach;?>
         <?php else:?>
             <tr>
-                <td colspan="6" class="py-3 px-4 text-center text-gray-500">
+                <td colspan="6" class="py-3 px-4 ">
                     Não há dados para exibir.
                 </td>
             </tr>
@@ -32,5 +32,5 @@
     </tbody>
     </table>
 <?php else: ?>
-    <div>Não há dados.</div>
+    <div class="py-4 text-center text-white bg-white/10 rounded-sm flex justify-center">Não há dados.</div>
 <?php endif; ?>
