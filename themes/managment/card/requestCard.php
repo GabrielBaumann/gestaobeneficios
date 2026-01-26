@@ -3,9 +3,8 @@
 
     </header>
     <table class="w-full bg-white/10 md:max-h-[400px] rounded-md overflow-y-auto">
-        <thead class="rounded-t-md">
         <?php if (!empty($listCardName)): ?>
-            <?php foreach($listCardName as $listCardNameItem):?>
+        <thead class="rounded-t-md">
             <tr>
                 <th class="py-3 px-4 text-left text-sm font-medium text-white uppercase tracking-wider">Id</th>
                 <th class="py-3 px-4 text-left text-sm font-medium text-white uppercase tracking-wider">Nome</th>
@@ -14,10 +13,9 @@
                 <th class="py-3 px-4 text-center text-sm font-medium text-white uppercase tracking-wider">Cartão</th>
             </tr>
         </thead>
-        <?php $count = 1; ?>
         <tbody class="divide-y divide-black/60">
-                
-                    <tr>
+           <?php foreach($listCardName as $listCardNameItem):?>     
+                    <tr class="hover:bg-gray-700 transition-all duration-300 cursor-pointer">
                         <td class="py-3 px-4  text-sm text-white"><?= $listCardNameItem->id_card; ?></td>
                         <td class="py-3 px-4  text-sm text-white"><?= $listCardNameItem->name_benefit; ?> <?= $listCardNameItem->status_card; ?></td>
                         <td class="py-3 px-4  text-sm text-white"><?= $listCardNameItem->cpf; ?></td>
@@ -41,13 +39,13 @@
                         </td>
                     </tr>   
                 <?php endforeach;?>
-        <?php else:?>
-            <tr>
-                <td colspan="6" class="py-3 px-4 text-center text-gray-500">
-                    Não há dados para exibir.
-                </td>
-            </tr>
-        <?php endif; ?>
+            <?php else:?>
+                <tr>
+                    <td colspan="6" class="py-3 px-4 text-center text-gray-500">
+                        Não há dados para exibir.
+                    </td>
+                </tr>
+            <?php endif; ?>
         </tbody>
     </table>
 
@@ -76,7 +74,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
             </svg>
-            <span>Enviar Selecionados</span>
+            <span>Enviar</span>
         </button>
     </form>
 <?php else: ?>

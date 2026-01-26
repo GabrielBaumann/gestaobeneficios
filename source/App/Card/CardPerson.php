@@ -496,7 +496,7 @@ class CardPerson extends Controller
             echo json_encode($json);           
             return;
         }
-        var_dump(true);
+
         echo $this->view->render("/card/start", [
             "title" => "Enviados",
             "usersystem" => userUnit(),
@@ -757,7 +757,6 @@ class CardPerson extends Controller
     public function cardBenefit(?array $data): void
     {
         $idBenfiti = (int)fncDecrypt($data["idBenefiti"]);
-
         echo $this->view->render("/card/start", [
             "title" => "Extrato de Recargas",
             "usersystem" => userUnit(),
