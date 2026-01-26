@@ -1,5 +1,4 @@
 <div class="flex items-center mx-auto max-w-[960px] h-full" data-menu="cartao">
-    teste
     <form 
         data-confirm="true" 
         data-message="Tem cerceza que deseja fazer essa solicitação?" 

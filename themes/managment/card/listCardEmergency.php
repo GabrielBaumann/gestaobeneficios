@@ -1,5 +1,5 @@
 <?php if (!empty($listCardName)): ?>
-    <table class="w-full">
+    <table class="w-full bg-white/10 rounded-sm">
     <thead class="">
         <tr>
             <th class="py-3 px-4 text-left text-sm font-medium text-white uppercase tracking-wider">Id</th>
@@ -9,13 +9,13 @@
         </tr>
     </thead>
     <?php $count = 1; ?>
-    <tbody class="divide-y divide-gray-200">
+    <tbody class="divide-y divide-gray-600">
         <?php if (!empty($listCardName)): ?>
             <?php foreach($listCardName as $listCardNameItem):?>
-                <tr class="hover:bg-gray-50 transition-colors">
-                <td class="py-3 px-4 text-sm text-gray-800"><?= $listCardNameItem->id_card_request; ?></td>
-                <td class="py-3 px-4 text-sm text-gray-800"><?= $listCardNameItem->name_benefit; ?> <?= $listCardNameItem->status_card; ?></td>
-                <td class="py-3 px-4 text-sm text-gray-600"><?= $listCardNameItem->cpf; ?></td>
+                <tr class="hover:bg-gray-800 transition-colors cursor-pointer transition-all duration-300">
+                <td class="py-3 px-4 text-sm text-white"><?= $listCardNameItem->id_card_request; ?></td>
+                <td class="py-3 px-4 text-sm text-white"><?= $listCardNameItem->name_benefit; ?> <?= $listCardNameItem->status_card; ?></td>
+                <td class="py-3 px-4 text-sm text-white"><?= $listCardNameItem->cpf; ?></td>
                 <!-- <td class="py-3 px-4 text-center">
                     <form action="<?=  url("/cartao/")  ?>">    
                         <input type="submit"  value="Excluir" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">

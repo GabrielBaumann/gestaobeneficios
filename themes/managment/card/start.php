@@ -153,13 +153,13 @@
                     <a href="<?= url("/cartao/cartaoativo"); ?>" class="second-card-menu cartao py-3 px-4 cursor-pointer text-white font-semibold duration-all transition-300 w-full md:w-auto text-sm text-center">Cartões</a>
                 </div>
             </header>
-        <?php elseif ($menu === "cartaoativo"): ?>
+        <?php elseif ($menu === "cartao"): ?>
             <!-- Second menu links -->
             <header class="flex flex-col gap-3 px-3 md:px-0">
                 <div class="flex items-center overflow-x-auto">
                     <a href="<?= url("/cartao/solicitado");?>" class="main-card-menu novo py-3 px-4 text-sm cursor-pointer font-semibold duration-all transition-300 w-full md:w-auto text-white solicitado text-center">Solicitados</a>
                     <a href="<?= url("/cartao/enviado");?>" class="second-card-menu enviado py-3 px-4 cursor-pointer text-white font-semibold duration-all transition-300 w-full md:w-auto text-sm text-center">Enviados</a>
-                    <a href="<?= url("/cartao/cartaoativo"); ?>" class="second-card-menu cartao py-3 px-4 cursor-pointer text-white font-semibold duration-all transition-300 w-full md:w-auto text-sm text-center">Cartões</a>
+                    <a href="<?= url("/cartao/cartaoativo"); ?>" class="second-card-menu cartao py-3 px-4 cursor-pointer text-white font-semibold duration-all transition-300 w-full md:w-auto text-sm text-center border-b-2 border-green-500">Cartões</a>
                 </div>
             </header>
         <?php elseif ($menu === "recarga"): ?>
@@ -284,8 +284,8 @@
                         <?= $this->insert("/card/formEmergencyCard"); ?>
                     <?php elseif ($menu === "enviado"): ?>
                         <!-- header with options -->
-                        
-                        <div class="py-4 items-center flex justify-end">
+        
+                        <!-- <div class="py-4 items-center flex justify-end">
                         <input id="checkall" type="checkbox" name="check-all">
                         <label for="checkall">Marcar todos</label>
                             <div class="flex items-center gap-2">
@@ -302,7 +302,7 @@
                                     <span>Novo Cartão</span>
                                 </a>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="ajax-update">
                             <?= $this->insert("/card/sendCard"); ?>
                         </div>

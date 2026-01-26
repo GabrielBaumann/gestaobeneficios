@@ -5,7 +5,7 @@
     method="post"
     >
     <?= csrf_input(); ?>
-    <table class="w-full">
+    <table class="w-full bg-white/10 rounded-sm">
     <thead class="">
         <tr>
             <th class="py-3 px-4 text-left text-sm font-medium text-white uppercase tracking-wider">Id</th>
@@ -15,10 +15,10 @@
         </tr>
     </thead>
 
-    <tbody class="divide-y divide-gray-200">
+    <tbody class="divide-y divide-gray-600">
         <?php if(!empty($listCardName)): ?>
             <?php foreach($listCardName as $listCardNameItem):?>
-                <tr class="hover:bg-gray-50 transition-colors">
+                <tr class="hover:bg-gray-800 transition-colors cursor-pointer transition-all duration-300">
                     <td class="py-3 px-4 text-sm text-gray-800"><?= $listCardNameItem->id_card; ?></td>
                     <td class="py-3 px-4 text-sm text-gray-800"><?= $listCardNameItem->name_benefit; ?> - <?= $listCardNameItem->status_card; ?></td>
                     <td class="py-3 px-4 text-sm text-gray-600"><?= $listCardNameItem->cpf; ?> - <?= $listCardNameItem->name_unit; ?></td>
@@ -29,12 +29,12 @@
             <?php endforeach;?>
         <?php else: ?>
             <tr>
-                <td colspan="6" class="py-3 px-4 text-center text-gray-500">
+                <td colspan="6" class="py-3 px-4 text-center text-gray-300">
                     Não há dados para exibir.
                 </td>
             </tr>
         <?php endif;?>
     </tbody>
     </table>
-    <button name="btn-send" value="send">Enviar Selecionados</button>
+    <!-- <button name="btn-send" value="send">Enviar Selecionados</button> -->
 </form>
