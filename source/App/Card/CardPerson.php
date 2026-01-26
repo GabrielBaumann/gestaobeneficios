@@ -142,6 +142,8 @@ class CardPerson extends Controller
         echo $this->view->render("/card/start", [
             "title" => "Solicitar 2ª Via",
             "usersystem" => userUnit(),
+            "technician" => (new UnitUserSystem())
+                ->listTechnicalUnit(userUnit()->id_unit),
             "menu" => "segundavia",
             "personbenefit" => (new Vw_card_canceled())
                 ->find()    
