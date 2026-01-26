@@ -302,6 +302,7 @@
                                     <span>Novo Cartão</span>
                                 </a>
                             </div>
+<<<<<<< HEAD
                         <?php elseif ($menu === "emergencial"): ?>
                             <?= $this->insert("/card/formEmergencyCard"); ?>
                         <?php elseif ($menu === "enviado"): ?>
@@ -310,6 +311,56 @@
                             <div class="py-4 items-center flex justify-end">
                             <input id="checkall" type="checkbox" name="check-all">
                             <label for="checkall">Marcar todos</label>
+=======
+                        </div> -->
+                        <div class="ajax-update">
+                            <?= $this->insert("/card/sendCard"); ?>
+                        </div>
+                    <?php elseif ($menu === "cartao"): ?>
+                        <div class="ajax-update">
+                            <?= $this->insert("/card/activeCard"); ?>
+                        </div>
+                    <?php elseif ($menu === "listacartaoemergencial"): ?>
+                        <div class="ajax-update">
+                            <?= $this->insert("/card/listCardEmergency"); ?>
+                        </div>
+                    <?php elseif ($menu === "recarga"): ?>
+                        <div class="ajax-update">
+                            <?= $this->insert("/card/listRecharge"); ?>
+                        </div>
+                    <?php elseif ($menu === "recargageral"): ?>
+                        <div class="ajax-update">
+                            <?= $this->insert("/card/formRechargeAll"); ?>
+                        </div>
+                    <?php elseif ($menu === "recargaextra"): ?>
+                        <div class="ajax-update">
+                            <?= $this->insert("/card/formRechargeExtra"); ?>
+                        </div>
+                    <?php elseif ($menu === "segundavia"): ?>
+                        <?= $this->insert("/card/formSecondCard"); ?>
+                    <?php elseif ($menu === "beneficiario"): ?>
+                        <div class="ajax-update">
+                            <?= $this->insert("/card/listBenefit"); ?>
+                        </div>
+                    <?php elseif ($menu === "saldo"): ?>
+                        <?= $this->insert("/card/listBalance"); ?>
+                    <?php elseif ($menu === "recargaextrato"): ?>
+                        <div><?= $recharge[0]->name_benefit; ?></div>
+                        <?= $recharge[0]->cpf; ?>
+
+                        <div class="py-4 flex items-center justify-between">
+
+                            <div class="flex flex-col gap-4">
+                                <!-- Search Field  -->
+                                <div class="flex items-center">
+                                    <input name="recipientname" id="recipientname" type="text" class="input-search w-full pr-6 py-2 px-3 border border-gray-400 rounded-l-md" placeholder="Pesquisar Beneficiários...">
+                                    <button data-url="<?= url("/cartao/procurarrecargabeneficiario") ?>" id="search-all" class="py-2 px-4 cursor-pointer border border-gray-400 bg-gray-100 rounded-r-md">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                                        </svg>
+                                    </button>
+                                </div>
+>>>>>>> 91abf5d (Fix: All Card pages in Dark mode)
                                 <div class="flex items-center gap-2">
                                     <a href="<?= url("/cartao/solicitarsegundaviacartao") ?>" class="flex gap-1 items-center py-2 px-3 border border-gray-400 cursor-pointer text-white rounded-full hover:bg-green-800 hover:text-white transition-all duration-200">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
