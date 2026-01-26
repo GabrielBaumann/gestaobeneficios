@@ -153,13 +153,13 @@
                     <a href="<?= url("/cartao/cartaoativo"); ?>" class="second-card-menu cartao py-3 px-4 cursor-pointer text-white font-semibold duration-all transition-300 w-full md:w-auto text-sm text-center">Cartões</a>
                 </div>
             </header>
-        <?php elseif ($menu === "cartaoativo"): ?>
+        <?php elseif ($menu === "cartao"): ?>
             <!-- Second menu links -->
             <header class="flex flex-col gap-3 px-3 md:px-0">
                 <div class="flex items-center overflow-x-auto">
                     <a href="<?= url("/cartao/solicitado");?>" class="main-card-menu novo py-3 px-4 text-sm cursor-pointer font-semibold duration-all transition-300 w-full md:w-auto text-white solicitado text-center">Solicitados</a>
                     <a href="<?= url("/cartao/enviado");?>" class="second-card-menu enviado py-3 px-4 cursor-pointer text-white font-semibold duration-all transition-300 w-full md:w-auto text-sm text-center">Enviados</a>
-                    <a href="<?= url("/cartao/cartaoativo"); ?>" class="second-card-menu cartao py-3 px-4 cursor-pointer text-white font-semibold duration-all transition-300 w-full md:w-auto text-sm text-center">Cartões</a>
+                    <a href="<?= url("/cartao/cartaoativo"); ?>" class="second-card-menu cartao py-3 px-4 cursor-pointer text-white font-semibold duration-all transition-300 w-full md:w-auto text-sm text-center border-b-2 border-green-500">Cartões</a>
                 </div>
             </header>
         <?php elseif ($menu === "recarga"): ?>
@@ -307,8 +307,8 @@
                         <?= $this->insert("/card/formEmergencyCard"); ?>
                     <?php elseif ($menu === "enviado"): ?>
                         <!-- header with options -->
-                        
-                        <div class="py-4 items-center flex justify-end">
+        
+                        <!-- <div class="py-4 items-center flex justify-end">
                         <input id="checkall" type="checkbox" name="check-all">
                         <label for="checkall">Marcar todos</label>
                             <div class="flex items-center gap-2">
@@ -325,6 +325,7 @@
                                     <span>Novo Cartão</span>
                                 </a>
                             </div>
+<<<<<<< HEAD
                         </div>
                         <div class="ajax-update">
                             teste
@@ -348,10 +349,28 @@
                                 </a>
                             </div>
                         </div>
+=======
+<<<<<<< HEAD
+                        <?php elseif ($menu === "emergencial"): ?>
+                            <?= $this->insert("/card/formEmergencyCard"); ?>
+                        <?php elseif ($menu === "enviado"): ?>
+                            <!-- header with options -->
+                            
+                            <div class="py-4 items-center flex justify-end">
+                            <input id="checkall" type="checkbox" name="check-all">
+                            <label for="checkall">Marcar todos</label>
+=======
+                        </div> -->
+                        <div class="ajax-update">
+                            <?= $this->insert("/card/sendCard"); ?>
+                        </div>
+                    <?php elseif ($menu === "cartao"): ?>
+>>>>>>> 826abc639ace7f38229007cdbb742d98f77290d1
                         <div class="ajax-update">
                             <?= $this->insert("/card/activeCard"); ?>
                         </div>
                     <?php elseif ($menu === "listacartaoemergencial"): ?>
+<<<<<<< HEAD
                         <!-- header with options -->
                         <div class="ajax-update">
                             <?= $this->insert("/card/listCardEmergency"); ?>
@@ -388,18 +407,370 @@
                             <div><?= $card[0]->name_benefit; ?></div>
                             <?= $card[0]->cpf; ?>
                                     <!-- <button data-url="<?= url("/cartao/procurarrecargabeneficiario") ?>" name="" id="cleaninput" class="flex items-center gap-2 text-white font-semibold bg-blue-500 rounded-md py-2 px-3 cursor-pointer">
+=======
+                        <div class="ajax-update">
+                            <?= $this->insert("/card/listCardEmergency"); ?>
+                        </div>
+                    <?php elseif ($menu === "recarga"): ?>
+                        <div class="ajax-update">
+                            <?= $this->insert("/card/listRecharge"); ?>
+                        </div>
+                    <?php elseif ($menu === "recargageral"): ?>
+                        <div class="ajax-update">
+                            <?= $this->insert("/card/formRechargeAll"); ?>
+                        </div>
+                    <?php elseif ($menu === "recargaextra"): ?>
+                        <div class="ajax-update">
+                            <?= $this->insert("/card/formRechargeExtra"); ?>
+                        </div>
+                    <?php elseif ($menu === "segundavia"): ?>
+                        <?= $this->insert("/card/formSecondCard"); ?>
+                    <?php elseif ($menu === "beneficiario"): ?>
+                        <div class="ajax-update">
+                            <?= $this->insert("/card/listBenefit"); ?>
+                        </div>
+                    <?php elseif ($menu === "saldo"): ?>
+                        <?= $this->insert("/card/listBalance"); ?>
+                    <?php elseif ($menu === "recargaextrato"): ?>
+                        <div><?= $recharge[0]->name_benefit; ?></div>
+                        <?= $recharge[0]->cpf; ?>
+
+                        <div class="py-4 flex items-center justify-between">
+
+                            <div class="flex flex-col gap-4">
+                                <!-- Search Field  -->
+                                <div class="flex items-center">
+                                    <input name="recipientname" id="recipientname" type="text" class="input-search w-full pr-6 py-2 px-3 border border-gray-400 rounded-l-md" placeholder="Pesquisar Beneficiários...">
+                                    <button data-url="<?= url("/cartao/procurarrecargabeneficiario") ?>" id="search-all" class="py-2 px-4 cursor-pointer border border-gray-400 bg-gray-100 rounded-r-md">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                                        </svg>
+                                    </button>
+                                </div>
+>>>>>>> 91abf5d (Fix: All Card pages in Dark mode)
+                                <div class="flex items-center gap-2">
+                                    <a href="<?= url("/cartao/solicitarsegundaviacartao") ?>" class="flex gap-1 items-center py-2 px-3 border border-gray-400 cursor-pointer text-white rounded-full hover:bg-green-800 hover:text-white transition-all duration-200">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                        </svg>
+                                        <span>2° Via</span>
+                                    </a>
+                                    <a href="<?= url("/cartao/solicitarnovocartao") ?>" class="flex gap-1 items-center py-2 px-3 text-white rounded-full cursor-pointer bg-green-800 hover:bg-green-900 transition-all duration-200">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                        </svg>
+                                        <span>Novo Cartão</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="ajax-update">
+                                <?= $this->insert("/card/sendCard"); ?>
+                            </div>
+                        <?php elseif ($menu === "cartao"): ?>
+                            <!-- header with options -->
+                            <div class="py-4 items-center flex justify-end">
+                                <div class="flex items-center gap-2">
+                                    <a href="<?= url("/cartao/solicitarsegundaviacartao") ?>" class="flex gap-1 items-center py-2 px-3 border border-gray-400 cursor-pointer text-white rounded-full hover:bg-green-800 hover:text-white transition-all duration-200">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                        </svg>
+                                        <span>2° Via</span>
+                                    </a>
+                                    <a href="<?= url("/cartao/solicitarnovocartao") ?>" class="flex gap-1 items-center py-2 px-3 text-white rounded-full cursor-pointer bg-green-800 hover:bg-green-900 transition-all duration-200">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                        </svg>
+                                        <span>Novo Cartão</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="ajax-update">
+                                <?= $this->insert("/card/activeCard"); ?>
+                            </div>
+                        <?php elseif ($menu === "listacartaoemergencial"): ?>
+                            <!-- header with options -->
+                            <div class="py-4 items-center flex justify-end">
+                                <div class="flex items-center gap-2">
+                                    <a href="<?= url("/cartao/cartaoemergencial");?>" class="flex gap-1 items-center py-2 px-3 text-white rounded-full cursor-pointer bg-green-800 hover:bg-green-900 transition-all duration-200">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                        </svg>
+                                        <span>Novo Cartão Emergencial</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="ajax-update">
+                                <?= $this->insert("/card/listCardEmergency"); ?>
+                            </div>
+                        <?php elseif ($menu === "recarga"): ?>
+                            <!-- header with options -->
+                            <div class="py-4 flex items-center justify-between">
+    
+                                <div class="flex flex-col gap-4">
+                                    <!-- Search Field  -->
+                                    <div class="flex items-center">
+                                        <input name="recipientname" id="recipientname" type="text" class="input-search w-full pr-6 py-2 px-3 border border-gray-400 rounded-l-md" placeholder="Pesquisar Beneficiários...">
+                                        <button data-url="<?= url("/cartao/procurarrecarga") ?>" id="search-all" class="py-2 px-4 cursor-pointer border border-gray-400 bg-gray-100 rounded-r-md">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <!-- <div class="flex flex-col justify-center">
+                                            <h1>Ano</h1>
+                                            <select name="yearSearche" id="yearSearche" class="input-search bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
+                                                <option value="">Selecione</option>
+                                                    <?php foreach($yearRecharge as $yearRechargeItem): ?>
+                                                        <option value="<?= $yearRechargeItem->year_recharge ?>"><?= $yearRechargeItem->year_recharge ?></option>
+                                                    <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="flex flex-col justify-center">
+                                            <h1>Pagamento</h1>
+                                            <select name="typePaymentSearch" id="typePaymentSearch" class="input-search bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
+                                                <option value="">Selecione</option>
+                                                <option value="1">Pagos</option>
+                                                <option value="2">Recargas Agendadas</option>
+                                                <option value="3">À Pagar</option>
+                                            </select>
+                                        </div>
+                                        <div class="flex flex-col justify-center">
+                                            <h1>Mês</h1>
+                                            <select name="monthSearch" id="monthSearch" class="input-search bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
+                                                <option value="">Selecione</option>
+                                                    <?php foreach($monthRecharge as $monthRechargeItem): ?>
+                                                        <option value="<?= $monthRechargeItem->month_recharge ?>"><?= fncMonthString($monthRechargeItem->month_recharge) ?></option>
+                                                    <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="flex flex-col justify-center">
+                                            <h1>Remessa</h1>
+                                            <select name="shipment" id="shipment" class="input-search bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
+                                                <option value="">Selecione</option>
+                                                    <?php foreach($shipmentRecharge as $shipmentRechargeItem): ?>
+                                                        <option value="<?= $shipmentRechargeItem->shipment; ?>"><?= format_number((int)$shipmentRechargeItem->shipment, 2); ?></option>
+                                                    <?php endforeach; ?>
+                                            </select>
+                                        </div> -->
+    
+                                        <button data-url="<?= url("/cartao/procurarrecarga") ?>" id="cleaninput" class="flex items-center gap-2 text-white font-semibold bg-blue-500 rounded-md py-2 px-3 cursor-pointer">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
+                                            </svg>
+                                            <span>Limpar filtros</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <a href="<?= url("/cartao/recargacartao");?>" class="flex gap-1 items-center py-2 px-3 text-white rounded-full cursor-pointer bg-green-800 hover:bg-green-900 transition-all duration-200">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                        </svg>
+                                        <span>Recarga</span>
+                                    </a>
+                                    <a href="<?= url("/cartao/recargaextra");?>" class="flex gap-1 items-center py-2 px-3 text-white rounded-full cursor-pointer bg-green-800 hover:bg-green-900 transition-all duration-200">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                        </svg>
+                                        <span>Recarga Extra</span>
+                                    </a>
+                                </div>
+                            </div>
+    
+                            <div class="ajax-update">
+                                <?= $this->insert("/card/listRecharge"); ?>
+                            </div>
+                        <?php elseif ($menu === "recargageral"): ?>
+                            <div class="ajax-update">
+                                <?= $this->insert("/card/formRechargeAll"); ?>
+                            </div>
+                        <?php elseif ($menu === "recargaextra"): ?>
+                            <div class="ajax-update">
+                                <?= $this->insert("/card/formRechargeExtra"); ?>
+                            </div>
+                        <?php elseif ($menu === "segundavia"): ?>
+                            <?= $this->insert("/card/formSecondCard"); ?>
+                        <?php elseif ($menu === "beneficiario"): ?>
+                            <div class="ajax-update">
+                                <?= $this->insert("/card/listBenefit"); ?>
+                            </div>
+                        <?php elseif ($menu === "saldo"): ?>
+                            <?= $this->insert("/card/listBalance"); ?>
+                        <?php elseif ($menu === "recargaextrato"): ?>
+                            Recargas
+                            <div><?= $recharge[0]->name_benefit; ?></div>
+                            <?= $recharge[0]->cpf; ?>
+
+                            <!-- <div class="py-4 flex items-center justify-between">
+    
+                                <div class="flex flex-col gap-4">
+
+                                    <div class="flex items-center">
+                                        <input name="recipientname" id="recipientname" type="text" class="input-search w-full pr-6 py-2 px-3 border border-gray-400 rounded-l-md" placeholder="Pesquisar Beneficiários...">
+                                        <button data-url="<?= url("/cartao/procurarrecargabeneficiario") ?>" id="search-all" class="py-2 px-4 cursor-pointer border border-gray-400 bg-gray-100 rounded-r-md">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="flex flex-col justify-center">
+                                            <h1>Ano</h1>
+                                            <select name="yearSearche" id="yearSearche" class="input-search bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
+                                                <option value="">Selecione</option>
+                                                    <?php foreach($yearRecharge as $yearRechargeItem): ?>
+                                                        <option value="<?= $yearRechargeItem->year_recharge ?>"><?= $yearRechargeItem->year_recharge ?></option>
+                                                    <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="flex flex-col justify-center">
+                                            <h1>Pagamento</h1>
+                                            <select name="typePaymentSearch" id="typePaymentSearch" class="input-search bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
+                                                <option value="">Selecione</option>
+                                                <option value="1">Pagos</option>
+                                                <option value="2">Recargas Agendadas</option>
+                                                <option value="3">À Pagar</option>
+                                            </select>
+                                        </div>
+                                        <div class="flex flex-col justify-center">
+                                            <h1>Mês</h1>
+                                            <select name="monthSearch" id="monthSearch" class="input-search bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
+                                                <option value="">Selecione</option>
+                                                    <?php foreach($monthRecharge as $monthRechargeItem): ?>
+                                                        <option value="<?= $monthRechargeItem->month_recharge ?>"><?= fncMonthString($monthRechargeItem->month_recharge) ?></option>
+                                                    <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="flex flex-col justify-center">
+                                            <h1>Remessa</h1>
+                                            <select name="shipment" id="shipment" class="input-search bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
+                                                <option value="">Selecione</option>
+                                                    <?php foreach($shipmentRecharge as $shipmentRechargeItem): ?>
+                                                        <option value="<?= $shipmentRechargeItem->shipment; ?>"><?= format_number((int)$shipmentRechargeItem->shipment, 2); ?></option>
+                                                    <?php endforeach; ?>
+                                            </select>
+                                        </div>
+    
+                                        <button data-url="<?= url("/cartao/procurarrecargabeneficiario") ?>" name="" id="cleaninput" class="flex items-center gap-2 text-white font-semibold bg-blue-500 rounded-md py-2 px-3 cursor-pointer">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
+                                            </svg>
+                                            <span>Limpar filtros</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div> -->
+    
+                            <div class="ajax-update">
+                                <?= $this->insert("/card/listRechargeExtract"); ?>
+                            </div>
+                        <?php elseif ($menu === "cartaobaneficiario"): ?>
+                            Cartões
+                            <div><?= $card[0]->name_benefit; ?></div>
+                            <?= $card[0]->cpf; ?>
+
+                            <!-- <div class="py-4 flex items-center justify-between">
+    
+                                <div class="flex flex-col gap-4">
+
+                                    <div class="flex items-center">
+                                        <input name="recipientname" id="recipientname" type="text" class="input-search w-full pr-6 py-2 px-3 border border-gray-400 rounded-l-md" placeholder="Pesquisar Beneficiários...">
+                                        <button data-url="<?= url("/cartao/procurarrecarga") ?>" id="search-all" class="py-2 px-4 cursor-pointer border border-gray-400 bg-gray-100 rounded-r-md">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="flex flex-col justify-center">
+                                            <h1>Ano</h1>
+                                            <select name="yearSearche" id="yearSearche" class="input-search bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
+                                                <option value="">Selecione</option>
+                                                    <?php foreach($yearRecharge as $yearRechargeItem): ?>
+                                                        <option value="<?= $yearRechargeItem->year_recharge ?>"><?= $yearRechargeItem->year_recharge ?></option>
+                                                    <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="flex flex-col justify-center">
+                                            <h1>Pagamento</h1>
+                                            <select name="typePaymentSearch" id="typePaymentSearch" class="input-search bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
+                                                <option value="">Selecione</option>
+                                                <option value="1">Pagos</option>
+                                                <option value="2">Recargas Agendadas</option>
+                                                <option value="3">À Pagar</option>
+                                            </select>
+                                        </div>
+                                        <div class="flex flex-col justify-center">
+                                            <h1>Mês</h1>
+                                            <select name="monthSearch" id="monthSearch" class="input-search bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
+                                                <option value="">Selecione</option>
+                                                    <?php foreach($monthRecharge as $monthRechargeItem): ?>
+                                                        <option value="<?= $monthRechargeItem->month_recharge ?>"><?= fncMonthString($monthRechargeItem->month_recharge) ?></option>
+                                                    <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="flex flex-col justify-center">
+                                            <h1>Remessa</h1>
+                                            <select name="shipment" id="shipment" class="input-search bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
+                                                <option value="">Selecione</option>
+                                                    <?php foreach($shipmentRecharge as $shipmentRechargeItem): ?>
+                                                        <option value="<?= $shipmentRechargeItem->shipment; ?>"><?= format_number((int)$shipmentRechargeItem->shipment, 2); ?></option>
+                                                    <?php endforeach; ?>
+                                            </select>
+                                        </div>
+    
+                                        <button name="" id="" class="flex items-center gap-2 text-white font-semibold bg-blue-500 rounded-md py-2 px-3 cursor-pointer">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
+                                            </svg>
+                                            <span>Limpar filtros</span>
+                                        </button>
+                                    </div>
+                                    <div class="flex flex-col justify-center">
+                                        <h1>Mês</h1>
+                                        <select name="monthSearch" id="monthSearch" class="input-search bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
+                                            <option value="">Selecione</option>
+                                                <?php foreach($monthRecharge as $monthRechargeItem): ?>
+                                                    <option value="<?= $monthRechargeItem->month_recharge ?>"><?= fncMonthString($monthRechargeItem->month_recharge) ?></option>
+                                                <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="flex flex-col justify-center">
+                                        <h1>Remessa</h1>
+                                        <select name="shipment" id="shipment" class="input-search bg-gray-100 pr-6 py-1 px-3 cursor-pointer border border-gray-200">
+                                            <option value="">Selecione</option>
+                                                <?php foreach($shipmentRecharge as $shipmentRechargeItem): ?>
+                                                    <option value="<?= $shipmentRechargeItem->shipment; ?>"><?= format_number((int)$shipmentRechargeItem->shipment, 2); ?></option>
+                                                <?php endforeach; ?>
+                                        </select>
+                                    </div> -->
+
+                                    <button data-url="<?= url("/cartao/procurarrecargabeneficiario") ?>" name="" id="cleaninput" class="flex items-center gap-2 text-white font-semibold bg-blue-500 rounded-md py-2 px-3 cursor-pointer">
+>>>>>>> 826abc639ace7f38229007cdbb742d98f77290d1
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
                                         </svg>
                                         <span>Limpar filtros</span>
                                     </button> -->
                                 </div>
+<<<<<<< HEAD
                             </div>
+=======
+                            </div> -->
+>>>>>>> 826abc639ace7f38229007cdbb742d98f77290d1
     
                             <div class="ajax-update">
                                 <?= $this->insert("/card/listCardBenefit"); ?>
                             </div>
                         </div>
+<<<<<<< HEAD
+=======
+
+                        <div class="ajax-update">
+                            <?= $this->insert("/card/listCardBenefit"); ?>
+                        </div>
+>>>>>>> 826abc639ace7f38229007cdbb742d98f77290d1
                     <?php endif; ?>
                 </div>
             </div>
