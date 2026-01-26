@@ -59,10 +59,13 @@
                     <label for="technician" class="text-white font-semibold">Técnico(a) *</label>
                     <select type="text" name="technician" id="technician" placeholder="Técnico" class="rounded-xs w-full p-2 bg-gray-700 text-white font-semibold">
                         <option value="">Selecione</option>
-                        <option value="1">LUCAS DOS SANTOS SILVA</option>
-                        <option value="2">ALDENORA BAIA</option>
-                        <option value="3">KARINA COSTA BARROS</option>
-                        <option value="4">GABRIEL</option>
+                        <?php foreach($technician as $technicianItem): ?>
+                            <option value="<?= $technicianItem->id_unit_user_system; ?>"><?= $technicianItem->name_full; ?></option>
+                        <?php endforeach; ?>
+                            <!-- <option value="1">LUCAS DOS SANTOS SILVA</option>
+                            <option value="2">ALDENORA BAIA</option>
+                            <option value="3">KARINA COSTA BARROS</option>
+                            <option value="4">GABRIEL</option> -->
                     </select>
                 </div>
 

@@ -94,7 +94,7 @@ async function submitForm(form, actionForm, submitter) {
         if (vData.redirected) {
             window.location.href = vData.redirected;
         }
-        
+
         // Redireciona e cria uma nova aba (impressão)
         if (vData.redirectedBlank) {
             window.open(vData.redirectedBlank, "_blank");

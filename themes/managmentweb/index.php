@@ -7,6 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="<?= theme("/css/message.css", CONF_VIEW_APP); ?>">
+    <link rel="icon" href="<?= theme("/img/white-logo-gs.png", CONF_VIEW_APP); ?>">
     <title>Entrar - Gestão socioassistencial</title>
     <style>
         body {
@@ -51,15 +53,13 @@
                 </div>
                 
                 <div>
-                    <a 
-                        href="<?= url('/inicio'); ?>"
-                        class="cursor-pointer shadow-xl w-full flex justify-center py-3 px-4 border border-transparent rounded-full md:rounded-lg md:shadow-sm text-md font-light text-white bg-green-800 hover:bg-green-900 transition duration-200"
-                    >
+                    <button class="cursor-pointer shadow-xl w-full flex justify-center py-3 px-4 border border-transparent rounded-full md:rounded-lg md:shadow-sm text-md font-light text-white bg-green-800 hover:bg-green-900 transition duration-200">
                         Entrar
-                    </a>
+                    </button>
                 </div>
             </form>
         </div>
         
     </div>
+    <script src="<?= theme("/js/forms.js", CONF_VIEW_THEME); ?>"></script>
 </html>

@@ -18,15 +18,13 @@ class RequestCard extends Model
     public function newCard(array $data, bool $type = false) : bool   
     {   
         // Buscar coordenador baseado no id do tecnico
-        $unitUserSystem = new UnitUserSystem();
-        $idunitCoordinator = $unitUserSystem->findById($data["technician"]);
-        $idCoordinator = $unitUserSystem->activeCoordinator($idunitCoordinator->id_unit);
+        $idCoordinatorActivo = (new UnitUserSystem())->activeCoordinator($data["technician"]);
 
         // Criar solicitação
         $request = new static();
         $request->id_person_benefit = $data["person-benefit"];
         $request->id_unit_server = $data["technician"];
-        $request->id_unit_coordinator = $idCoordinator;
+        $request->id_unit_coordinator = $idCoordinatorActivo;
         $request->type_request = "novo cartão";
         $request->status_request = "solicitado";
         $request->date_request = $data["date-request"];
@@ -62,15 +60,13 @@ class RequestCard extends Model
         }
 
         // Buscar coordenador baseado no id do tecnico
-        $unitUserSystem = new UnitUserSystem();
-        $idunitCoordinator = $unitUserSystem->findById($data["technician"]);
-        $idCoordinator = $unitUserSystem->activeCoordinator($idunitCoordinator->id_unit);
+        $idCoordinatorActivo = (new UnitUserSystem())->activeCoordinator($data["technician"]);
 
         // Criar solicitação
         $request = new static();
         $request->id_person_benefit = $data["person-benefit"];
         $request->id_unit_server = $data["technician"];
-        $request->id_unit_coordinator = $idCoordinator;
+        $request->id_unit_coordinator = $idCoordinatorActivo;
         $request->type_request = "segunda via";
         $request->status_request = "solicitado";
         $request->date_request = $data["date-request"];
@@ -125,8 +121,10 @@ class RequestCard extends Model
         $this->checkNumberEmergency($data["number-card"], $data["person-benefit"]);
 
         // Buscar coordenador baseado no id do tecnico e a unidade
-        $unitUserSystem = new UnitUserSystem();
-        $idCoordinator = $unitUserSystem->activeCoordinator($data["technician"]);
+        $unitUserSystem = (new UnitUserSystem());
+        $idunitCoordinator = $unitUserSystem->findById($data["technician"]);
+        $idCoordinator = $unitUserSystem->activeCoordinator($idunitCoordinator->id_unit);
+        
         $unitName = $unitUserSystem->unitOfTechnical($data["technician"])->name_full;
 
         // Número de ofício
@@ -247,13 +245,14 @@ class RequestCard extends Model
     {
 
         $idBenefit = (int)$data["person-benefit"];;
-        $idCoordenator = (new UnitUserSystem())
-            ->activeCoordinator((int)$data["technician"]);
+
+        // Buscar coordenador baseado no id do tecnico
+        $idCoordinatorActivo = (new UnitUserSystem())->activeCoordinator($data["technician"]);
 
         $recharge = (new static());
         $recharge->id_person_benefit = $idBenefit;
         $recharge->id_unit_server = (int)$data["technician"];
-        $recharge->id_unit_coordinator = $idCoordenator;
+        $recharge->id_unit_coordinator = $idCoordinatorActivo;
         $recharge->status_request = "concluída";
         $recharge->type_request = "recarga";
         $recharge->date_request = $data["date-request"];
@@ -268,8 +267,7 @@ class RequestCard extends Model
     {
 
         $idBenefit = (int)$data["person-benefit"];;
-        $idCoordenator = (new UnitUserSystem())
-            ->activeCoordinator((int)$data["technician"]);
+        $idCoordenator = (new UnitUserSystem())->activeCoordinator((int)$data["technician"]);
 
         $recharge = (new static());
         $recharge->id_person_benefit = $idBenefit;

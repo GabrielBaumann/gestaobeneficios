@@ -5,8 +5,12 @@ namespace Source\App\UserSystem;
 use Source\Core\Controller;
 use Source\Core\Email;
 use Source\Core\View;
+use Source\Models\UserSystem\Auth;
 use Source\Models\UserSystem\UnitUserSystem;
 use Source\Models\UserSystem\UserSystem;
+use Source\Support\Message;
+
+use const PHPSTORM_META\ANY_ARGUMENT;
 
 class User extends Controller
 {
@@ -15,10 +19,35 @@ class User extends Controller
         parent::__construct(__DIR__ . "/../../../themes/" . CONF_VIEW_APP . "/");        
     }
 
+    // Cadastrar novo usuário do sistema
     public function addUser(?array $data) : void
     {
 
         if (isset($data["csrf"]) && !empty($data["csrf"])) {
+
+            // Salvar direto sem verificações de email (excluir depois da versão final)
+            if(isset($data["btn"]) && $data["btn"] === "save-direct"){
+                $userSystem = (new UserSystem());
+                $userSytemUnit = (new UnitUserSystem());
+
+                $idUserSystem = $userSystem->createUserSystemDirect($data);
+
+                if($idUserSystem === 0) {
+
+                    $json["message"] = messageHelpers()->warning("Erro ao cadastrar usuário!")->render();
+                    echo json_encode($json);
+                    return;
+                };
+
+                // Cadastro realizado com sucesso
+                $userSytemUnit->createUserUnitDirect($data, $idUserSystem);
+
+
+                $json["message"] = messageHelpers()->success("Regitro cadastrado com sucesso! Uma senha automatica (123456) foi encaminhada para o e-mail do usuário cadastrado!")->flash();
+                $json["redirected"] = url("/usuario/usuario");
+                echo json_encode($json);
+                return;
+            }
 
             // Campo criado no javascript para marcar que é somente para validação dos campos
             if(isset($data["valid"])) {
@@ -113,10 +142,11 @@ class User extends Controller
         }
 
         echo $this->view->render("/usersystem/formNewUser", [
-
+            "usersystem" => userUnit(),
         ]); 
     }
 
+    // Verificar CPF, se já existe e se é válido
     public function checkCpf(array $data) : void
     {
         // Verifica se o cpf é válido   
@@ -150,6 +180,7 @@ class User extends Controller
         return;
     }
 
+    // Verificar EMAIL, se já existe e se é válido
     public function checkEmail(array $data) : void
     {
         // Verificar se o email é válido
@@ -179,6 +210,64 @@ class User extends Controller
         return;
     }
 
+    // Confirmar cadastro e mudar senha
+    public function confirmedPassword(?array $data): void
+    {
+        if(isset($data["csrf"]) && !empty($data["csrf"])) {
+
+            // if(empty($data["password"])) {
+            //     $json["message"] = messageHelpers()->warning("O campo é obrigatório!")->render();
+            //     echo json_encode($json);
+            //     return;
+            // }
+
+            if(isset($data["valid"])) {
+                // $dataClean = cleanInputData($data);
+                
+                // // Campos vazios
+                // if(!$dataClean["valid"]) {
+                //     $json["message"] = messageHelpers()->warning("Preeencha todos os campos obrigatórios (*)")->render();
+                //     echo json_encode($json);
+                //     return;
+                // }
+
+                $json["status"] = true;
+                echo json_encode($json);
+                return;  
+            }   
+
+            if(strlen($data["password"]) < 5) {
+                $json["message"] = messageHelpers()->warning("A senha deve ter mais de 05 caracteres!")->render();
+                echo json_encode($json);
+                return;                
+            }
+
+            if($data["password"] <> $data["password-confirm"]) {
+                $json["message"] = messageHelpers()->warning("As senhas não conferem!")->render();
+                echo json_encode($json);
+                return;   
+            }
+
+            $idUser = Auth::user()->id_user_system;
+
+            $user = (new UserSystem())->findById($idUser);
+            $user->password = passwd($data["password"]);
+            $user->status_register = "confirmado";
+            $user->id_user_system_update = Auth::user()->id_user_system;
+            $user->save();
+
+            $json["message"] = messageHelpers()->success("Bem vindo(a)!")->flash();
+            $json["redirected"] = url("/inicio/inicio");
+            echo json_encode($json);
+            return;
+        }
+
+        echo $this->view->render("/usersystem/formConfirmUser", [
+            "usersystem" => Auth::user()
+
+        ]);
+    }
+
     // Modal quest
     public function modalQuest(?array $data) : void
     {
@@ -198,6 +287,17 @@ class User extends Controller
         $json["modal"] = $html;
         echo json_encode($json);
         return;
+    }
+
+
+    // Sair do sistema
+    public function logout() : void
+    {
+        (new Message())
+            ->success("Você saiu com sucesso " . Auth::user()->name_full . ". Volte logo :)")
+            ->flash();
+        Auth::logout();
+        redirect("/");
     }
 
     public function error() : void

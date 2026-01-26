@@ -26,8 +26,8 @@
 
             <div class="flex flex-col md:flex-row w-full gap-4">
                 <div class="flex flex-col w-full">
-                    <label for="bene" class="text-gray-800 font-semibold">Beneficiário</label>
-                        <select name="person-benefit" class="w-full border border-gray-300 p-2 rounded-xs">
+                    <label for="person-benefit" class="text-gray-800 font-semibold">Beneficiário *</label>
+                        <select name="person-benefit" id="person-benefit" class="w-full border border-gray-300 p-2 rounded-xs">
                             <option value="">Selecione</option>
                             <?php foreach($personbenefit as $personbenefititem): ?>    
                                 <option value="<?= $personbenefititem->id_person_benefit; ?>"><?= $personbenefititem->id_card_request; ?> - <?= $personbenefititem->name_benefit; ?></option>
@@ -38,19 +38,19 @@
 
             <div class="flex flex-col md:flex-row w-full gap-4">
                 <div class="flex flex-col w-full">
-                    <label for="tec" class="text-gray-800 font-semibold">Mês inicio</label>
-                    <input type="text" name="month-start" placeholder="Mês de início" class="w-full border border-gray-300 p-2 rounded-xs">
+                    <label for="month-start" class="text-gray-800 font-semibold">Mês inicio *</label>
+                    <input type="text" name="month-start" id="month-start" placeholder="Mês de início" class="w-full border border-gray-300 p-2 rounded-xs">
                 </div>
                 <div class="flex flex-col w-full">
-                    <label for="tec" class="text-gray-800 font-semibold">Mês fim</label>
-                    <input type="text" name="month-end" placeholder="Mês de fim" class="w-full border border-gray-300 p-2 rounded-xs">
+                    <label for="month-end" class="text-gray-800 font-semibold">Mês fim */label>
+                    <input type="text" name="month-end" id="month-end" placeholder="Mês de fim" class="w-full border border-gray-300 p-2 rounded-xs">
                 </div>
             </div>
             
             <div class="flex flex-col md:flex-row w-full gap-4">
                 <div class="flex flex-col w-full">
-                    <label for="tec" class="text-gray-800 font-semibold">Técnico(a)</label>
-                    <select type="text" name="technician" placeholder="Técnico" class="w-full border border-gray-300 p-2 rounded-xs">
+                    <label for="technician" class="text-gray-800 font-semibold">Técnico(a) *</label>
+                    <select type="text" name="technician" id="technician" placeholder="Técnico" class="w-full border border-gray-300 p-2 rounded-xs">
                         <option value="">Selecione</option>
                             <?php foreach($technicalUnit as $technicalUnitItem): ?>    
                                 <option value="<?= $technicalUnitItem->id_unit_user_system; ?>"><?= $technicalUnitItem->name_full; ?> - <?= $technicalUnitItem->name_unit; ?></option>
@@ -59,8 +59,8 @@
                 </div>
 
                 <div class="flex flex-col w-full">
-                    <label for="data" class="text-gray-800 font-semibold">Data da Solicitação</label>
-                    <input type="date" name="date-request" placeholder="data" class="w-full border border-gray-300 p-2 rounded-xs">
+                    <label for="date-request" class="text-gray-800 font-semibold">Data da Solicitação *</label>
+                    <input type="date" name="date-request" id="date-request" placeholder="data" class="w-full border border-gray-300 p-2 rounded-xs">
                 </div>
             </div>
 

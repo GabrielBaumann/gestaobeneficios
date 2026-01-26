@@ -26,8 +26,8 @@
 
             <div class="flex flex-col md:flex-row w-full gap-4">
                 <div class="flex flex-col w-full">
-                    <label for="bene" class="text-gray-800 font-semibold">Beneficiário</label>
-                        <select name="person-benefit" class="w-full border border-gray-300 p-2 rounded-xs">
+                    <label for="person-benefit" class="text-gray-800 font-semibold">Beneficiário *</label>
+                        <select name="person-benefit" id="person-benefit" class="w-full border border-gray-300 p-2 rounded-xs">
                             <option value="">Selecione</option>
                             <?php foreach($personbenefit as $personbenefititem): ?>    
                                 <option value="<?= $personbenefititem->id_person_benefit; ?>"><?= $personbenefititem->name_benefit; ?></option>
@@ -38,8 +38,8 @@
             
             <div class="flex flex-col md:flex-row w-full gap-4">
                 <div class="flex flex-col w-full">
-                    <label for="tec" class="text-gray-800 font-semibold">Técnico(a)</label>
-                    <select type="text" name="technician" placeholder="Técnico" class="w-full border border-gray-300 p-2 rounded-xs">
+                    <label for="technician" class="text-gray-800 font-semibold">Técnico(a) *</label>
+                    <select type="text" name="technician" id="technician" placeholder="Técnico" class="w-full border border-gray-300 p-2 rounded-xs">
                         <option value="">Selecione</option>
                         <option value="1">LUCAS DOS SANTOS SILVA</option>
                         <option value="2">ALDENORA BAIA</option>
@@ -49,8 +49,8 @@
                 </div>
 
                 <div class="flex flex-col w-full">
-                    <label for="data" class="text-gray-800 font-semibold">Data da Solicitação</label>
-                    <input type="date" name="date-request" placeholder="data" class="w-full border border-gray-300 p-2 rounded-xs">
+                    <label for="date-request" class="text-gray-800 font-semibold">Data da Solicitação *</label>
+                    <input type="date" name="date-request" id="date-request" placeholder="data" class="w-full border border-gray-300 p-2 rounded-xs">
                 </div>
             </div>
 

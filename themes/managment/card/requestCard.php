@@ -1,14 +1,6 @@
 <?php if (!empty($listCardName)): ?>
     <header class="pb-3 flex items-center justify-start">
-        <div class="flex flex-col">
-            <h1 class="text-white">Filtrar por mês</h1>
-            <select name="date-month" id="" class="py-2 px-3 bg-gray-800 text-white cursor-pointer rounded-xs">
-                <option value="">Selecione</option>
-                <?php foreach($monthAll as $monthAllItem): ?>
-                    <option value="<?= $monthAllItem; ?>"><?= $monthAllItem; ?></option>
-                <?php endforeach;?>
-            </select>
-        </div>
+
     </header>
     <table class="w-full bg-white/10 md:max-h-[400px] rounded-md overflow-y-auto">
         <thead class="rounded-t-md">
@@ -67,9 +59,18 @@
         class="pt-4 flex items-end gap-3"
         >
         <?= csrf_input(); ?>
-        <div class="flex items-center gap-2 bg-white/10 py-2 px-3">
+        <!-- <div class="flex items-center gap-2 bg-white/10 py-2 px-3">
             <input type="checkbox" class="cursor-pointer">
             <span class="text-white">Selecionar todos</span>
+        </div> -->
+        <div class="flex flex-col">
+            <h1 class="text-white">Filtrar por mês</h1>
+            <select name="date-month" id="" class="py-2 px-3 bg-gray-800 text-white cursor-pointer rounded-xs">
+                <option value="">Selecione</option>
+                <?php foreach($monthAll as $monthAllItem): ?>
+                    <option value="<?= $monthAllItem; ?>"><?= $monthAllItem; ?></option>
+                <?php endforeach;?>
+            </select>
         </div>
         <button name="btn-send" value="send" class="flex items-center gap-2 bg-green-800 transition-all duration-300 hover:bg-green-900 text-white rounded-xs py-2 px-3 cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">

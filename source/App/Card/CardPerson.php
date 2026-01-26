@@ -17,7 +17,7 @@ use Source\Models\Card\Views\Vw_request;
 use Source\Models\Office;
 use Source\Models\PersonBenefit;
 use Source\Models\UserSystem\UnitUserSystem;
-
+use Source\Models\UserSystem\Views\Vw_unit_user;
 
 class CardPerson extends Controller
 {
@@ -27,6 +27,13 @@ class CardPerson extends Controller
     {
         parent::__construct(__DIR__ . "/../../../themes/" . CONF_VIEW_APP . "/");
         
+        $existCoorditanor = (new UnitUserSystem())->activeCoordinator(userUnit()->id_unit_user_system);
+        // var_dump(userUnit());
+        if($existCoorditanor === 0) {
+            $this->message->info("Não existe coordenador cadastrado para sua unidade!")->flash();
+            redirect("/inicio/inicio");
+        }
+
         // if (!$this->user = Auth::user()) {
         //     $this->message->warning("Efetue login para acessar o sistema.")->flash();
         //     redirect("/");
@@ -38,6 +45,7 @@ class CardPerson extends Controller
     {
         echo $this->view->render("/card/start", [
             "title" => "Cartão Alimentação",
+            "usersystem" => userUnit(),
             "menu" => "novo"
         ]); 
     }
@@ -96,6 +104,7 @@ class CardPerson extends Controller
 
         echo $this->view->render("/cardrequest/formcardrequest", [
             "title" => "Formulário de Cartão",
+            "usersystem" => userUnit(),
             "personbenefit" => (new PersonBenefit())->find()->fetch(true),
             "listCard" => (new Vw_card())->find()->fetch(true)
         ]);    
@@ -104,9 +113,20 @@ class CardPerson extends Controller
     // Seguda via e cartãp
     public function secondCard(array $data) : void 
     {
-        if(isset($data["person-benefit"])) {
+        var_dump((new UnitUserSystem())->listTechnicalUnit(userUnit()->id_unit));
+        if (isset($data["csrf"]) && !empty($data["csrf"])) {
+
+            $dataClean = cleanInputData($data);
+                
+            // Campos vazios
+            if(!$dataClean["valid"]) {
+                $json["message"] = messageHelpers()->warning("Preeencha todos os campos obrigatórios (*)")->render();
+                echo json_encode($json);
+                return;
+            }
+            
             $secundCard = new RequestCard();
-            $secundCard->secondCard($data);
+            $secundCard->secondCard($dataClean["data"]);
 
             if(!$secundCard) {
                 $json["message"] = $secundCard->message()->render();
@@ -121,8 +141,13 @@ class CardPerson extends Controller
 
         echo $this->view->render("/card/start", [
             "title" => "Solicitar 2ª Via",
+            "usersystem" => userUnit(),
             "menu" => "segundavia",
-            "personbenefit" => (new Vw_card_canceled())->find()->order("name_benefit")->limit(5000)->fetch(true)
+            "personbenefit" => (new Vw_card_canceled())
+                ->find()    
+                ->order("name_benefit")
+                ->limit(5000)
+                ->fetch(true)
         ]);
     }
 
@@ -155,6 +180,7 @@ class CardPerson extends Controller
         echo $this->view->render("/card/start", [
             "title" => "Recarga",
             "menu" => "recarga",
+            "usersystem" => userUnit(),
             "listRecharge" => (new Vw_recharge())
                 ->find(
                     "id_card_recharge_fixed <> :id
@@ -200,29 +226,51 @@ class CardPerson extends Controller
 
         echo $this->view->render("/card/start", [
             "title" => "Atualizar Saldo",
+            "usersystem" => userUnit(),
             "menu" => "saldo",
             "listBalance" => false
         ]);
     }
 
-
     // Recarga extra
     public function rechargeExtra(?array $data) : void 
     {
+        if (isset($data["csrf"]) && !empty($data["csrf"])) {
 
-        if (isset($data["person-benefit"]) && !empty($data["person-benefit"])) {
-            // var_dump($data);
+                // Campo criado no javascript para marcar que é somente para validação dos campos
+                if(isset($data["valid"])) {
+                    $dataClean = cleanInputData($data);
 
-            $rechargeExtra = (new CardRecharge())->addRechargeExtra($data);
+                    // Campos vazios
+                    if(!$dataClean["valid"]) {
+                        $json["message"] = messageHelpers()->warning("Preeencha todos os campos obrigatórios (*)")->render();
+                        echo json_encode($json);
+                        return;
+                    }
+                    
+                    $json["status"] = true;
+                    echo json_encode($json);
+                    return;  
+                }
 
+                $rechargeExtra = (new CardRecharge())->addRechargeExtra($data);
+            
+                if(!$rechargeExtra) {
+                    $json["message"] = messageHelpers()->warning("Erro ao fazer requisição, atualiza a pagina e tente novamente!")->render();
+                    echo json_encode($json);
+                    return;
+                }
 
-            $json["message"] = messageHelpers()->warning("teste")->render();
-            echo json_encode($json);
-            return;
+                $json["message"] = messageHelpers()->success("Recarga extra gerada com sucesso!")->flash();
+                $json["redirected"] = url("/cartao/recarga");
+                echo json_encode($json);
+                return;
+            // }
         }
 
         echo $this->view->render("/card/start", [
             "title" => "Recarga Extra",
+            "usersystem" => userUnit(),
             "menu" => "recargaextra",
             "personbenefit" => (new Vw_card())
                 ->find("status_card = :st AND type_request <> :ty", "st=ativo&ty=emergencial")
@@ -234,7 +282,24 @@ class CardPerson extends Controller
     // Recarregar cartão
     public function rechargCard(?array $data) : void
     {
-        if(isset($data["person-benefit"])) {
+         if (isset($data["csrf"]) && !empty($data["csrf"])) {
+
+                // Campo criado no javascript para marcar que é somente para validação dos campos
+                if(isset($data["valid"])) {
+                    $dataClean = cleanInputData($data);
+
+                    // Campos vazios
+                    if(!$dataClean["valid"]) {
+                        $json["message"] = messageHelpers()->warning("Preeencha todos os campos obrigatórios (*)")->render();
+                        echo json_encode($json);
+                        return;
+                    }
+                    
+                    $json["status"] = true;
+                    echo json_encode($json);
+                    return;  
+                }
+                
             $recharg = (new CardRecharge());
 
             $response = $recharg->checkRecharge($data);
@@ -252,6 +317,7 @@ class CardPerson extends Controller
 
         echo $this->view->render("/card/start", [
             "title" => "Recarga Cartão",
+            "usersystem" => userUnit(),
             "menu" => "recargageral",
             "personbenefit" => (new Vw_card())
                 ->find("status_card = :st AND type_request <> :ty", "st=ativo&ty=emergencial")
@@ -262,9 +328,18 @@ class CardPerson extends Controller
 
     // Página de solicitação de novo cartão
     public function newCard() : void
-    {
+    {          
+        $idUserUnit = userUnit()->id_unit;
+
         echo $this->view->render("/card/start", [
             "menu" => "novocartao",
+            "usersystem" => userUnit(),
+            "technician" => (new Vw_unit_user())
+                ->find("type_access_unit IN ('COORDENADORIA','TECNICO')
+                    AND id_unit = :id 
+                    AND status_user_system = :st",
+                    "id={$idUserUnit}&st=ativo")
+                ->fetch(true),
             "personbenefit" => (new PersonBenefit())
                 ->find()
                 ->order("name_benefit")
@@ -345,6 +420,7 @@ class CardPerson extends Controller
 
         echo $this->view->render("/card/start", [
             "title" => "Solicitação de Cartão",
+            "usersystem" => userUnit(),
             "menu" => "solicitacao",
             "monthAll" => fncMonthAll(),
             "listCardName" => (new Vw_card())
@@ -423,9 +499,14 @@ class CardPerson extends Controller
 
         echo $this->view->render("/card/start", [
             "title" => "Enviados",
+            "usersystem" => userUnit(),
             "menu" => "enviado",
             "listCardName" => (new Vw_card())
-                ->find("status_request = :st AND status_card = :stc AND received = :re", "st=concluída&stc=confecção&re=não")
+                ->find(
+                    "status_request = :st 
+                    AND status_card = :stc 
+                    AND received = :re", 
+                    "st=concluída&stc=confecção&re=não")
                 ->fetch(true)
         ]);             
     }
@@ -462,6 +543,7 @@ class CardPerson extends Controller
     {
         echo $this->view->render("/card/start", [
             "title" => "Cartão Ativo",
+            "usersystem" => userUnit(),
             "menu" => "cartao",
             "listCardName" => (new Vw_benefit_card())
                 ->find()
@@ -475,6 +557,7 @@ class CardPerson extends Controller
 
         echo $this->view->render("/card/start", [
             "title" => "Beneficiário do Cartão",
+            "usersystem" => userUnit(),
             "menu" => "beneficiario",
             "listBenefit" => (new Vw_benefit_to_card())
                 ->find()
@@ -596,12 +679,14 @@ class CardPerson extends Controller
 
             $json["message"] = $newRequestEmergency->message()->render();
             $json["redirectedBlank"] = url("/documentocartao/documento/{$dataRequest["idoffice"]}/emergency");
+            $json["redirected"] = url("/cartao/solicitaremergencial");
             echo json_encode($json);
             return;
         }
 
         echo $this->view->render("/card/start", [
             "menu" => "emergencial",
+            "usersystem" => userUnit(),
             "title" =>  "Emergencial",
             "listEmergency" => (new PersonBenefit())
                 ->find()
@@ -617,6 +702,7 @@ class CardPerson extends Controller
     {
         echo $this->view->render("/card/start", [
             "menu" => "listacartaoemergencial",
+            "usersystem" => userUnit(),
             "title" =>  "Emergencial",
             "listCardName" => (new Vw_card())
                 ->find("type_request = :id",
@@ -646,13 +732,14 @@ class CardPerson extends Controller
         return;
     }
 
-    // Extrato de recargaas por beneficiário
+    // Extrato de recargas por beneficiário
     public function extractRechargeBenefit(?array $data) : void
     {
         $id = (int)fncDecrypt($data["idBenefiti"]);
 
         echo $this->view->render("/card/start", [
             "title" => "Extrato de Recargas",
+            "usersystem" => userUnit(),
             "menu" => "recargaextrato",
             "recharge" => (new Vw_recharge())
             ->find("id_person_benefit = :id AND id_card_recharge_fixed <> :ca",
@@ -672,6 +759,7 @@ class CardPerson extends Controller
 
         echo $this->view->render("/card/start", [
             "title" => "Extrato de Recargas",
+            "usersystem" => userUnit(),
             "menu" => "cartaobaneficiario",
             "card" => (new Vw_card())
                 ->find("id_person_benefit = :id", "id={$idBenfiti}")

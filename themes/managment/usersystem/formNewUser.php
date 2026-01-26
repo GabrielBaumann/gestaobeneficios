@@ -22,14 +22,14 @@
             <div class="flex flex-col md:flex-row w-full gap-4">
                 <div class="flex flex-col w-full">
                     <label for="name-user" class="text-white font-semibold">Nome *</label>
-                    <input type="text" name="name-user" id="name-user" class="clean-input-text w-[300px] p-2 rounded-xs rounded-r-none bg-white/20 text-white font-semibold">
+                    <input type="text" name="name-user" id="name-user" placeholder="Fulano da Silva" class="clean-input-text w-[300px] p-2 rounded-xs rounded-r-none bg-white/20 text-white font-semibold">
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row w-full gap-4">
                 <div class="flex flex-col w-full">
                     <label for="document" class="text-white font-semibold">CPF *</label>
-                    <input type="text" data-url="<?=  url("/usuario/verificarcpf"); ?>" name="document" id="document" class="clean-cpf w-[300px] p-2 rounded-xs rounded-r-none bg-white/20 text-white font-semibold">
+                    <input type="text" data-url="<?=  url("/usuario/verificarcpf"); ?>" placeholder="000.000.000.-00" name="document" id="document" class="clean-cpf w-[300px] p-2 rounded-xs rounded-r-none bg-white/20 text-white font-semibold">
                 </div>
             </div>
 
@@ -58,16 +58,15 @@
                 </select>
             </div>
 
-
             <div class="flex flex-col md:flex-row w-full gap-4">
                 <div class="flex flex-col w-full">
                     <label for="type-access" class="text-white font-semibold">Tipo de acesso *</label>
                     <select type="text" name="type-access" id="type-access" class="rounded-xs w-full p-2 bg-white/20 text-white font-semibold">
                         <option value="">Selecione</option>
-                        <option value="MANUTENÇÃO">MANUTENÇÃO</option>
+                        <option value="MANUTENCAO">MANUTENÇÃO</option>
                         <option value="COORDENADORIA">COORDENADORIA</option>
                         <option value="MEDIO">MEDIO</option>
-                        <option value="MEDIO">TECNICO</option>
+                        <option value="TECNICO">TECNICO</option>
                     </select>
                 </div>
 
@@ -84,13 +83,16 @@
                 </div>
             <div class="flex justify-end">
 
-            <button class="rounded-xs bg-green-700 text-white font-semibold px-6 py-2 cursor-pointer hover:bg-green-800">
+            <button name="btn" value="save" class="rounded-xs bg-green-700 text-white font-semibold px-6 py-2 cursor-pointer hover:bg-green-800">
                 <span>Salvar</span>
+            </button >
+
+            <button name="btn" value="save-direct" class="rounded-xs bg-gray-700 text-white font-semibold px-6 py-2 cursor-pointer hover:bg-gray-800">
+                Salvar Direto (botão de manutenção)
             </button>
+
             </div>
-
         </div>
-
     </form>
 
 </div>

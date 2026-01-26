@@ -39,9 +39,14 @@ function redirect(string $url): void
  /**
   * ASSETS
   */
-function user() : ?\Source\Models\SystemUser
+function user() : ?\Source\Models\UserSystem\UserSystem
 {
-    return \Source\Models\Auth::user();    
+    return \Source\Models\UserSystem\Auth::user();    
+}
+
+function userUnit() : ?\Source\Models\UserSystem\Views\Vw_unit_user
+{
+    return \Source\Models\UserSystem\UnitUserSystem::userSystemUnit();    
 }
 
 function messageHelpers() : \Source\Support\Message

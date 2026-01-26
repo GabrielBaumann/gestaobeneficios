@@ -64,7 +64,7 @@ export function fncMessage(vMessage, vErr = false) {
     const vNewMessage = document.createElement("div");
     vNewMessage.id = "response";
     
-    // Se a função for chamada sem o argumento mensagem ela devolve a mensagem de erro
+    // Se a função for chamada sem o argumento mensagem devolve a mensagem de erro
     if(vErr) {
         vMessage = `
             <div class="alert-container">
@@ -179,7 +179,6 @@ export function fncCleanInput() {
         const vForm = new FormData();
         const vUrl = e.target.closest("button").dataset.url; 
         vForm.append("clean", "clean");
-        console.log(vUrl)
         let timeoutLoading = showSplash(true);
 
         try {

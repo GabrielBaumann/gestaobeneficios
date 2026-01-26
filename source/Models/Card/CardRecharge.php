@@ -64,7 +64,6 @@ class CardRecharge extends Model
 
     public function bootstrap(int $idCard, int $idRequestCard, int $idFifixed, array $data): int
     {
-
         $this->id_card_request = $idRequestCard;
         $this->id_card_recharge_fixed = $idFifixed;
         $this->id_card = $idCard;
@@ -249,7 +248,8 @@ class CardRecharge extends Model
 
     // Inserir recargas e criar 
     function addRechargeGeneral(int $idCard, array $data, array $month) : bool
-    {
+    {   
+        $idValueCard = (new CardValue())->valueCard();
         $idRequest = (new RequestCard())->rechargeCard($data);
         $cardRechargFixed = (new static());
 
@@ -258,6 +258,7 @@ class CardRecharge extends Model
         $data["month"] = 0;
         $data["year"] = $year;
         $data["status_recharge"] = "ativo";
+        $data["id_card_value"] = 0;
         $idFixed = $cardRechargFixed->bootstrap($idCard, $idRequest, 0, $data);
                
         foreach($month as $monthItem) {
@@ -266,6 +267,7 @@ class CardRecharge extends Model
             $data["month"] = $month; 
             $data["year"] = $year;
             $data["status_recharge"] = "solicitado";
+            $data["id_card_value"] = (int)$idValueCard;
 
             $newCardRecharge = (new static());
             $newCardRecharge->bootstrap($idCard, $idRequest, $idFixed, $data);

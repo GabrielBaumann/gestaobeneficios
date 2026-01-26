@@ -18,5 +18,11 @@ $route->get("/verificarcpf/{cpf}", "User:checkCpf");
 // Verificar email
 $route->get("/verificaremail/{email}", "User:checkEmail");
 
+// Mudar senha ao ser registrado
+$route->get("/confirmarcadastro", "User:confirmedPassword");
+$route->post("/confirmarcadastro", "User:confirmedPassword");
+
 $route->post("/modalquest", "User:modalQuest");
+
+$route->get("/sair", "User:logout");
 

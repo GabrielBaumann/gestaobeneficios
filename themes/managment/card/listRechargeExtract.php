@@ -17,7 +17,14 @@
                     <!-- <tr onclick="showRecharges()"  class="hover:bg-gray-50 transition-colors"> -->
                     <td class="py-3 px-4 text-sm text-gray-800"><?= $item->id_card_recharge; ?></td>
                     <td class="py-3 px-4 text-sm text-gray-800"><?= fncstr_price($item->value); ?></td>
-                    <td class="py-3 px-4 text-sm text-gray-600"><?= fncMonthString($item->month_recharge); ?></td>
+                    <td class="py-3 px-4 text-sm text-gray-600">
+                        <?= fncMonthString($item->month_recharge); ?>
+
+                        <?php  if($item->type_request === "recarga extra"): ?>
+                            <?= $item->type_request; ?>
+                        <?php endif; ?>
+                        
+                    </td>
                     <td class="py-3 px-4 text-center"><?= $item->year_recharge; ?></td>
                     <td class="py-3 px-4 text-center">
                         <span class="status px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">

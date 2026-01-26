@@ -1,6 +1,6 @@
 <?php
 
-namespace Source\Models;
+namespace Source\Models\UserSystem;
 
 use Source\Core\Email;
 use Source\Core\Model;
@@ -12,7 +12,7 @@ class Auth extends Model
 {
     public function __construct()
     {
-        parent::__construct("user", ["id_user"], ["email", "senha"], "id_user");        
+        parent::__construct("user_system", ["id_user_system"], ["email", "password","cpf"], "id_user_system");        
     }
 
     public static function user() : ?UserSystem
@@ -32,9 +32,9 @@ class Auth extends Model
         $session->unset("authUser");
     }
 
-    public function login(string $email, string $passwordUser) : bool
+    public function login(string $cpf, string $passwordUser) : bool
     {
-        $instanciaUser = (new UserSystem())->find("email = :u", "u={$email}");
+        $instanciaUser = (new UserSystem())->find("cpf = :u", "u={$cpf}");
         $userData = $instanciaUser->fetch();
 
         if(!$userData) {
@@ -47,19 +47,14 @@ class Auth extends Model
             return false;
         }
         
-        if (!$userData) {
-            $this->message->error("O usuário informado não está cadastrado!");
-            return false;
-        }
-
-        if (!password_verify($passwordUser, $userData->password_user)) {
+        if (!password_verify($passwordUser, $userData->password)) {
             $this->message->error("A senha informada não confere!");
             return false;
         }
 
         // LOGIN
 
-        (new Session())->set("authUser", $userData->id_user);
+        (new Session())->set("authUser", $userData->id_user_system);
         // $this->message->success("Login efetuado com sucesso")->flash();
         return true;
     }    

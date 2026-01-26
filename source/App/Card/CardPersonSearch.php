@@ -193,7 +193,7 @@ class CardPersonSearch extends Controller
     {
 
         if(isset($data["clean"]) && !empty($data["clean"])) {
-
+            
             $searchRecharg = (new Vw_card())->find("type_request = :id",
                     "id=emergencial")
                 ->fetch(true);

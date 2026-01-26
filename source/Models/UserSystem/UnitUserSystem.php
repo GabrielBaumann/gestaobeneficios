@@ -5,6 +5,7 @@ namespace Source\Models\UserSystem;
 use Source\Core\Model;
 use Source\Models\Unit\Unit;
 use Source\Models\UserSystem\Views\Vw_unit_user;
+use Source\Models\UserSystem\Auth;
 
 class UnitUserSystem extends Model
 {
@@ -13,30 +14,61 @@ class UnitUserSystem extends Model
         parent::__construct("unit_user_system", [], [], "id_unit_user_system");        
     }
 
+    // Acesso ao sistema para uso nos benefícios
+    public static function userSystemUnit() : ?Vw_unit_user
+    {
+        $idUserSytem = Auth::user()->id_user_system;
+        return (new Vw_unit_user())
+            ->find("id_user_system = :id AND status_user_unit = :st AND status_user_system = :su",
+             "id={$idUserSytem}&st=ativo&su=ativo")
+            ->fetch();
+    }
+
     //Cadastrar o usuário em um novo setor
     public function createUserUnit(array $data, int $idUser) : bool
-    {
+    {   
+        $idUserUnit = user()->id_user_system;
         $useUnit = (new static());
 
         $useUnit->id_user_system = $idUser;
         $useUnit->id_unit = $data["unit"];
         $useUnit->id_function_user = $data["function-unit"];
         $useUnit->type_access_unit = $data["type-access"];
-        $useUnit->id_user_system_register = 1;
+        $useUnit->id_user_system_register = $idUserUnit;
 
         $useUnit->save();
         return true;
     } 
-
-    // Retorna o coordeandor ativo baseado no id do tecnico
-    public function activeCoordinator(int $idTechnical) : int
+    
+    //Cadastrar o usuário em um novo setor (excluir depois da versão final)
+    public function createUserUnitDirect(array $data, int $idUser) : bool
     {   
-        $idunitCoordinator = (new static)->findById($idTechnical);
+        $idUserSytem = user()->id_user_system;
+        $useUnit = (new static());
 
-        $coordinato = $this->find(
-            "status = :st AND function_user = :fu AND id_unit = :id",
-            "st=ativo&fu=COORDENADOR(A)&id={$idunitCoordinator->id_unit}")->fetch();
-            
+        $useUnit->id_user_system = $idUser;
+        $useUnit->id_unit = $data["unit"];
+        $useUnit->id_function_user = $data["function-unit"];
+        $useUnit->type_access_unit = $data["type-access"];
+        $useUnit->id_user_system_register = $idUserSytem ;
+        
+        $useUnit->save();
+        return true;
+    } 
+    
+    // Recebe o id do técnico, baseado no id ele retorna o id da unidade, 
+    // baseado do id da unidade retorna o id do coordenador ativo
+    public function activeCoordinator(int $idTechinical) : int
+    {   
+        //Recebe o id do técnico e retorna o id da unidade 
+        $idUnit = (new static())->findById($idTechinical)->id_unit;
+
+        $coordinato = (new static())->find(
+            "status = :st 
+                AND type_access_unit = :fu 
+                AND id_unit = :id",
+            "st=ativo&fu=COORDENADORIA&id={$idUnit}")->fetch();
+        
         $coordinato ? $id = $coordinato->id_unit_user_system : $id = 0;
 
         return $id;    
