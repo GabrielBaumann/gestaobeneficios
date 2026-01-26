@@ -122,8 +122,7 @@ class RequestCard extends Model
 
         // Buscar coordenador baseado no id do tecnico e a unidade
         $unitUserSystem = (new UnitUserSystem());
-        $idunitCoordinator = $unitUserSystem->findById($data["technician"]);
-        $idCoordinator = $unitUserSystem->activeCoordinator($idunitCoordinator->id_unit);
+        $idCoordinator = $unitUserSystem->activeCoordinator($data["technician"]);
         
         $unitName = $unitUserSystem->unitOfTechnical($data["technician"])->name_full;
 

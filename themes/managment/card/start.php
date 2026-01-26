@@ -136,7 +136,6 @@
                     <a href="<?= url("/cartao/enviado");?>" class="second-card-menu enviado py-3 px-4 cursor-pointer text-white font-semibold duration-all transition-300 w-full md:w-auto text-sm text-center">Enviados</a>
                 </div>
             </header>
-        
         <?php elseif ($menu === "recarga"): ?>
             <!-- Search bar & Options -->
             <div class="flex flex-col md:flex-row items-center md:grid md:grid-cols-4 gap-4 md:justify-between p-4 md:py-4 md:px-0">
@@ -256,30 +255,9 @@
                         <?= $this->insert("/card/formEmergencyCard"); ?>
                     <?php elseif ($menu === "enviado"): ?>
                         <!-- header with options -->
-        
-                        <!-- <div class="py-4 items-center flex justify-end">
-                        <input id="checkall" type="checkbox" name="check-all">
-                        <label for="checkall">Marcar todos</label>
-                            <div class="flex items-center gap-2">
-                                <a href="<?= url("/cartao/solicitarsegundaviacartao") ?>" class="flex gap-1 items-center py-2 px-3 border border-gray-400 cursor-pointer text-white rounded-full hover:bg-green-800 hover:text-white transition-all duration-200">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                    </svg>
-                                    <span>2° Via</span>
-                                </a>
-                                <a href="<?= url("/cartao/solicitarnovocartao") ?>" class="flex gap-1 items-center py-2 px-3 text-white rounded-full cursor-pointer bg-green-800 hover:bg-green-900 transition-all duration-200">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                                    </svg>
-                                    <span>Novo Cartão</span>
-                                </a>
-                            </div>
-
-                        </div>
                         <div class="ajax-update">
-                            teste
                             <?= $this->insert("/card/sendCard"); ?>
-                        </div>-->
+                        </div>
                    
                     <?php elseif ($menu === "listacartaoemergencial"): ?>
                         <!-- header with options -->
@@ -313,7 +291,7 @@
                             <div class="ajax-update">
                                 <?= $this->insert("/card/listRechargeExtract"); ?>
                             </div>
-                    <?php elseif ($menu === "cartaobaneficiario"): ?>
+                    <?php elseif ($menu === "cartaobeneficiario"): ?>
                             Cartões
                             <div><?= $card[0]->name_benefit; ?></div>
                             <?= $card[0]->cpf; ?>
@@ -336,7 +314,7 @@
                             <div class="ajax-update">
                                 <?= $this->insert("/card/sendCard"); ?>
                             </div>-->
-                        <?php elseif ($menu === "cartao"): ?>
+                    <?php elseif ($menu === "cartao"): ?>
                             <!-- header with options -->
                             <div class="py-4 items-center flex justify-end">
                                 <div class="flex items-center gap-2">
@@ -357,7 +335,7 @@
                             <div class="ajax-update">
                                 <?= $this->insert("/card/activeCard"); ?>
                             </div>
-                        <?php elseif ($menu === "listacartaoemergencial"): ?>
+                    <?php elseif ($menu === "listacartaoemergencial"): ?>
                             <!-- header with options -->
                             <div class="py-4 items-center flex justify-end">
                                 <div class="flex items-center gap-2">
@@ -372,7 +350,7 @@
                             <div class="ajax-update">
                                 <?= $this->insert("/card/listCardEmergency"); ?>
                             </div>
-                        <?php elseif ($menu === "recarga"): ?>
+                    <?php elseif ($menu === "recarga"): ?>
                             <!-- header with options -->
                             <div class="py-4 flex items-center justify-between">
     

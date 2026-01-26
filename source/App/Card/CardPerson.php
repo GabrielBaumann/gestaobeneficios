@@ -496,7 +496,7 @@ class CardPerson extends Controller
             echo json_encode($json);           
             return;
         }
-
+        var_dump(true);
         echo $this->view->render("/card/start", [
             "title" => "Enviados",
             "usersystem" => userUnit(),
@@ -693,7 +693,8 @@ class CardPerson extends Controller
                 ->limit(5000)
                 ->order("name_benefit")
                 ->fetch(true),
-            "listTechnical" => (new UnitUserSystem())->listTechnicalUnit()
+            "listTechnical" => (new UnitUserSystem())
+                ->listTechnicalUnit(userUnit()->id_unit)
         ]);
     }
 
@@ -760,7 +761,7 @@ class CardPerson extends Controller
         echo $this->view->render("/card/start", [
             "title" => "Extrato de Recargas",
             "usersystem" => userUnit(),
-            "menu" => "cartaobaneficiario",
+            "menu" => "cartaobeneficiario",
             "card" => (new Vw_card())
                 ->find("id_person_benefit = :id", "id={$idBenfiti}")
                 ->fetch(true)
