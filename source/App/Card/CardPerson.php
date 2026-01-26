@@ -113,7 +113,7 @@ class CardPerson extends Controller
     // Seguda via e cartãp
     public function secondCard(array $data) : void 
     {
-        var_dump((new UnitUserSystem())->listTechnicalUnit(userUnit()->id_unit));
+        // var_dump((new UnitUserSystem())->listTechnicalUnit(userUnit()->id_unit));
         if (isset($data["csrf"]) && !empty($data["csrf"])) {
 
             $dataClean = cleanInputData($data);
