@@ -33,6 +33,7 @@ require __DIR__ . "/routes/funeral.php";
 require __DIR__ . "/routes/water.php";
 require __DIR__ . "/routes/emoluments.php";
 require __DIR__ . "/routes/gas.php";
+require __DIR__ . "/routes/usersystem.php";
 
 
 // ERROR ROUTES

@@ -13,6 +13,21 @@ class UnitUserSystem extends Model
         parent::__construct("unit_user_system", [], [], "id_unit_user_system");        
     }
 
+    //Cadastrar o usuário em um novo setor
+    public function createUserUnit(array $data, int $idUser) : bool
+    {
+        $useUnit = (new static());
+
+        $useUnit->id_user_system = $idUser;
+        $useUnit->id_unit = $data["unit"];
+        $useUnit->id_function_user = $data["function-unit"];
+        $useUnit->type_access_unit = $data["type-access"];
+        $useUnit->id_user_system_register = 1;
+
+        $useUnit->save();
+        return true;
+    } 
+
     // Retorna o coordeandor ativo baseado no id do tecnico
     public function activeCoordinator(int $idTechnical) : int
     {   
